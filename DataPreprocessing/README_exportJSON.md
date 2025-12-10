@@ -1,6 +1,6 @@
 # 导出游戏信息到 JSON
 
-本程序读取 `DataPreprocessing/dataset/odd.xlsx` 的各工作表（工作表名为发售年份），并生成 `DataPreprocessing/games.json`。每条记录包含：
+本程序读取 `DataPreprocessing/dataset/数据表.xlsx` 的各工作表（工作表名为发售年份），并生成 `DataPreprocessing/games.json`。每条记录包含：
 - `name`、`appid`、`yearForSale`（来自工作表名）
 - `price`、`favorableRate`、`totalComments`
 - `tags`、`discounts`、`players`（指向 `dataset/<year>/` 下对应文件的相对路径）
