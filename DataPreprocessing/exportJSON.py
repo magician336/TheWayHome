@@ -36,10 +36,10 @@ def build_relative_paths(base_dir: Path, year: str, appid: str) -> Dict[str, str
 def export_games_json() -> None:
 	base_dir = Path(__file__).resolve().parent
 	dataset_dir = base_dir / "dataset"
-	odd_xlsx = base_dir / "dataset" /"数据表.xlsx"
+	odd_xlsx = base_dir / "dataset" /"odd.xlsx"
 
 	if not odd_xlsx.exists():
-		raise FileNotFoundError(f"未找到 数据表.xlsx: {odd_xlsx}")
+		raise FileNotFoundError(f"未找到 odd.xlsx: {odd_xlsx}")
 	if not dataset_dir.exists():
 		raise FileNotFoundError(f"未找到数据目录: {dataset_dir}")
 
