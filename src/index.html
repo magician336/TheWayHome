@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>图表容器</title>
+    <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+    <header class="app-header">
+        <h1>图表演示</h1>
+    </header>
+
+    <main class="app-main">
+        <!-- 图表容器：可用于 D3 渲染 -->
+        <div id="chart" class="chart-container" aria-label="chart container"></div>
+    </main>
+
+    <footer class="app-footer">
+        <small>Powered by D3.js</small>
+    </footer>
+
+    <!-- D3.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script src="./main.js"></script>
+</body>
+
+</html>
