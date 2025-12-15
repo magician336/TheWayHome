@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国产独立游戏基础概况</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      background-color: #000000;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      height: 100vh; width: 100vw; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    h2 {
+      text-align: center; padding: 15px 0 5px 0; margin: 0;
+      font-weight: 300; color: #ffd700; 
+      background: #0a0a0a;
+      letter-spacing: 2px;
+      font-size: 24px;
+    }
+
+    .controls {
+      display: flex; justify-content: center; align-items: center; gap: 20px;
+      padding: 10px; background: #0a0a0a; border-bottom: 1px solid #222;
+      z-index: 10;
+    }
+    .input-group { display: flex; align-items: center; gap: 8px; }
+    label { font-size: 14px; color: #888; }
+    input[type="text"] {
+      background: #1a1a1a; border: 1px solid #333; color: #ffd700;
+      padding: 6px 12px; border-radius: 4px; outline: none; width: 200px;
+    }
+    input[type="text"]:focus { border-color: #ffd700; }
+    select {
+      background: #1a1a1a; border: 1px solid #333; color: #ffd700;
+      padding: 6px 12px; border-radius: 4px; outline: none; cursor: pointer;
+    }
+    button {
+      background: #333; color: #fff; border: none; padding: 6px 15px;
+      border-radius: 4px; cursor: pointer;
+    }
+    button:hover { background: #555; }
+
+    /* 图表容器 */
+    #chart { flex: 1; width: 100%; height: 100%; position: relative; }
+
+    /* SVG 样式 */
+    .axis line, .axis path { stroke: #666; }
+    .axis text { fill: #ccc; font-size: 11px; }
+    .axis-title { fill: #fff; font-size: 13px; font-weight: bold; text-anchor: middle; cursor: default; }
+    
+    /* 线条样式 */
+    path.line {
+      fill: none;
+      transition: stroke-opacity 0.3s, stroke-width 0.3s;
+    }
+    path.line.active { stroke-opacity: 1; stroke-width: 3px; }
+    path.line.inactive { stroke-opacity: 0.05; stroke-width: 1px; }
+
+    /* Tooltip */
+    .tooltip {
+      position: absolute;
+      background-color: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+      color: #fff;
+      padding: 12px 16px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      font-size: 12px;
+      z-index: 100;
+      max-width: 300px; 
+    }
+    .tooltip-title { color: #ffd700; font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid #333; padding-bottom: 3px;}
+    .tooltip-row { display: flex; justify-content: space-between; gap: 15px; margin-bottom: 2px;}
+    .tooltip-val { font-family: monospace; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h2>国产独立游戏基础概况</h2>
+  
+  <div class="controls">
+    <div class="input-group">
+      <label>🔍 搜索游戏:</label>
+      <input type="text" id="searchName" placeholder="输入名称 (如: 悟空, 绘卷)">
+    </div>
+    
+    <div class="input-group">
+      <label>📅 选择年份:</label>
+      <select id="selectYear">
+        <option value="">全部年份</option>
+      </select>
+    </div>
+
+    <button onclick="resetFilters()">重置视图</button>
+  </div>
+
+  <div id="chart"></div>
+  <div id="tooltip" class="tooltip"></div>
+
+  <script>
+    // --- 1. 数据准备 ---
+    const rawData = [
+      { "name": "The Scroll Of Taiwu", "year": 2018, "original_price": 68.0, "favorable_rate": 69.43, "total_comments": 61589, "max_players": 72533, "retention_days": 49, "discount_count": 20, "avg_discount_rate": 0.08 },
+      { "name": "Chinese Parents", "year": 2018, "original_price": 36.0, "favorable_rate": 91.42, "total_comments": 26306, "max_players": 32593, "retention_days": 42, "discount_count": 20, "avg_discount_rate": 0.19 },
+      { "name": "Gujian3(古剑奇谭三)", "year": 2018, "original_price": 99.0, "favorable_rate": 85.97, "total_comments": 48555, "max_players": 10183, "retention_days": 56, "discount_count": 5, "avg_discount_rate": 0.26 },
+      { "name": "My Time at Portia", "year": 2018, "original_price": 98.0, "favorable_rate": 91.59, "total_comments": 43820, "max_players": 13299, "retention_days": 238, "discount_count": 54, "avg_discount_rate": 0.34 },
+      { "name": "PixARK", "year": 2018, "original_price": 68.0, "favorable_rate": 72.96, "total_comments": 12835, "max_players": 14144, "retention_days": 56, "discount_count": 10, "avg_discount_rate": 0.25 },
+      { "name": "武侠乂 The Swordsmen X", "year": 2018, "original_price": 88.0, "favorable_rate": 47.24, "total_comments": 3529, "max_players": 5075, "retention_days": 77, "discount_count": 36, "avg_discount_rate": 0.28 },
+      { "name": "Ho Tu Lo Shu ： The Books of Dragon", "year": 2018, "original_price": 88.0, "favorable_rate": 81.83, "total_comments": 10819, "max_players": 1877, "retention_days": 189, "discount_count": 28, "avg_discount_rate": 0.19 },
+      { "name": "Gunfire Reborn", "year": 2020, "original_price": 68.0, "favorable_rate": 93.27, "total_comments": 101753, "max_players": 35263, "retention_days": 133, "discount_count": 10, "avg_discount_rate": 0.23 },
+      { "name": "Pascal's Wager: Definitive Edition", "year": 2020, "original_price": 80.0, "favorable_rate": 70.45, "total_comments": 1330, "max_players": 624, "retention_days": 21, "discount_count": 23, "avg_discount_rate": 0.26 },
+      { "name": "Sands of Salzaar", "year": 2020, "original_price": 48.0, "favorable_rate": 81.86, "total_comments": 22806, "max_players": 21047, "retention_days": 35, "discount_count": 20, "avg_discount_rate": 0.23 },
+      { "name": "Neon Abyss", "year": 2020, "original_price": 58.0, "favorable_rate": 86.05, "total_comments": 23389, "max_players": 6278, "retention_days": 49, "discount_count": 52, "avg_discount_rate": 0.28 },
+      { "name": "港詭實錄ParanormalHK", "year": 2020, "original_price": 56.0, "favorable_rate": 89.68, "total_comments": 19629, "max_players": 1221, "retention_days": 98, "discount_count": 43, "avg_discount_rate": 0.2 },
+      { "name": "Biped", "year": 2020, "original_price": 58.0, "favorable_rate": 85.48, "total_comments": 10200, "max_players": 4961, "retention_days": 35, "discount_count": 46, "avg_discount_rate": 0.28 },
+      { "name": "俠之道(PathOfWuxia)", "year": 2020, "original_price": 98.0, "favorable_rate": 78.33, "total_comments": 30290, "max_players": 16175, "retention_days": 28, "discount_count": 1, "avg_discount_rate": 0.26 },
+      { "name": "暖雪 Warm Snow", "year": 2022, "original_price": 58.0, "favorable_rate": 93.07, "total_comments": 38003, "max_players": 44702, "retention_days": 42, "discount_count": 31, "avg_discount_rate": 0.13 },
+      { "name": "My Time at Sandrock", "year": 2022, "original_price": 98.0, "favorable_rate": 88.14, "total_comments": 27664, "max_players": 21778, "retention_days": 28, "discount_count": 22, "avg_discount_rate": 0.22 },
+      { "name": "Richman 11", "year": 2022, "original_price": 66.0, "favorable_rate": 47.22, "total_comments": 2700, "max_players": 3258, "retention_days": 238, "discount_count": 23, "avg_discount_rate": 0.19 },
+      { "name": "《文字遊戲》", "year": 2022, "original_price": 48.0, "favorable_rate": 93.87, "total_comments": 6138, "max_players": 4105, "retention_days": 21, "discount_count": 25, "avg_discount_rate": 0.1 },
+      { "name": "ANNO:Mutationem", "year": 2022, "original_price": 78.0, "favorable_rate": 80.86, "total_comments": 6302, "max_players": 2938, "retention_days": 14, "discount_count": 32, "avg_discount_rate": 0.2 },
+      { "name": "奇怪的RPG", "year": 2022, "original_price": 38.0, "favorable_rate": 92.43, "total_comments": 4095, "max_players": 1160, "retention_days": 98, "discount_count": 20, "avg_discount_rate": 0.19 },
+      { "name": "太荒初境", "year": 2022, "original_price": 68.0, "favorable_rate": 37.55, "total_comments": 13638, "max_players": 36315, "retention_days": 35, "discount_count": 13, "avg_discount_rate": 0.32 },
+      { "name": "Black Myth: Wukong", "year": 2024, "original_price": 268.0, "favorable_rate": 96.59, "total_comments": 1186287, "max_players": 2415714, "retention_days": 42, "discount_count": 3, "avg_discount_rate": 0.08 },
+      { "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty", "year": 2024, "original_price": 37.0, "favorable_rate": 94.93, "total_comments": 56660, "max_players": 5093, "retention_days": 161, "discount_count": 12, "avg_discount_rate": 0.12 },
+      { "name": "Soulmask", "year": 2024, "original_price": 108.0, "favorable_rate": 80.63, "total_comments": 16775, "max_players": 46833, "retention_days": 84, "discount_count": 15, "avg_discount_rate": 0.13 },
+      { "name": "Murders on the Yangtze River", "year": 2024, "original_price": 58.0, "favorable_rate": 97.21, "total_comments": 19715, "max_players": 4964, "retention_days": 105, "discount_count": 16, "avg_discount_rate": 0.13 },
+      { "name": "中国式网游", "year": 2024, "original_price": 32.0, "favorable_rate": 86.0, "total_comments": 10167, "max_players": 12301, "retention_days": 21, "discount_count": 11, "avg_discount_rate": 0.1 },
+      { "name": "Feed The Cups", "year": 2024, "original_price": 58.0, "favorable_rate": 31.68, "total_comments": 13929, "max_players": 11413, "retention_days": 620, "discount_count": 9, "avg_discount_rate": 0.06 },
+      { "name": "Lost Castle 2", "year": 2024, "original_price": 53.0, "favorable_rate": 79.74, "total_comments": 10033, "max_players": 20280, "retention_days": 42, "discount_count": 11, "avg_discount_rate": 0.05 },
+      { "name": "艾希 (ICEY)", "year": 2017, "original_price": 38.0, "favorable_rate": 88.07, "total_comments": 27362, "max_players": 3173, "retention_days": 14, "discount_count": 12, "avg_discount_rate": 0.22 },
+      { "name": "失落城堡 (Lost Castle)", "year": 2017, "original_price": 33.0, "favorable_rate": 84.96, "total_comments": 23687, "max_players": 4652, "retention_days": 1295, "discount_count": 24, "avg_discount_rate": 0.27 },
+      { "name": "古剑奇谭二 (GuJian2)", "year": 2017, "original_price": 49.0, "favorable_rate": 74.88, "total_comments": 2941, "max_players": 563, "retention_days": 168, "discount_count": 13, "avg_discount_rate": 0.31 },
+      { "name": "三色绘恋 (Tricolour Lovestory)", "year": 2017, "original_price": 11.0, "favorable_rate": 80.1, "total_comments": 27995, "max_players": 2733, "retention_days": 112, "discount_count": 76, "avg_discount_rate": 0.33 },
+      { "name": "古剑奇谭 (GuJian)", "year": 2017, "original_price": 39.0, "favorable_rate": 77.8, "total_comments": 5555, "max_players": 1782, "retention_days": 49, "discount_count": 16, "avg_discount_rate": 0.33 },
+      { "name": "返校 (Detention)", "year": 2017, "original_price": 38.0, "favorable_rate": 80.42, "total_comments": 14624, "max_players": 2287, "retention_days": 28, "discount_count": 13, "avg_discount_rate": 0.27 },
+      { "name": "黑暗与光明 (Dark and Light)", "year": 2017, "original_price": 52.0, "favorable_rate": 52.11, "total_comments": 11778, "max_players": 14089, "retention_days": 105, "discount_count": 25, "avg_discount_rate": 0.46 },
+      { "name": "隐形守护者", "year": 2019, "original_price": 28.0, "favorable_rate": 85.46, "total_comments": 51655, "max_players": 82345, "retention_days": 14, "discount_count": 23, "avg_discount_rate": 0.22 },
+      { "name": "探灵笔记", "year": 2019, "original_price": 26.0, "favorable_rate": 75.89, "total_comments": 20404, "max_players": 2968, "retention_days": 847, "discount_count": 27, "avg_discount_rate": 0.2 },
+      { "name": "了不起的修仙模拟器", "year": 2019, "original_price": 88.0, "favorable_rate": 83.95, "total_comments": 23431, "max_players": 18349, "retention_days": 49, "discount_count": 19, "avg_discount_rate": 0.15 },
+      { "name": "疑案追声", "year": 2019, "original_price": 38.0, "favorable_rate": 94.13, "total_comments": 32238, "max_players": 7754, "retention_days": 14, "discount_count": 56, "avg_discount_rate": 0.25 },
+      { "name": "光明记忆", "year": 2019, "original_price": 29.0, "favorable_rate": 88.5, "total_comments": 39283, "max_players": 1907, "retention_days": 21, "discount_count": 18, "avg_discount_rate": 0.2 },
+      { "name": "嗜血印", "year": 2019, "original_price": 79.0, "favorable_rate": 87.88, "total_comments": 38087, "max_players": 7267, "retention_days": 21, "discount_count": 21, "avg_discount_rate": 0.39 },
+      { "name": "硬核机甲", "year": 2019, "original_price": 80.0, "favorable_rate": 79.97, "total_comments": 2649, "max_players": 1770, "retention_days": 21, "discount_count": 44, "avg_discount_rate": 0.25 },
+      { "name": "永劫无间 (NARAKA: BLADEPOINT)", "year": 2021, "original_price": 0.0, "favorable_rate": 68.81, "total_comments": 336077, "max_players": 385770, "retention_days": 495, "discount_count": 0, "avg_discount_rate": 0.0 },
+      { "name": "鬼谷八荒 (Tale of Immortal)", "year": 2021, "original_price": 68.0, "favorable_rate": 54.05, "total_comments": 226599, "max_players": 184171, "retention_days": 84, "discount_count": 16, "avg_discount_rate": 0.12 },
+      { "name": "戴森球计划 (Dyson Sphere Program)", "year": 2021, "original_price": 70.0, "favorable_rate": 96.03, "total_comments": 88259, "max_players": 59815, "retention_days": 217, "discount_count": 31, "avg_discount_rate": 0.09 },
+      { "name": "风来之国 (Eastward)", "year": 2021, "original_price": 80.0, "favorable_rate": 82.16, "total_comments": 16202, "max_players": 13882, "retention_days": 21, "discount_count": 24, "avg_discount_rate": 0.22 },
+      { "name": "古网海外版 (Swords of Legends Online)", "year": 2021, "original_price": 0.0, "favorable_rate": 65.4, "total_comments": 5819, "max_players": 18806, "retention_days": 77, "discount_count": 0, "avg_discount_rate": 0.0 },
+      { "name": "笼中窥梦 (Moncage)", "year": 2021, "original_price": 48.0, "favorable_rate": 89.3, "total_comments": 5436, "max_players": 1965, "retention_days": 21, "discount_count": 27, "avg_discount_rate": 0.14 },
+      { "name": "仙剑奇侠传七 (Sword and Fairy 7)", "year": 2021, "original_price": 128.0, "favorable_rate": 71.14, "total_comments": 18800, "max_players": 15245, "retention_days": 35, "discount_count": 41, "avg_discount_rate": 0.22 },
+      { "name": "猛兽派对 (Party Animals)", "year": 2023, "original_price": 98.0, "favorable_rate": 78.55, "total_comments": 73171, "max_players": 104174, "retention_days": 49, "discount_count": 7, "avg_discount_rate": 0.19 },
+      { "name": "完蛋！我被美女包围了！ (Love Is All Around)", "year": 2023, "original_price": 42.0, "favorable_rate": 91.63, "total_comments": 45787, "max_players": 65435, "retention_days": 35, "discount_count": 17, "avg_discount_rate": 0.11 },
+      { "name": "火山的女儿 (Volcano Princess)", "year": 2023, "original_price": 35.0, "favorable_rate": 95.93, "total_comments": 45796, "max_players": 31057, "retention_days": 35, "discount_count": 24, "avg_discount_rate": 0.13 },
+      { "name": "大侠立志传：碧血丹心 (Hero's Adventure: Road to Passion)", "year": 2023, "original_price": 69.0, "favorable_rate": 82.85, "total_comments": 23586, "max_players": 28936, "retention_days": 42, "discount_count": 21, "avg_discount_rate": 0.15 },
+      { "name": "无人生还 (No One Survived)", "year": 2023, "original_price": 68.0, "favorable_rate": 64.53, "total_comments": 7359, "max_players": 4632, "retention_days": 126, "discount_count": 13, "avg_discount_rate": 0.2 },
+      { "name": "逸剑风云决 (Wandering Sword)", "year": 2023, "original_price": 78.0, "favorable_rate": 93.06, "total_comments": 38409, "max_players": 22824, "retention_days": 63, "discount_count": 21, "avg_discount_rate": 0.08 },
+      { "name": "飞越13号房 (Breakout 13)", "year": 2023, "original_price": 32.0, "favorable_rate": 85.36, "total_comments": 7326, "max_players": 11996, "retention_days": 14, "discount_count": 15, "avg_discount_rate": 0.16 }
+    ];
+
+    const currentYear = 2025;
+    const data = rawData.map(d => ({
+      ...d,
+      log_players: Math.log10(d.max_players < 1 ? 1 : d.max_players),
+      years_since: Math.max(0.1, currentYear - d.year),
+      discount_strength: (d.discount_count * (d.avg_discount_rate * 100)) / Math.max(0.1, currentYear - d.year)
+    }));
+
+    // 初始化下拉框
+    const yearSelect = document.getElementById('selectYear');
+    const years = [...new Set(data.map(d => d.year))].sort((a, b) => b - a);
+    years.forEach(year => {
+      const opt = document.createElement('option');
+      opt.value = year;
+      opt.innerText = year;
+      yearSelect.appendChild(opt);
+    });
+
+    // --- 2. D3 图表配置 ---
+    const dimensions = [
+      { key: "year", name: "Year (年份)" },
+      { key: "original_price", name: "Price (售价)" },
+      { key: "discount_strength", name: "Discount/Year (折扣力度)" },
+      { key: "favorable_rate", name: "Rates (好评率)" },
+      { key: "log_players", name: "最大同时在线人数 (10^x)" }, // 修复：修改文案
+      { key: "retention_days", name: "Retention (留存天数)" }
+    ];
+
+    const margin = { top: 50, right: 100, bottom: 50, left: 100 };
+    const container = document.getElementById('chart');
+    const width = container.clientWidth - margin.left - margin.right;
+    const height = container.clientHeight - margin.top - margin.bottom;
+
+    const svg = d3.select("#chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // 构建 Scales
+    const x = d3.scalePoint()
+      .range([0, width])
+      .padding(0)
+      .domain(dimensions.map(d => d.key));
+
+    const y = {};
+    dimensions.forEach(dim => {
+      if (dim.key === 'log_players') {
+        y[dim.key] = d3.scaleLinear().domain([2.5, 6.5]).range([height, 0]);
+      } else if (dim.key === 'favorable_rate') {
+        y[dim.key] = d3.scaleLinear().domain([0, 100]).range([height, 0]);
+      } else {
+        const extent = d3.extent(data, d => d[dim.key]);
+        y[dim.key] = d3.scaleLinear().domain(extent).range([height, 0]);
+      }
+    });
+
+    const colorScale = d3.scaleSequential()
+      .domain([100, 0])
+      .interpolator(d3.interpolateTurbo);
+
+    const line = d3.line()
+      .defined(d => !isNaN(d[1]))
+      .x(d => x(d[0]))
+      .y(d => y[d[0]](d[1]));
+
+    function path(d) {
+      return line(dimensions.map(p => [p.key, d[p.key]]));
+    }
+
+    // --- 3. 绘制 ---
+    const pathGroup = svg.append("g").attr("class", "paths");
+
+    let paths = pathGroup.selectAll("path")
+      .data(data)
+      .enter().append("path")
+      .attr("class", "line")
+      .attr("d", path)
+      .style("stroke", d => colorScale(d.favorable_rate))
+      .style("stroke-opacity", 0.6)
+      .style("stroke-width", 1.5)
+      .style("fill", "none");
+
+    // 绘制轴
+    svg.selectAll("myAxis")
+      .data(dimensions).enter()
+      .append("g")
+      .attr("class", "axis")
+      .attr("transform", d => `translate(${x(d.key)})`)
+      .each(function(d) { 
+        let axis = d3.axisLeft(y[d.key]);
+        if(d.key === "year") {
+           axis.tickFormat(d3.format("d"));
+        }
+        d3.select(this).call(axis); 
+      })
+      .append("text")
+      .style("text-anchor", "middle")
+      .attr("y", -15) 
+      .attr("class", "axis-title")
+      .text(d => d.name);
+
+    // --- 4. 交互与过滤 ---
+    const tooltip = d3.select("#tooltip");
+    
+    paths.on("mouseover", function(event, d) {
+      const [mx, my] = d3.pointer(event, document.body);
+      const tooltipNode = tooltip.node();
+
+      tooltip.html(`
+           <div class="tooltip-title">${d.name}</div>
+           <div class="tooltip-row"><span>年份:</span> <span class="tooltip-val">${d.year}</span></div>
+           <div class="tooltip-row"><span>价格:</span> <span class="tooltip-val">${d.original_price}</span></div>
+           <div class="tooltip-row"><span>好评率:</span> <span class="tooltip-val">${d.favorable_rate}%</span></div>
+           <div class="tooltip-row"><span>折扣力度:</span> <span class="tooltip-val">${Math.round(d.discount_strength)}</span></div>
+           <div class="tooltip-row"><span>留存天数:</span> <span class="tooltip-val">${d.retention_days}</span></div>
+           <div class="tooltip-row"><span>最大在线:</span> <span class="tooltip-val">${d.max_players}</span></div>
+         `);
+
+      const tooltipHeight = tooltipNode.offsetHeight || 150; 
+      const windowHeight = window.innerHeight;
+      
+      let topPos = my + 15;
+      if (topPos + tooltipHeight > windowHeight) {
+        topPos = my - tooltipHeight - 10; 
+      }
+
+      tooltip.style("opacity", 1)
+             .style("left", (mx + 15) + "px")
+             .style("top", topPos + "px");
+      
+      if (d3.select(this).style("stroke-opacity") > 0.1) {
+          d3.select(this).style("stroke-width", "4px").style("stroke", "#fff").raise();
+      }
+
+    }).on("mousemove", function(event) {
+       const [mx, my] = d3.pointer(event, document.body);
+       const tooltipHeight = tooltip.node().offsetHeight;
+       const windowHeight = window.innerHeight;
+       
+       let topPos = my + 15;
+       if (topPos + tooltipHeight > windowHeight) {
+         topPos = my - tooltipHeight - 10; 
+       }
+       tooltip.style("left", (mx + 15) + "px").style("top", topPos + "px");
+
+    }).on("mouseout", function(event, d) {
+      tooltip.style("opacity", 0);
+      
+      const isFiltered = searchVal !== "" || yearVal !== "";
+      const isMatch = checkMatch(d, searchVal, yearVal);
+      
+      if (isFiltered) {
+        if (isMatch) {
+             d3.select(this).style("stroke-width", "3px").style("stroke", colorScale(d.favorable_rate));
+        } else {
+             d3.select(this).style("stroke-width", "1px").style("stroke", colorScale(d.favorable_rate));
+        }
+      } else {
+        d3.select(this).style("stroke-width", "1.5px").style("stroke", colorScale(d.favorable_rate));
+      }
+    });
+
+    let searchVal = "";
+    let yearVal = "";
+
+    function checkMatch(d, sName, sYear) {
+      const nameMatch = sName ? d.name.toLowerCase().includes(sName.toLowerCase()) : true;
+      const yearMatch = sYear ? d.year == sYear : true;
+      return nameMatch && yearMatch;
+    }
+
+    function updateChart() {
+      const isFiltered = searchVal !== "" || yearVal !== "";
+
+      paths.each(function(d) {
+        const isMatch = checkMatch(d, searchVal, yearVal);
+        const el = d3.select(this);
+
+        if (!isFiltered) {
+          el.classed("active", false).classed("inactive", false)
+            .style("stroke-opacity", 0.6)
+            .style("stroke-width", 1.5)
+            .style("stroke", colorScale(d.favorable_rate)); 
+        } else {
+          if (isMatch) {
+            el.classed("active", true).classed("inactive", false)
+              .style("stroke-opacity", 1)
+              .style("stroke-width", 3)
+              .style("stroke", colorScale(d.favorable_rate))
+              .raise();
+          } else {
+            el.classed("active", false).classed("inactive", true)
+              .style("stroke-opacity", 0.05)
+              .style("stroke-width", 1)
+              .style("stroke", "#555");
+          }
+        }
+      });
+    }
+
+    d3.select("#searchName").on("input", function() {
+      searchVal = this.value.trim();
+      updateChart();
+    });
+
+    d3.select("#selectYear").on("change", function() {
+      yearVal = this.value;
+      updateChart();
+    });
+
+    window.resetFilters = function() {
+      document.getElementById('searchName').value = '';
+      document.getElementById('selectYear').value = '';
+      searchVal = "";
+      yearVal = "";
+      updateChart();
+    }
+
+  </script>
+</body>
+</html>
