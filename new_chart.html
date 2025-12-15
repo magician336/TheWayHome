@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国产独立游戏</title>
+  <script src="https://unpkg.com/@antv/g2/dist/g2.min.js"></script>
+  <style>
+    body {
+      margin: 0; padding: 0;
+      background-color: #000000;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      height: 100vh; width: 100vw; overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    h2 {
+      text-align: center; padding: 15px 0; margin: 0;
+      font-weight: 300; color: #ffd700; 
+      background: #0a0a0a;
+      border-bottom: 1px solid #222;
+      letter-spacing: 2px;
+    }
+
+    #container { flex: 1; width: 100%; height: 100%; position: relative; }
+
+    .g2-tooltip {
+      background-color: rgba(10, 10, 10, 0.95) !important;
+      backdrop-filter: blur(10px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      border-radius: 8px !important;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.2) !important; 
+      color: #fff !important; padding: 12px 16px !important;
+    }
+    .g2-tooltip-title { color: #ffd700 !important; font-weight: bold !important; border-bottom: 1px solid #333 !important; }
+    .g2-tooltip-list-item-value { color: #fff !important; font-family: monospace !important; font-weight: bold !important; margin-left: 10px !important; }
+  </style>
+</head>
+<body>
+
+  <h2>国产独立游戏平行坐标图</h2>
+  <div id="container"></div>
+
+  <script>
+    const { Chart } = G2;
+
+    const rawData = [
+      { "name": "The Scroll Of Taiwu", "year": 2018, "original_price": 68.0, "favorable_rate": 69.43, "total_comments": 61589, "max_players": 72533, "retention_days": 63, "discount_count": 80, "avg_discount_rate": 0.08, "main_tag": "RPG" },
+      { "name": "Chinese Parents", "year": 2018, "original_price": 36.0, "favorable_rate": 91.42, "total_comments": 26306, "max_players": 32593, "retention_days": 42, "discount_count": 58, "avg_discount_rate": 0.19, "main_tag": "Life Sim" },
+      { "name": "Gujian3(古剑奇谭三)", "year": 2018, "original_price": 99.0, "favorable_rate": 85.97, "total_comments": 48555, "max_players": 10183, "retention_days": 56, "discount_count": 101, "avg_discount_rate": 0.26, "main_tag": "RPG" },
+      { "name": "My Time at Portia", "year": 2018, "original_price": 98.0, "favorable_rate": 91.59, "total_comments": 43820, "max_players": 13299, "retention_days": 1379, "discount_count": 166, "avg_discount_rate": 0.34, "main_tag": "Life Sim" },
+      { "name": "PixARK", "year": 2018, "original_price": 68.0, "favorable_rate": 72.96, "total_comments": 12835, "max_players": 14144, "retention_days": 63, "discount_count": 157, "avg_discount_rate": 0.42, "main_tag": "Survival" },
+      { "name": "武侠乂 The Swordsmen X", "year": 2018, "original_price": 88.0, "favorable_rate": 47.24, "total_comments": 3529, "max_players": 5075, "retention_days": 84, "discount_count": 77, "avg_discount_rate": 0.28, "main_tag": "Massively Multiplayer" },
+      { "name": "Ho Tu Lo Shu ： The Books of Dragon", "year": 2018, "original_price": 88.0, "favorable_rate": 81.83, "total_comments": 10819, "max_players": 1877, "retention_days": 196, "discount_count": 87, "avg_discount_rate": 0.19, "main_tag": "RPG" },
+      { "name": "Gunfire Reborn", "year": 2020, "original_price": 68.0, "favorable_rate": 93.27, "total_comments": 101753, "max_players": 35263, "retention_days": 140, "discount_count": 85, "avg_discount_rate": 0.23, "main_tag": "Roguelite" },
+      { "name": "Pascal's Wager: Definitive Edition", "year": 2020, "original_price": 80.0, "favorable_rate": 70.45, "total_comments": 1330, "max_players": 624, "retention_days": 21, "discount_count": 53, "avg_discount_rate": 0.26, "main_tag": "Souls-like" },
+      { "name": "Sands of Salzaar", "year": 2020, "original_price": 48.0, "favorable_rate": 81.86, "total_comments": 22806, "max_players": 21047, "retention_days": 42, "discount_count": 70, "avg_discount_rate": 0.23, "main_tag": "Open World" },
+      { "name": "Neon Abyss", "year": 2020, "original_price": 58.0, "favorable_rate": 86.05, "total_comments": 23389, "max_players": 6278, "retention_days": 63, "discount_count": 115, "avg_discount_rate": 0.29, "main_tag": "Roguelike" },
+      { "name": "港詭實錄ParanormalHK", "year": 2020, "original_price": 56.0, "favorable_rate": 89.68, "total_comments": 19629, "max_players": 1221, "retention_days": 945, "discount_count": 91, "avg_discount_rate": 0.2, "main_tag": "Horror" },
+      { "name": "Biped", "year": 2020, "original_price": 58.0, "favorable_rate": 85.48, "total_comments": 10200, "max_players": 4961, "retention_days": 35, "discount_count": 121, "avg_discount_rate": 0.28, "main_tag": "Cartoony" },
+      { "name": "俠之道(PathOfWuxia)", "year": 2020, "original_price": 98.0, "favorable_rate": 78.33, "total_comments": 30290, "max_players": 16175, "retention_days": 28, "discount_count": 60, "avg_discount_rate": 0.26, "main_tag": "RPG" },
+      { "name": "暖雪 Warm Snow", "year": 2022, "original_price": 58.0, "favorable_rate": 93.07, "total_comments": 38003, "max_players": 44702, "retention_days": 42, "discount_count": 64, "avg_discount_rate": 0.13, "main_tag": "Action Roguelike" },
+      { "name": "My Time at Sandrock", "year": 2022, "original_price": 98.0, "favorable_rate": 88.14, "total_comments": 27664, "max_players": 21778, "retention_days": 35, "discount_count": 71, "avg_discount_rate": 0.22, "main_tag": "Life Sim" },
+      { "name": "Richman 11", "year": 2022, "original_price": 66.0, "favorable_rate": 47.22, "total_comments": 2700, "max_players": 3258, "retention_days": 1107, "discount_count": 48, "avg_discount_rate": 0.19, "main_tag": "Indie" },
+      { "name": "《文字遊戲》", "year": 2022, "original_price": 48.0, "favorable_rate": 93.87, "total_comments": 6138, "max_players": 4105, "retention_days": 21, "discount_count": 51, "avg_discount_rate": 0.1, "main_tag": "Exploration" },
+      { "name": "ANNO:Mutationem", "year": 2022, "original_price": 78.0, "favorable_rate": 80.86, "total_comments": 6302, "max_players": 2938, "retention_days": 14, "discount_count": 66, "avg_discount_rate": 0.2, "main_tag": "RPG" },
+      { "name": "奇怪的RPG", "year": 2022, "original_price": 38.0, "favorable_rate": 92.43, "total_comments": 4095, "max_players": 1160, "retention_days": 98, "discount_count": 72, "avg_discount_rate": 0.19, "main_tag": "RPG" },
+      { "name": "太荒初境", "year": 2022, "original_price": 68.0, "favorable_rate": 37.55, "total_comments": 13638, "max_players": 36315, "retention_days": 35, "discount_count": 32, "avg_discount_rate": 0.32, "main_tag": "Sandbox" },
+      { "name": "Black Myth: Wukong", "year": 2024, "original_price": 268.0, "favorable_rate": 96.59, "total_comments": 1186287, "max_players": 2415714, "retention_days": 49, "discount_count": 6, "avg_discount_rate": 0.08, "main_tag": "Mythology" },
+      { "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty", "year": 2024, "original_price": 37.0, "favorable_rate": 94.93, "total_comments": 56660, "max_players": 5093, "retention_days": 252, "discount_count": 40, "avg_discount_rate": 0.12, "main_tag": "Visual Novel" },
+      { "name": "Soulmask", "year": 2024, "original_price": 108.0, "favorable_rate": 80.63, "total_comments": 16775, "max_players": 46833, "retention_days": 105, "discount_count": 39, "avg_discount_rate": 0.13, "main_tag": "Survival" },
+      { "name": "Murders on the Yangtze River", "year": 2024, "original_price": 58.0, "favorable_rate": 97.21, "total_comments": 19715, "max_players": 4964, "retention_days": 126, "discount_count": 36, "avg_discount_rate": 0.13, "main_tag": "Detective" },
+      { "name": "中国式网游", "year": 2024, "original_price": 32.0, "favorable_rate": 86.0, "total_comments": 10167, "max_players": 12301, "retention_days": 35, "discount_count": 24, "avg_discount_rate": 0.1, "main_tag": "CRPG" },
+      { "name": "Feed The Cups", "year": 2024, "original_price": 58.0, "favorable_rate": 31.68, "total_comments": 13929, "max_players": 11413, "retention_days": 621, "discount_count": 36, "avg_discount_rate": 0.06, "main_tag": "Cute" },
+      { "name": "Lost Castle 2", "year": 2024, "original_price": 53.0, "favorable_rate": 79.74, "total_comments": 10033, "max_players": 20280, "retention_days": 63, "discount_count": 28, "avg_discount_rate": 0.05, "main_tag": "Multiplayer" }
+    ];
+
+    const currentYear = 2025;
+    const data = rawData.map(d => {
+      const log_players = Math.log10(d.max_players < 1 ? 1 : d.max_players);
+      
+      const years_since = Math.max(0.1, currentYear - d.year);
+      
+      const strength = (d.discount_count * (d.avg_discount_rate * 100)) / years_since;
+
+      return {
+        ...d,
+        log_players,
+        discount_strength: strength
+      };
+    });
+
+    const axisConfig = {
+      zIndex: 1,
+      line: true,
+      lineStroke: '#888', 
+      tickStroke: '#888',
+       
+      labelStroke: null,
+      labelFill: '#ccc', 
+      labelFontSize: 11, 
+
+      titlePosition: 'end', 
+      titleSpacing: 10,     
+      titleFill: '#fff',    
+      titleFontSize: 13,
+      titleFontWeight: 'bold',
+    };
+
+    const chart = new Chart({
+      container: 'container',
+      theme: 'classicDark', 
+      autoFit: true,
+      marginLeft: 100, marginRight: 100, marginTop: 0, marginBottom: 50,
+    });
+
+    chart.options({
+      type: 'line',
+      data: data,
+      coordinate: { type: 'parallel' },
+      
+      encode: {
+        position: [
+          'year',
+          'original_price',
+          'favorable_rate',
+          'log_players', 
+          'retention_days',
+          'discount_strength' 
+        ],
+        color: 'favorable_rate',
+        key: 'name'
+      },
+
+      style: {
+        lineWidth: 2.5, 
+        strokeOpacity: 0.5, 
+        shape: 'smooth',
+      },
+
+      scale: {
+        color: { palette: 'turbo', offset: (t) => 0.95 - t * 0.75 },
+        
+        log_players: { type: 'linear', domain: [3, 7], tickCount: 5 },
+        favorable_rate: { domain: [0, 100] },
+        year: { tickCount: 5 }
+      },
+
+      legend: {
+        color: {
+          titleFill: '#fff',
+          labelFill: '#fff',
+        }
+      },
+
+      axis: {
+        position: { ...axisConfig, title: 'Year (年份)', titleTransform: 'translate(0, 5)' },
+        position1: { ...axisConfig, title: 'Price (售价)', titleTransform: 'translate(0, 5)' },
+        
+        position2: { ...axisConfig, title: 'Rates (好评率)', titleTransform: 'translate(0, 5)' },
+        
+        position3: {
+            ...axisConfig,
+            title: 'Max Players (最高在线人数)', 
+            titleTransform: 'translate(0, 5)',
+            titleFill: '#ffd700', 
+            labelFormatter: (d) => `10^${Math.round(d)}` 
+        },
+        
+        position4: { ...axisConfig, title: 'Retention (热度留存期)', titleTransform: 'translate(0,5)' },
+        position5: { ...axisConfig, title: 'Discount/Year (年均打折力度)', titleTransform: 'translate(0, 5)' },
+      },
+
+      tooltip: {
+        title: 'name',
+        items: [
+          { field: 'year', name: '发售年份' },
+          { field: 'original_price', name: '售价' },
+          { field: 'favorable_rate', name: '好评率', valueFormatter: d => `${d}%` },
+          { field: 'max_players', name: '最高在线' }, 
+          { field: 'discount_strength', name: '年均折扣力度', valueFormatter: d => Math.round(d) }
+        ],
+      },
+
+      interaction: {
+        tooltip: { series: false },
+        brushAxisHighlight: {
+          maskFill: 'rgba(255,255,255,0.1)',
+          maskOpacity: 0.5,
+        },
+      },
+
+      state: {
+        active: {
+          stroke: '#fff', 
+          lineWidth: 5.5,   
+          strokeOpacity: 1,
+          zIndex: 999,
+          shadowColor: '#fff', 
+          shadowBlur: 10
+        },
+        inactive: {
+          stroke: '#333',
+          strokeOpacity: 0.1 
+        }
+      }
+    });
+
+    chart.render();
+  </script>
+</body>
+</html>
