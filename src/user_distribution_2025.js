@@ -12,7 +12,7 @@
     const tooltip = container
         .append("div")
         .attr("class", "tooltip")
-        .style("position", "absolute")
+        .style("position", "fixed")
         .style("visibility", "hidden")
         .style("background", "rgba(0, 0, 0, 0.9)")
         .style("color", "white")
@@ -134,8 +134,8 @@
             })
             .on("mousemove", function (event) {
                 tooltip
-                    .style("top", (event.pageY - 80) + "px")
-                    .style("left", (event.pageX - 350) + "px");
+                    .style("top", (event.clientY + 10) + "px")
+                    .style("left", (event.clientX + 15) + "px");
             })
             .on("mouseout", function () {
                 d3.select(this)
