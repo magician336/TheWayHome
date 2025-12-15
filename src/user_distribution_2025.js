@@ -5,7 +5,7 @@
     const height = 500 - margin.top - margin.bottom;
 
     // 清空容器并创建 SVG
-    const container = d3.select("#chart");
+    const container = d3.select("#chart-treemap");
     container.selectAll("*").remove();
 
     // 创建 tooltip

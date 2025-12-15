@@ -44,14 +44,24 @@ body {
 
 .app-main {
     padding: 16px;
+    overflow-y: auto;
+}
+
+.charts-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.chart-section {
+    width: 100%;
 }
 
 .chart-container {
     width: 100%;
-    max-width: 960px;
-    height: 480px;
-    /* 初始高度，可按需调整 */
-    margin: 0 auto;
+    height: 520px;
     background: #0b1020;
     border: 1px solid #1f2937;
     border-radius: 12px;

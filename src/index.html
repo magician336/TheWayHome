@@ -14,16 +14,25 @@
     </header>
 
     <main class="app-main">
-        <!-- 图表容器：可用于 D3 渲染 -->
-        <div id="chart" class="chart-container" aria-label="chart container"></div>
+        <div class="charts-wrapper">
+            <!-- 堆叠面积图 -->
+            <div class="chart-section">
+                <div id="chart-area" class="chart-container" aria-label="stacked area chart"></div>
+            </div>
+            <!-- 矩形树图 -->
+            <div class="chart-section">
+                <div id="chart-treemap" class="chart-container" aria-label="treemap chart"></div>
+            </div>
+        </div>
     </main>
 
     <footer class="app-footer">
-        <small>Powered by D3.js</small>
+        <small>Powered by D3.js | Steam 用户语言分布可视化</small>
     </footer>
 
     <!-- D3.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script src="user_distribution.js"></script>
     <script src="user_distribution_2025.js"></script>
 </body>
 
