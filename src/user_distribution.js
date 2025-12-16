@@ -1,5 +1,8 @@
+// 全局状态：当前选中的年份（null 表示显示堆叠图）
+let currentSelectedYear = null;
+
 // 堆叠面积图：各语言用户占比随年份变化
-(function () {
+function createStackedAreaChart() {
     const margin = { top: 40, right: 120, bottom: 70, left: 60 };
     const width = 900 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
@@ -28,6 +31,7 @@
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
+        .attr("class", "main-group")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
     // 加载数据
@@ -140,22 +144,70 @@
         console.log("第一个路径的d属性:", paths.attr("d"));
 
         // X 轴
-        svg
+        const xAxis = svg
             .append("g")
+            .attr("class", "x-axis-group")
             .attr("transform", `translate(0,${height})`)
             .call(
                 d3
                     .axisBottom(x)
                     .ticks(data.length)
                     .tickFormat(d3.format("d"))
-            )
+            );
+
+        // 给 X 轴的年份标签添加点击事件
+        xAxis.selectAll(".tick text")
+            .style("cursor", "pointer")
+            .style("font-weight", "normal")
+            .style("transition", "all 0.2s ease")
+            .on("mouseover", function () {
+                d3.select(this)
+                    .style("fill", "#38bdf8")
+                    .style("font-weight", "bold")
+                    .style("font-size", "13px");
+            })
+            .on("mouseout", function (event, d) {
+                const year = Math.round(d);
+                // 如果是当前选中的年份，保持高亮
+                if (year === currentSelectedYear) {
+                    d3.select(this)
+                        .style("fill", "#38bdf8")
+                        .style("font-weight", "bold")
+                        .style("font-size", "13px");
+                } else {
+                    d3.select(this)
+                        .style("fill", "white")
+                        .style("font-weight", "normal")
+                        .style("font-size", "11px");
+                }
+            })
+            .on("click", function (event, d) {
+                const year = Math.round(d);
+                console.log(`点击年份: ${year}`);
+
+                // 如果点击的是当前选中的年份，返回堆叠图
+                if (year === currentSelectedYear) {
+                    currentSelectedYear = null;
+                    createStackedAreaChart();
+                } else {
+                    // 否则显示该年份的树图
+                    currentSelectedYear = year;
+                    if (typeof createTreemapByYear === 'function') {
+                        createTreemapByYear(year, x, height, margin);
+                    } else {
+                        console.error('createTreemapByYear 函数未定义');
+                    }
+                }
+            });
+
+        xAxis
             .append("text")
             .attr("x", width / 2)
             .attr("y", 40)
             .attr("fill", "white")
             .attr("text-anchor", "middle")
             .style("font-size", "14px")
-            .text("年份");
+            .text("年份（点击查看详情）");
 
         // Y 轴
         svg
@@ -242,4 +294,7 @@
             .style("font-weight", "bold")
             .text("各语言用户占比变化（2017-2025）");
     });
-})();
+}
+
+// 页面加载时自动绘制堆叠面积图
+createStackedAreaChart();

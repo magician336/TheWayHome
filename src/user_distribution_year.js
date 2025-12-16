@@ -1,12 +1,15 @@
-// 矩形树图：2025年各语言用户占比
-(function () {
-    const margin = { top: 40, right: 20, bottom: 20, left: 20 };
+// 矩形树图：指定年份各语言用户占比
+function createTreemapByYear(year = 2025, xScale = null, xAxisHeight = null, margins = null) {
+    // 使用传入的 margin 或默认值
+    const margin = margins || { top: 40, right: 120, bottom: 70, left: 60 };
     const width = 900 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
-    // 清空容器并创建 SVG
-    const container = d3.select("#chart-treemap");
-    container.selectAll("*").remove();
+    // 清空容器（但保留 X 轴和 tooltip）
+    const container = d3.select("#chart-area");
+
+    // 移除旧的 tooltip
+    container.selectAll(".tooltip").remove();
 
     // 创建 tooltip
     const tooltip = container
@@ -24,20 +27,49 @@
         .style("z-index", "1000")
         .style("backdrop-filter", "blur(8px)");
 
-    const svg = container
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+    // 获取或创建 SVG
+    let svgContainer = container.select("svg");
+    if (svgContainer.empty()) {
+        svgContainer = container
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom);
+    }
+
+    // 获取主 g 元素
+    let mainGroup = svgContainer.select("g.main-group");
+    if (mainGroup.empty()) {
+        mainGroup = svgContainer
+            .append("g")
+            .attr("class", "main-group")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+    }
+
+    // 检查 X 轴是否存在
+    const xAxisGroup = mainGroup.select(".x-axis-group");
+    console.log("X轴存在:", !xAxisGroup.empty(), "X轴节点:", xAxisGroup.node());
+
+    // 清除主 g 元素中除了 X 轴之外的所有内容（包括旧的面积图层和树图内容）
+    mainGroup.selectAll(".layer, .treemap-content, text:not(.x-axis-group text)").remove();
+
+    // 创建树图内容组
+    const svgGroup = mainGroup
         .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
-
-    // 加载数据
+        .attr("class", "treemap-content");    // 加载数据
     d3.csv("data/user_distribution.csv").then((rawData) => {
-        // 筛选 2025 年数据
-        const data2025 = rawData.find(d => d.year === "2025");
+        // 筛选指定年份数据
+        const yearData = rawData.find(d => d.year === String(year));
 
-        if (!data2025) {
-            console.error("未找到 2025 年数据");
+        if (!yearData) {
+            console.error(`未找到 ${year} 年数据`);
+            // 显示错误提示
+            container
+                .append("div")
+                .style("text-align", "center")
+                .style("color", "white")
+                .style("padding", "50px")
+                .style("font-size", "18px")
+                .html(`<strong>错误：</strong>未找到 ${year} 年的数据`);
             return;
         }
 
@@ -54,15 +86,15 @@
 
         // 转换为树图所需的数据结构
         const treeData = {
-            name: "2025年用户分布",
+            name: `${year}年用户分布`,
             children: [
-                { name: "zhCN", label: languageLabels.zhCN, value: +data2025.zhCN },
-                { name: "en", label: languageLabels.en, value: +data2025.en },
-                { name: "ru", label: languageLabels.ru, value: +data2025.ru },
-                { name: "es", label: languageLabels.es, value: +data2025.es },
-                { name: "pt", label: languageLabels.pt, value: +data2025.pt },
-                { name: "de", label: languageLabels.de, value: +data2025.de },
-                { name: "others", label: languageLabels.others, value: +data2025.others }
+                { name: "zhCN", label: languageLabels.zhCN, value: +yearData.zhCN },
+                { name: "en", label: languageLabels.en, value: +yearData.en },
+                { name: "ru", label: languageLabels.ru, value: +yearData.ru },
+                { name: "es", label: languageLabels.es, value: +yearData.es },
+                { name: "pt", label: languageLabels.pt, value: +yearData.pt },
+                { name: "de", label: languageLabels.de, value: +yearData.de },
+                { name: "others", label: languageLabels.others, value: +yearData.others }
             ]
         };
 
@@ -92,7 +124,7 @@
         console.log("树图布局:", root.leaves());
 
         // 绘制矩形
-        const cells = svg
+        const cells = svgGroup
             .selectAll("g")
             .data(root.leaves())
             .join("g")
@@ -128,7 +160,7 @@
                             ${percentage}%
                         </div>
                         <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
-                            2025年8月数据
+                            ${year}年数据
                         </div>
                     `);
             })
@@ -182,15 +214,81 @@
             .style("pointer-events", "none")
             .text(d => `${(d.data.value * 100).toFixed(1)}%`);
 
+        // 图例
+        const languages = ["zhCN", "en", "ru", "es", "pt", "de", "others"];
+        const legend = svgGroup
+            .append("g")
+            .attr("transform", `translate(${width + 20}, 0)`);
+
+        languages.forEach((lang, i) => {
+            const legendRow = legend
+                .append("g")
+                .attr("transform", `translate(0, ${i * 25})`)
+                .style("cursor", "pointer")
+                .on("mouseover", function () {
+                    // 突出显示对应的矩形
+                    cells.filter(d => d.data.name === lang)
+                        .select("rect")
+                        .attr("opacity", 1)
+                        .attr("stroke-width", 3)
+                        .attr("stroke", "white")
+                        .style("filter", "brightness(1.2)");
+
+                    cells.filter(d => d.data.name !== lang)
+                        .select("rect")
+                        .attr("opacity", 0.3);
+
+                    // 突出显示图例项
+                    d3.select(this).select("rect")
+                        .attr("opacity", 1)
+                        .attr("stroke", "white")
+                        .attr("stroke-width", 2);
+
+                    d3.select(this).select("text")
+                        .style("font-weight", "bold");
+                })
+                .on("mouseout", function () {
+                    // 恢复所有
+                    cells.select("rect")
+                        .attr("opacity", 1)
+                        .attr("stroke-width", 2)
+                        .attr("stroke", "#1f2937")
+                        .style("filter", "brightness(1)");
+
+                    d3.select(this).select("rect")
+                        .attr("opacity", 0.8)
+                        .attr("stroke", "none");
+
+                    d3.select(this).select("text")
+                        .style("font-weight", "normal");
+                });
+
+            legendRow
+                .append("rect")
+                .attr("width", 18)
+                .attr("height", 18)
+                .attr("fill", color(lang))
+                .attr("opacity", 0.8)
+                .attr("rx", 3);
+
+            legendRow
+                .append("text")
+                .attr("x", 25)
+                .attr("y", 14)
+                .attr("fill", "white")
+                .style("font-size", "13px")
+                .text(languageLabels[lang]);
+        });
+
         // 标题
-        svg
+        svgGroup
             .append("text")
             .attr("x", width / 2)
-            .attr("y", -15)
+            .attr("y", -10)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
             .style("font-size", "20px")
             .style("font-weight", "bold")
-            .text("2025年8月 Steam 各语言用户占比");
+            .text(`${year}年 Steam 各语言用户占比`);
     });
-})();
+}
