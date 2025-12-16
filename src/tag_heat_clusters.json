@@ -1,0 +1,215 @@
+{
+  "name": "root",
+  "children": [
+    {
+      "name": "action",
+      "value": 2346.17,
+      "detail_tags": [
+        "action",
+        "adventure",
+        "rpg",
+        "singleplayer"
+      ],
+      "game_count": 55
+    },
+    {
+      "name": "3d",
+      "value": 1854.43,
+      "detail_tags": [
+        "3d",
+        "5d",
+        "automation",
+        "based",
+        "combat",
+        "cooking",
+        "crpg",
+        "cyberpunk",
+        "drawn",
+        "family"
+      ],
+      "game_count": 43
+    },
+    {
+      "name": "battle",
+      "value": 1810.62,
+      "detail_tags": [
+        "battle",
+        "character",
+        "customization",
+        "fantasy",
+        "female",
+        "free",
+        "gore",
+        "massively",
+        "mature",
+        "person"
+      ],
+      "game_count": 42
+    },
+    {
+      "name": "access",
+      "value": 1456.65,
+      "detail_tags": [
+        "access",
+        "early",
+        "indie"
+      ],
+      "game_count": 33
+    },
+    {
+      "name": "choices",
+      "value": 1422.82,
+      "detail_tags": [
+        "choices",
+        "dating",
+        "drama",
+        "endings",
+        "fiction",
+        "fmv",
+        "interactive",
+        "matter",
+        "multiple",
+        "novel"
+      ],
+      "game_count": 31
+    },
+    {
+      "name": "atmospheric",
+      "value": 1381.36,
+      "detail_tags": [
+        "atmospheric",
+        "cinematic",
+        "click",
+        "dark",
+        "detective",
+        "down",
+        "exploration",
+        "first",
+        "horror",
+        "immersive"
+      ],
+      "game_count": 32
+    },
+    {
+      "name": "beat",
+      "value": 1321.54,
+      "detail_tags": [
+        "beat",
+        "cartoon",
+        "crawler",
+        "cute",
+        "difficult",
+        "dungeon",
+        "em",
+        "funny",
+        "great",
+        "like"
+      ],
+      "game_count": 31
+    },
+    {
+      "name": "rich",
+      "value": 1173.12,
+      "detail_tags": [
+        "rich",
+        "story"
+      ],
+      "game_count": 27
+    },
+    {
+      "name": "base",
+      "value": 1109.66,
+      "detail_tags": [
+        "base",
+        "choose",
+        "craft",
+        "dragons",
+        "jrpg",
+        "linear",
+        "logic",
+        "magic",
+        "mmorpg",
+        "narration"
+      ],
+      "game_count": 27
+    },
+    {
+      "name": "anime",
+      "value": 1002.09,
+      "detail_tags": [
+        "anime",
+        "arts",
+        "martial"
+      ],
+      "game_count": 23
+    },
+    {
+      "name": "apocalyptic",
+      "value": 964.59,
+      "detail_tags": [
+        "apocalyptic",
+        "building",
+        "cartoony",
+        "casual",
+        "crafting",
+        "farming",
+        "life",
+        "mining",
+        "post",
+        "relaxing"
+      ],
+      "game_count": 23
+    },
+    {
+      "name": "co",
+      "value": 948.79,
+      "detail_tags": [
+        "co",
+        "multiplayer",
+        "online",
+        "op"
+      ],
+      "game_count": 24
+    },
+    {
+      "name": "open",
+      "value": 936.72,
+      "detail_tags": [
+        "open",
+        "sandbox",
+        "world"
+      ],
+      "game_count": 23
+    },
+    {
+      "name": "2d",
+      "value": 802.35,
+      "detail_tags": [
+        "2d",
+        "graphics",
+        "pixel"
+      ],
+      "game_count": 19
+    },
+    {
+      "name": "content",
+      "value": 568.99,
+      "detail_tags": [
+        "content",
+        "nudity",
+        "sexual"
+      ],
+      "game_count": 12
+    },
+    {
+      "name": "and",
+      "value": 503.78,
+      "detail_tags": [
+        "and",
+        "hack",
+        "slash"
+      ],
+      "game_count": 10
+    }
+  ]
+}
