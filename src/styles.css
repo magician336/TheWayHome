@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 :root {
     --bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
     --fg: #ffffff;
@@ -15,9 +16,19 @@ html,
 body {
     height: 100%;
 }
+=======
+/* style.css */
+>>>>>>> origin/WZQ/FlowerChart
 
 body {
+    background-color: #f0f2f5; /* 稍微灰一点的背景，让multiply效果更好 */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
     margin: 0;
+<<<<<<< HEAD
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
     background: #0f172a;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -143,3 +154,46 @@ body {
     fill: #94a3b8;
     font-size: 12px;
 }
+=======
+}
+
+h1 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    max-width: 1200px;
+}
+
+.flower-item {
+    text-align: center;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease;
+}
+
+.flower-item:hover {
+    transform: translateY(-5px);
+}
+
+.flower-label {
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #2c3e50;
+}
+
+.flower-sub-label {
+    font-size: 12px;
+    color: #7f8c8d;
+    margin-top: 5px;
+    line-height: 1.5;
+}
+>>>>>>> origin/WZQ/FlowerChart

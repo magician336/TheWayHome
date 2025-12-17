@@ -1,32 +1,21 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>图表容器</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Flowers Replication</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <header class="app-header">
-    </header>
 
-    <main class="app-main">
-        <div class="charts-wrapper">
-            <div class="chart-section">
-                <div id="chart-area" class="chart-container" aria-label="chart area"></div>
-            </div>
-        </div>
-    </main>
+    <h1>游戏花瓣图 </h1>
 
-    <footer class="app-footer">
-        <small>Powered by D3.js | Steam 用户语言分布可视化</small>
-    </footer>
+    <div class="charts-container" id="canvas"></div>
 
-    <!-- D3.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-    <script src="user_distribution_v2.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>
