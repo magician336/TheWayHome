@@ -62,6 +62,23 @@ body {
     flex-direction: column;
     gap: 32px;
     align-items: center;
+    overflow-y: auto;
+}
+
+.charts-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.chart-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .chart-container {
@@ -97,4 +114,32 @@ body {
     width: 100%;
     height: 100%;
     display: block;
+}
+
+/* Tooltip 样式增强 */
+.chart-container .tooltip {
+    font-family: inherit;
+    line-height: 1.5;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-container .tooltip strong {
+    color: #38bdf8;
+    font-size: 14px;
+}
+
+/* 轴线样式优化 */
+.chart-container svg .domain {
+    stroke: #475569;
+}
+
+.chart-container svg .tick line {
+    stroke: #334155;
+    opacity: 0.5;
+}
+
+.chart-container svg .tick text {
+    fill: #94a3b8;
+    font-size: 12px;
 }
