@@ -1,11 +1,16 @@
 // 中国客户端游戏市场情况可视化
 const createRevenueChart = () => {
     const container = d3.select("#chart-revenue");
+    if (container.empty()) return;
     container.selectAll("*").remove();
 
+    // 获取容器尺寸
+    const containerWidth = container.node().getBoundingClientRect().width || 900;
+    const containerHeight = container.node().getBoundingClientRect().height || 500;
+
     const margin = { top: 40, right: 80, bottom: 60, left: 80 };
-    const width = 900 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const width = containerWidth - margin.left - margin.right;
+    const height = containerHeight - margin.top - margin.bottom;
 
     const svg = container
         .append("svg")
