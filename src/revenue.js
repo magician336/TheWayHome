@@ -1,11 +1,16 @@
 // 中国客户端游戏市场情况可视化
 const createRevenueChart = () => {
     const container = d3.select("#chart-revenue");
+    if (container.empty()) return;
     container.selectAll("*").remove();
 
-    const margin = { top: 40, right: 80, bottom: 60, left: 80 };
-    const width = 900 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    // 获取容器尺寸
+    const containerWidth = container.node().getBoundingClientRect().width || 900;
+    const containerHeight = container.node().getBoundingClientRect().height || 600;
+
+    const margin = { top: 100, right: 80, bottom: 60, left: 80 };
+    const width = containerWidth - margin.left - margin.right;
+    const height = containerHeight - margin.top - margin.bottom;
 
     const svg = container
         .append("svg")
@@ -55,7 +60,7 @@ const createRevenueChart = () => {
         svg
             .append("text")
             .attr("x", width / 2)
-            .attr("y", -20)
+            .attr("y", -70)
             .attr("text-anchor", "middle")
             .style("font-size", "20px")
             .style("font-weight", "bold")
@@ -179,49 +184,78 @@ const createRevenueChart = () => {
         // 图例
         const legend = svg
             .append("g")
-            .attr("transform", `translate(${width - 220}, 10)`);
+            .attr("transform", `translate(${width - 350}, -40)`); // 整体上移并调整位置
 
-        // 实际收入图例
-        legend
-            .append("rect")
+        // 1. 颜色条图例 (代表发售量)
+        const legendGradient = svg.append("defs")
+            .append("linearGradient")
+            .attr("id", "legend-gradient")
+            .attr("x1", "0%").attr("y1", "0%")
+            .attr("x2", "100%").attr("y2", "0%");
+
+        legendGradient.append("stop").attr("offset", "0%").attr("stop-color", d3.interpolateOranges(0.2));
+        legendGradient.append("stop").attr("offset", "100%").attr("stop-color", d3.interpolateOranges(0.8));
+
+        legend.append("rect")
             .attr("x", 0)
             .attr("y", 0)
-            .attr("width", 20)
-            .attr("height", 15)
-            .attr("fill", "#fdae6b")
-            .attr("opacity", 0.8);
+            .attr("width", 100)
+            .attr("height", 10)
+            .attr("fill", "url(#legend-gradient)");
 
-        legend
-            .append("text")
-            .attr("x", 28)
-            .attr("y", 12)
+        legend.append("text")
+            .attr("x", 0)
+            .attr("y", 22)
+            .style("font-size", "10px")
+            .style("fill", "#ffffff")
+            .text("发售量: 小");
+
+        legend.append("text")
+            .attr("x", 100)
+            .attr("y", 22)
+            .attr("text-anchor", "end")
+            .style("font-size", "10px")
+            .style("fill", "#ffffff")
+            .text("大");
+
+        // 2. 实际收入图例
+        legend.append("rect")
+            .attr("x", 115)
+            .attr("y", 0)
+            .attr("width", 15)
+            .attr("height", 10)
+            .attr("fill", "#fdae6b");
+
+        legend.append("text")
+            .attr("x", 135)
+            .attr("y", 10)
             .style("font-size", "12px")
             .style("fill", "#ffffff")
-            .text("实际收入 (颜色深浅代表发售量)");
+            .text("实际收入");
 
-        // 增长率图例
-        legend
-            .append("line")
+        // 3. 增长率图例
+        const growthLegend = legend.append("g")
+            .attr("transform", "translate(210, 0)");
+
+        growthLegend.append("line")
             .attr("x1", 0)
-            .attr("x2", 20)
-            .attr("y1", 30)
-            .attr("y2", 30)
+            .attr("x2", 25)
+            .attr("y1", 8)
+            .attr("y2", 8)
             .attr("stroke", "#ff69b4")
             .attr("stroke-width", 2.5);
 
-        legend
-            .append("circle")
-            .attr("cx", 10)
-            .attr("cy", 30)
+        growthLegend.append("circle")
+            .attr("cx", 12.5)
+            .attr("cy", 8)
             .attr("r", 4)
             .attr("fill", "#ff69b4")
             .attr("stroke", "#fff")
             .attr("stroke-width", 1.5);
 
-        legend
-            .append("text")
-            .attr("x", 28)
-            .attr("y", 35)
+        growthLegend.append("text")
+            .attr("x", 30)
+            .attr("y", 12)
             .style("font-size", "12px")
             .style("fill", "#ffffff")
             .text("增长率");
