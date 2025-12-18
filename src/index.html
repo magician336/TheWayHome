@@ -1,30 +1,79 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>图表容器</title>
-    <link rel="stylesheet" href="./styles.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>国产独立游戏数据可视化分析</title>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <header class="app-header">
-        <h1>图表演示</h1>
-    </header>
 
-    <main class="app-main">
-        <!-- 图表容器：可用于 D3 渲染 -->
-        <div id="chart" class="chart-container" aria-label="chart container"></div>
-    </main>
+  <h2>国产独立游戏数据可视化分析</h2>
+  
+  <div class="controls">
+    <div class="input-group">
+      <label>🔍 搜索:</label>
+      <input type="text" id="searchName" placeholder="输入名称 (如: 悟空)">
+    </div>
+    <div class="input-group">
+      <label>📅 年份:</label>
+      <select id="selectYear"><option value="">全部</option></select>
+    </div>
+    <button onclick="resetFilters()">重置</button>
+  </div>
 
-    <footer class="app-footer">
-        <small>Powered by D3.js</small>
-    </footer>
+  <div id="dashboard">
+    <div id="main-chart-wrapper" class="chart-box">
+      <div class="chart-header">
+        <span class="chart-title">平行坐标系</span>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <select id="colorSelect" style="width: 120px; cursor: pointer;">
+            <option value="year" selected>年份</option>
+            <option value="original_price">售价</option>
+            <option value="discount_strength">折扣力度</option>
+            <option value="favorable_rate">好评率</option>
+            <option value="log_players">游玩人数</option>
+            <option value="retention_days">留存期</option>
+          </select>
+          <button id="exitFocusBtn" onclick="exitFocusMode()" style="display: none; padding: 4px 12px; font-size: 12px;">退出观察模式</button>
+        </div>
+      </div>
+      <div id="correlation-bar" style="height: 60px; margin-bottom: 10px; display: none;"></div>
+      <div id="main-chart-container" class="viz-box"></div>
+    </div>
 
-    <!-- D3.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-    <script src="./main.js"></script>
+    <div id="right-column-wrapper">
+      <div id="tags-chart-wrapper" class="chart-box">
+        <div class="chart-header"><span class="chart-title">Tags 类别与热度</span></div>
+        <div id="tag-viz" class="viz-box"></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-header">
+          <span class="chart-title">变量关系分布 (Scatter)</span>
+          <div style="display:flex; gap:5px; align-items: center;">
+            <span style="font-size:12px; color:#888;">X:</span>
+            <select id="scatterX" style="width: 75px;">
+              <option value="year" selected>年份</option>
+              <option value="original_price">售价</option>
+              <option value="discount_strength">折扣</option>
+            </select>
+            <span style="font-size:12px; color:#888;">Y:</span>
+            <select id="scatterY" style="width: 75px;">
+              <option value="log_players" selected>在线</option>
+              <option value="favorable_rate">好评率</option>
+              <option value="retention_days">留存</option>
+            </select>
+          </div>
+        </div>
+        <div id="scatter-viz" class="viz-box"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="tooltip" class="tooltip"></div>
+
+  <script src="main.js"></script>
 </body>
-
 </html>
+
