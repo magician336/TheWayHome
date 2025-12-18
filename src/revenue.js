@@ -48,7 +48,7 @@ const createRevenueChart = () => {
         // 颜色比例尺 - 游戏发售量越多颜色越深
         const colorScale = d3
             .scaleSequential()
-            .domain([0, d3.max(data, (d) => d.num_games)])
+            .domain([-d3.max(data, (d) => d.num_games) * 0.3, d3.max(data, (d) => d.num_games) * 1.8])
             .interpolator(d3.interpolateOranges);
 
         // 添加标题
@@ -188,7 +188,7 @@ const createRevenueChart = () => {
             .attr("y", 0)
             .attr("width", 20)
             .attr("height", 15)
-            .attr("fill", "#f28e2c")
+            .attr("fill", "#fdae6b")
             .attr("opacity", 0.8);
 
         legend
@@ -244,7 +244,7 @@ const createRevenueChart = () => {
 
         function showTooltip(event, d, type) {
             let html = `<strong>${d.year}年</strong><br/>`;
-            html += `实际收入: <span style="color:#f28e2c;font-weight:bold">${d.actual_revenue.toFixed(2)} 亿元</span><br/>`;
+            html += `实际收入: <span style="color:#fdae6b;font-weight:bold">${d.actual_revenue.toFixed(2)} 亿元</span><br/>`;
             html += `增长率: <span style="color:#ff69b4;font-weight:bold">${d.growth_rate}%</span><br/>`;
             html += `游戏发售量: ${d.num_games}`;
             tooltip.html(html).style("visibility", "visible");
