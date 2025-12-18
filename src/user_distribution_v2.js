@@ -48,7 +48,7 @@ function createStackedAreaChart() {
         const color = d3
             .scaleOrdinal()
             .domain(languages)
-            .range(["#e15759", "#4e79a7", "#f28e2c", "#76b7b2", "#59a14f", "#edc949", "#af7aa1"]);
+            .range(["#e15759", "#4e79a7", "#76b7b2", "#f28e2c", "#59a14f", "#edc949", "#af7aa1"]);
 
         const rowHeight = 32;
         const rowGap = 10;
@@ -92,12 +92,20 @@ function createStackedAreaChart() {
         const segments = rows
             .selectAll(".segment")
             .data((d) => {
+                // 1. 计算排名（按值从大到小）
+                const rankOrder = languages.filter(l => l !== 'others')
+                    .sort((a, b) => d[b] - d[a]);
+
+                // 2. 每年从左至右按由大到小排序，"其他"始终在最后
+                const displayOrder = rankOrder.concat(['others']);
+
                 let acc = 0;
-                return languages.map((lang) => {
+                return displayOrder.map((lang) => {
                     const start = acc;
                     const value = d[lang];
                     acc += value;
-                    return { lang, start, end: acc, value, year: d.year };
+                    const rank = rankOrder.indexOf(lang) + 1;
+                    return { lang, start, end: acc, value, year: d.year, rank: rank > 0 ? rank : 99 };
                 });
             })
             .join("rect")
@@ -143,12 +151,19 @@ function createStackedAreaChart() {
         rows
             .selectAll(".segment-label")
             .data((d) => {
+                // 标签的顺序和排名逻辑需要与分块一致
+                const rankOrder = languages.filter(l => l !== 'others')
+                    .sort((a, b) => d[b] - d[a]);
+
+                const displayOrder = rankOrder.concat(['others']);
+
                 let acc = 0;
-                return languages.map((lang) => {
+                return displayOrder.map((lang) => {
                     const start = acc;
                     const value = d[lang];
                     acc += value;
-                    return { lang, start, end: acc, value, year: d.year };
+                    const rank = rankOrder.indexOf(lang) + 1;
+                    return { lang, start, end: acc, value, year: d.year, rank: rank > 0 ? rank : 99 };
                 });
             })
             .join("text")
@@ -157,14 +172,25 @@ function createStackedAreaChart() {
             .attr("y", y.bandwidth() / 2 + 5)
             .attr("text-anchor", "middle")
             .attr("fill", "white")
-            .style("font-size", "12px")
-            .style("font-weight", "600")
+            .style("font-size", (d) => d.rank <= 3 ? "13px" : "11px")
+            .style("font-weight", (d) => d.rank <= 3 ? "800" : "600")
             .style("pointer-events", "none")
             .style("text-shadow", "0 1px 2px rgba(0,0,0,0.45)")
             .text((d) => {
-                const label = `${languageLabels[d.lang]} ${(d.value * 100).toFixed(1)}%`;
+                // "其他"分块不放置标签
+                if (d.lang === "others") return "";
+
+                let prefix = "";
+                if (d.rank === 1) prefix = "🥇 ";
+                else if (d.rank === 2) prefix = "🥈 ";
+                else if (d.rank === 3) {
+                    return "🥉      ";
+                }
+                const label = `${prefix}${languageLabels[d.lang]} ${(d.value * 100).toFixed(1)}%`;
                 const blockWidth = x(d.end) - x(d.start);
-                return blockWidth >= labelThreshold ? label : "";
+
+                const threshold = d.rank <= 3 ? labelThreshold * 0.7 : labelThreshold;
+                return blockWidth >= threshold ? label : "";
             });
 
         const yAxis = svgGroup
@@ -243,7 +269,7 @@ function createStackedAreaChart() {
             .attr("fill", "white")
             .style("font-size", "18px")
             .style("font-weight", "bold")
-            .text("各语言用户占比（按年份分行）");
+            .text("各语言用户占比");
     });
 }
 
