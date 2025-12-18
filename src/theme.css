@@ -1,0 +1,66 @@
+/* shared-theme.css */
+:root {
+    /* 浅色模式一键切换 */
+    --bg-color: #ffffff;
+    --text-main: #1e293b;
+    --card-bg: #f8fafc;
+    --accent-color: #0ea5e9;
+    --border-color: #e2e8f0;
+    --grid-color: #cbd5e1;
+    --font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* 移除全局 body 选择器，改为沙箱化容器 */
+.chart-lpt {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+/* 强制规范所有图表的文字 */
+.shared-viz-svg text {
+    font-family: var(--font-family);
+    fill: var(--text-main) !important;
+}
+
+/* 统一 Tooltip 样式 */
+.viz-tooltip {
+    position: fixed;
+    background: rgba(255, 255, 255, 0.95);
+    color: #1e293b;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+/* 强制统一坐标轴样式，开发者无需再写 .attr("fill", ...) */
+.shared-viz-svg .domain,
+.shared-viz-svg .tick line {
+    stroke: var(--grid-color) !important;
+}
+
+.shared-viz-svg .tick text {
+    fill: var(--text-main) !important;
+    font-size: 11px;
+}
+
+/* 统一图例标题样式 */
+.legend-title {
+    fill: var(--accent-color) !important;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* 修复 Tooltip 的显示层级 */
+.viz-tooltip {
+    z-index: 10000;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
