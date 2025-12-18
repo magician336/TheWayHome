@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Steam 市场数据可视化综合看板</title>
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0%' stop-color='%234e79a7'/%3E%3Cstop offset='100%' stop-color='%23af7aa1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='%230b1021'/%3E%3Cpath d='M16 32a16 16 0 1 1 32 0 16 16 0 0 1-32 0Z' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23ffffff' fill-opacity='.9'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%230b1021'/%3E%3C/svg%3E" />
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <style>
+        /* --- 全局样式 --- */
+        :root {
+            --bg-color: #0b1021;
+            --card-bg: #151a2e;
+            --text-color: #e0e0e0;
+            --accent-color: #38bdf8;
+            --border-color: #2d3748;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        /* --- Header --- */
+        .app-header {
+            background: linear-gradient(90deg, #1a202c 0%, #2d3748 100%);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        /* --- Main Layout --- */
+        .app-main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .section-divider {
+            margin: 3rem 0 1.5rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border-color);
+            font-size: 1.4rem;
+            color: var(--accent-color);
+            font-weight: 300;
+        }
+
+        /* --- Chart Containers (Native) --- */
+        .charts-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        @media (min-width: 1000px) {
+            .charts-wrapper {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .full-width {
+                grid-column: span 2;
+            }
+        }
+
+        .chart-section {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-section h2 {
+            margin-top: 0;
+            font-size: 1.1rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+
+        /* --- Iframe Containers --- */
+        .iframe-container {
+            width: 100%;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .iframe-frame {
+            width: 100%;
+            border: none;
+            display: block;
+        }
+
+        /* --- Tooltips --- */
+        .tooltip,
+        .tooltip-revenue {
+            position: fixed;
+            visibility: hidden;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 9999;
+            border: 1px solid #444;
+            backdrop-filter: blur(2px);
+        }
+
+        .app-footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="app-header">
+        <h1>Steam 市场数据可视化综合看板</h1>
+    </header>
+
+    <main class="app-main">
+
+        <h2 class="section-divider">Part 1: 市场宏观概览 (Market Overview)</h2>
+        <div class="charts-wrapper">
+            <section class="chart-section full-width">
+                <h2>中国买断制游戏市场：发售量 vs 实际收入</h2>
+                <div id="chart-revenue" class="chart-container"></div>
+            </section>
+
+            <section class="chart-section full-width">
+                <h2>Steam 用户语言占比演变</h2>
+                <div id="chart-area" class="chart-container"></div>
+            </section>
+        </div>
+
+        <h2 class="section-divider">Part 2: 独立游戏深度交互分析 (Interactive Dashboard)</h2>
+        <div class="iframe-container">
+            <iframe src="new_chart.html" class="iframe-frame" style="height: 1000px;"
+                title="Independent Game Analysis"></iframe>
+        </div>
+
+        <h2 class="section-divider">Part 3: 游戏特征艺术映射 (Game Flowers)</h2>
+        <div class="iframe-container">
+            <iframe src="flower.html" class="iframe-frame" style="height: 850px;" title="Game Flower Chart"></iframe>
+        </div>
+
+    </main>
+
+    <footer class="app-footer">
+        <small>Integration by Gemini | Powered by D3.js</small>
+    </footer>
+
+    <script>
+        // ==========================================
+        // DATA DEFINITIONS (Replaces CSV loading)
+        // ==========================================
+
+        // Mock Data for Revenue Chart (Based on typical market trends described in total.html)
+        const revenueData = [
+            { year: "2016", num_games: 280, actual_revenue: 12.5 },
+            { year: "2017", num_games: 350, actual_revenue: 18.2 },
+            { year: "2018", num_games: 480, actual_revenue: 25.6 },
+            { year: "2019", num_games: 620, actual_revenue: 42.1 },
+            { year: "2020", num_games: 850, actual_revenue: 68.5 },
+            { year: "2021", num_games: 1100, actual_revenue: 180.4 },
+            { year: "2022", num_games: 1350, actual_revenue: 210.8 },
+            { year: "2023", num_games: 1520, actual_revenue: 285.3 },
+            { year: "2024", num_games: 1800, actual_revenue: 550.2 } // High spike due to Black Myth: Wukong impact
+        ];
+
+        // Mock Data for Language Distribution (Based on Steam Hardware Survey trends)
+        const languageData = [
+            { year: 2016, zhCN: 0.15, en: 0.45, ru: 0.08, es: 0.05, pt: 0.03, de: 0.04, others: 0.20 },
+            { year: 2017, zhCN: 0.35, en: 0.32, ru: 0.09, es: 0.04, pt: 0.03, de: 0.03, others: 0.14 },
+            { year: 2018, zhCN: 0.24, en: 0.38, ru: 0.10, es: 0.05, pt: 0.03, de: 0.04, others: 0.16 },
+            { year: 2019, zhCN: 0.20, en: 0.36, ru: 0.12, es: 0.06, pt: 0.04, de: 0.04, others: 0.18 },
+            { year: 2020, zhCN: 0.22, en: 0.35, ru: 0.11, es: 0.06, pt: 0.04, de: 0.04, others: 0.18 },
+            { year: 2021, zhCN: 0.24, en: 0.34, ru: 0.10, es: 0.06, pt: 0.04, de: 0.04, others: 0.18 },
+            { year: 2022, zhCN: 0.25, en: 0.33, ru: 0.09, es: 0.06, pt: 0.04, de: 0.04, others: 0.19 },
+            { year: 2023, zhCN: 0.27, en: 0.32, ru: 0.09, es: 0.06, pt: 0.04, de: 0.03, others: 0.19 },
+            { year: 2024, zhCN: 0.33, en: 0.30, ru: 0.08, es: 0.05, pt: 0.04, de: 0.03, others: 0.17 }
+        ];
+
+        // ==========================================
+        // CHART 1: REVENUE (Logic ported from total.html)
+        // ==========================================
+        const createRevenueChart = () => {
+            const container = d3.select("#chart-revenue");
+            // Get dynamic width
+            const containerWidth = container.node().getBoundingClientRect().width;
+            const containerHeight = container.node().getBoundingClientRect().height;
+
+            const margin = { top: 40, right: 80, bottom: 40, left: 60 };
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+
+            const svg = container
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Use embedded data instead of d3.csv
+            const data = revenueData;
+
+            // X scale
+            const xScale = d3.scaleBand()
+                .domain(data.map((d) => d.year))
+                .range([0, width])
+                .padding(0.3);
+
+            // Y Scale Left (Games)
+            const yScaleLeft = d3.scaleLinear()
+                .domain([0, d3.max(data, (d) => d.num_games) * 1.1])
+                .range([height, 0]);
+
+            // Y Scale Right (Revenue)
+            const yScaleRight = d3.scaleLinear()
+                .domain([0, d3.max(data, (d) => d.actual_revenue) * 1.1])
+                .range([height, 0]);
+
+            // Bars (Games)
+            svg.selectAll(".bar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", (d) => xScale(d.year))
+                .attr("y", (d) => yScaleLeft(d.num_games))
+                .attr("width", xScale.bandwidth())
+                .attr("height", (d) => height - yScaleLeft(d.num_games))
+                .attr("fill", "#3b82f6") // Tailwind Blue 500
+                .attr("opacity", 0.7)
+                .on("mouseover", function (event, d) {
+                    d3.select(this).attr("opacity", 1);
+                    showRevenueTooltip(event, d, "games");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).attr("opacity", 0.7);
+                    hideRevenueTooltip();
+                });
+
+            // Line (Revenue)
+            const line = d3.line()
+                .x((d) => xScale(d.year) + xScale.bandwidth() / 2)
+                .y((d) => yScaleRight(d.actual_revenue));
+
+            svg.append("path")
+                .datum(data)
+                .attr("class", "line")
+                .attr("fill", "none")
+                .attr("stroke", "#f43f5e") // Tailwind Rose 500
+                .attr("stroke-width", 3)
+                .attr("d", line);
+
+            // Dots (Revenue)
+            svg.selectAll(".dot")
+                .data(data)
+                .enter()
+                .append("circle")
+                .attr("class", "dot")
+                .attr("cx", (d) => xScale(d.year) + xScale.bandwidth() / 2)
+                .attr("cy", (d) => yScaleRight(d.actual_revenue))
+                .attr("r", 5)
+                .attr("fill", "#10b981") // Tailwind Emerald 500
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 2)
+                .on("mouseover", function (event, d) {
+                    d3.select(this).attr("r", 7);
+                    showRevenueTooltip(event, d, "revenue");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).attr("r", 5);
+                    hideRevenueTooltip();
+                });
+
+            // Axes
+            const xAxis = svg.append("g")
+                .attr("transform", `translate(0,${height})`)
+                .call(d3.axisBottom(xScale));
+            xAxis.selectAll("text").style("fill", "#94a3b8");
+            xAxis.selectAll("path, line").style("stroke", "#475569");
+
+            const yAxisLeft = svg.append("g")
+                .call(d3.axisLeft(yScaleLeft).ticks(6));
+            yAxisLeft.selectAll("text").style("fill", "#60a5fa"); // Blue text
+            yAxisLeft.selectAll("path, line").style("stroke", "#475569");
+
+            const yAxisRight = svg.append("g")
+                .attr("transform", `translate(${width},0)`)
+                .call(d3.axisRight(yScaleRight).ticks(6));
+            yAxisRight.selectAll("text").style("fill", "#f43f5e"); // Red text
+            yAxisRight.selectAll("path, line").style("stroke", "#475569");
+
+            // Labels
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -height / 2)
+                .attr("y", -45)
+                .attr("text-anchor", "middle")
+                .style("fill", "#60a5fa")
+                .style("font-size", "12px")
+                .text("游戏发售量 (款)");
+
+            svg.append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("x", -height / 2)
+                .attr("y", width + 50)
+                .attr("text-anchor", "middle")
+                .style("fill", "#f43f5e")
+                .style("font-size", "12px")
+                .text("实际销售收入 (亿元)");
+
+            // Tooltip Logic
+            const tooltip = d3.select("body").append("div").attr("class", "tooltip-revenue");
+
+            function showRevenueTooltip(event, d, type) {
+                let html = `<strong>${d.year}</strong><br/>`;
+                if (type === "games") {
+                    html += `游戏数量: ${d.num_games}`;
+                } else {
+                    html += `实际收入: ${d.actual_revenue} 亿元`;
+                }
+                tooltip.html(html).style("visibility", "visible")
+                    .style("left", (event.pageX + 10) + "px")
+                    .style("top", (event.pageY + 10) + "px");
+            }
+            function hideRevenueTooltip() { tooltip.style("visibility", "hidden"); }
+        };
+
+        // ==========================================
+        // CHART 2: USER DISTRIBUTION (Logic ported from total.html)
+        // ==========================================
+        function createStackedAreaChart() {
+            const container = d3.select("#chart-area");
+            const containerWidth = container.node().getBoundingClientRect().width;
+            const containerHeight = container.node().getBoundingClientRect().height;
+
+            const margin = { top: 30, right: 100, bottom: 30, left: 60 };
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom; // Let's fit it in the box
+
+            const data = languageData;
+            const languages = ["zhCN", "en", "ru", "es", "pt", "de", "others"];
+            const languageLabels = {
+                zhCN: "中文", en: "英语", ru: "俄语", es: "西语", pt: "葡语", de: "德语", others: "其他"
+            };
+            const color = d3.scaleOrdinal()
+                .domain(languages)
+                .range(["#ef4444", "#3b82f6", "#f59e0b", "#14b8a6", "#22c55e", "#eab308", "#8b5cf6"]);
+
+            const svg = container.append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom);
+
+            const svgGroup = svg.append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            // Tooltip
+            const tooltip = d3.select("body").append("div").attr("class", "tooltip");
+
+            // Scales
+            // We need to fit all rows into the fixed height
+            const rowHeight = height / data.length;
+            const rowPadding = rowHeight * 0.2;
+            const barHeight = rowHeight - rowPadding;
+
+            const x = d3.scaleLinear().domain([0, 1]).range([0, width]);
+            const y = d3.scaleBand().domain(data.map(d => d.year)).range([0, height]).padding(0.2);
+
+            const rows = svgGroup.selectAll(".year-row")
+                .data(data)
+                .join("g")
+                .attr("class", "year-row")
+                .attr("transform", d => `translate(0, ${y(d.year)})`);
+
+            // Row Background
+            rows.append("rect")
+                .attr("width", width)
+                .attr("height", y.bandwidth())
+                .attr("fill", "#1e293b")
+                .attr("rx", 4);
+
+            // Segments
+            rows.selectAll(".segment")
+                .data(d => {
+                    let acc = 0;
+                    return languages.map(lang => {
+                        const start = acc;
+                        acc += d[lang];
+                        return { lang, start, end: acc, value: d[lang], year: d.year };
+                    });
+                })
+                .join("rect")
+                .attr("class", "segment")
+                .attr("x", d => x(d.start))
+                .attr("y", 0)
+                .attr("width", d => Math.max(0, x(d.end) - x(d.start)))
+                .attr("height", y.bandwidth())
+                .attr("fill", d => color(d.lang))
+                .attr("opacity", 0.8)
+                .attr("stroke", "#0b1021")
+                .on("mouseover", function (event, d) {
+                    d3.select(this).attr("opacity", 1);
+                    tooltip.html(`<strong>${d.year} ${languageLabels[d.lang]}</strong><br>占比: ${(d.value * 100).toFixed(1)}%`)
+                        .style("visibility", "visible")
+                        .style("left", (event.pageX + 10) + "px")
+                        .style("top", (event.pageY + 10) + "px");
+                })
+                .on("mouseout", function () {
+                    d3.select(this).attr("opacity", 0.8);
+                    tooltip.style("visibility", "hidden");
+                });
+
+            // Y Axis
+            const yAxis = svgGroup.append("g")
+                .call(d3.axisLeft(y).tickFormat(d3.format("d")).tickSize(0));
+            yAxis.select(".domain").remove();
+            yAxis.selectAll("text").style("fill", "#fff").style("font-weight", "bold");
+
+            // Legend
+            const legend = svgGroup.append("g")
+                .attr("transform", `translate(${width + 10}, 0)`);
+
+            languages.forEach((lang, i) => {
+                const g = legend.append("g").attr("transform", `translate(0, ${i * 20})`);
+                g.append("rect").attr("width", 10).attr("height", 10).attr("fill", color(lang));
+                g.append("text").attr("x", 15).attr("y", 9).text(languageLabels[lang])
+                    .style("font-size", "10px").style("fill", "#cbd5e1");
+            });
+        }
+
+        // Initialize Charts
+        createRevenueChart();
+        createStackedAreaChart();
+
+        // Handle Resize
+        window.addEventListener("resize", () => {
+            d3.select("#chart-revenue").selectAll("*").remove();
+            d3.select("#chart-area").selectAll("*").remove();
+            createRevenueChart();
+            createStackedAreaChart();
+        });
+
+    </script>
+</body>
+
+</html>

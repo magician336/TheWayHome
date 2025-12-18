@@ -7,8 +7,51 @@
     <title>Steam 数据可视化综合面板</title>
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0%' stop-color='%234e79a7'/%3E%3Cstop offset='100%' stop-color='%23af7aa1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='%230b1021'/%3E%3Cpath d='M16 32a16 16 0 1 1 32 0 16 16 0 0 1-32 0Z' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23ffffff' fill-opacity='.9'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%230b1021'/%3E%3C/svg%3E" />
-    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--fg);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .nav-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            border-color: var(--accent);
+        }
+
+        .nav-card h2 {
+            border: none;
+            padding: 0;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .nav-card p {
+            color: var(--muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+    </style>
 </head>
 
 <body>
@@ -17,31 +60,27 @@
     </header>
 
     <main class="app-main">
-        <div class="charts-wrapper">
-            <section class="chart-section">
-                <h2>用户语言占比分布</h2>
-                <div id="user-distribution-chart" class="chart-container"></div>
-            </section>
+        <div class="nav-grid">
+            <a href="total.html" class="nav-card">
+                <h2>综合数据概览</h2>
+                <p>包含用户语言分布与市场营收分析图表。</p>
+            </a>
 
-            <section class="chart-section">
-                <h2>游戏特征多维映射 (Flower Chart)</h2>
-                <div id="flower-chart" class="chart-container scrollable"></div>
-            </section>
+            <a href="flower.html" class="nav-card">
+                <h2>游戏特征映射</h2>
+                <p>基于 Flower Chart 的多维游戏特征展示。</p>
+            </a>
 
-            <section class="chart-section">
-                <h2>标签热度聚类分析</h2>
-                <div id="tag-cluster-chart" class="chart-container"></div>
-            </section>
+            <a href="new_chart.html" class="nav-card">
+                <h2>国产独立游戏分析</h2>
+                <p>包含平行坐标图、标签热度聚类及相关性分析。</p>
+            </a>
         </div>
     </main>
 
     <footer class="app-footer">
         <small>Powered by D3.js | The Way Home 项目组</small>
     </footer>
-
-    <script src="user_distribution_v2.js"></script>
-    <script src="flower_chart.js"></script>
-    <script src="parallel.js"></script>
 </body>
 
 </html>

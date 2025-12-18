@@ -21,21 +21,21 @@ var petalPaths = [
     // 6. Soft Diamond (柔和菱形 - 类似风筝形状，但在中部加宽以产生重叠)
     // 使用三次贝塞尔曲线代替二次，增加侧面宽度
     // Optional: Violin (小提琴/收腰形 - 侧面内凹，不再是圆滚滚的)
-'M0 0 C60 20 10 60 0 100 C-10 60 -60 20 0 0',
+    'M0 0 C60 20 10 60 0 100 C-10 60 -60 20 0 0',
 
-  // 8. Gentle Heart (柔和心形 - 顶部是圆润的M形，没有尖角)
-// C50 40... 把侧面画得圆鼓鼓的
-// C15 95 10 85 0 85 这一段负责画顶部的柔和凹陷
-'M0 0 C50 40 60 90 30 100 C15 95 10 85 0 85 C-10 85 -15 95 -30 100 C-60 90 -50 40 0 0',
+    // 8. Gentle Heart (柔和心形 - 顶部是圆润的M形，没有尖角)
+    // C50 40... 把侧面画得圆鼓鼓的
+    // C15 95 10 85 0 85 这一段负责画顶部的柔和凹陷
+    'M0 0 C50 40 60 90 30 100 C15 95 10 85 0 85 C-10 85 -15 95 -30 100 C-60 90 -50 40 0 0',
 
-// 8. Cosmos/Jagged (波斯菊/锯齿形 - 顶部平坦且带有波浪折角，像剪纸边缘)
-// 侧面 C40 60 比较直
-// 顶部不聚拢到一点，而是先去 20 100，再折回 0 90，制造锯齿感
-'M0 0 C40 60 40 85 20 100 L0 90 L-20 100 C-40 85 -40 60 0 0'
+    // 8. Cosmos/Jagged (波斯菊/锯齿形 - 顶部平坦且带有波浪折角，像剪纸边缘)
+    // 侧面 C40 60 比较直
+    // 顶部不聚拢到一点，而是先去 20 100，再折回 0 90，制造锯齿感
+    'M0 0 C40 60 40 85 20 100 L0 90 L-20 100 C-40 85 -40 60 0 0'
 ];
 
 // 1. 数据源 (来自 chosen_game.json)
-d3.json("chosen_game.json").then(function(games) {
+d3.json("chosen_game.json").then(function (games) {
 
     // 2. 配置与比例尺
     const width = 1200;
@@ -76,16 +76,16 @@ d3.json("chosen_game.json").then(function(games) {
     // 定义滤镜 (Blur) - 采用 index1 的参数
     const defsSvg = container.append("svg").attr("width", 0).attr("height", 0);
     const defs = defsSvg.append("defs");
-    
+
     defs.append("filter")
         .attr("id", "motionFilter") // ID保持不变
         // 1. 解决方块问题：全方位扩大渲染区域
         // 原来只改了width，现在必须把 height 和 y 也加上
         .attr("filterUnits", "objectBoundingBox") // 确保是相对于对象的比例
         .attr("x", "-100%")       // 向左扩展
-        .attr("y", "-100%")       // 向上扩展 (关键！解决上下被切平的问题)
+        .attr("y", "-100%")       // 向上扩展
         .attr("width", "300%")    // 宽度
-        .attr("height", "300%")   // 高度 (关键！解决上下被切平的问题)
+        .attr("height", "300%")   // 高度 
         .append("feGaussianBlur")
         .attr("in", "SourceGraphic")
         // 2. 解决太糊的问题：降低模糊参数
@@ -126,22 +126,22 @@ d3.json("chosen_game.json").then(function(games) {
         .text("1. 平台 (Platform Code) -> 花瓣形状");
 
     const shapeGroup = legendGroup1.append("g")
-        .attr("transform", `translate(${width/2}, 60)`);
-    
+        .attr("transform", `translate(${width / 2}, 60)`);
+
     const shapeWidth = 80;
     const totalShapeWidth = 8 * shapeWidth;
-    
+
     for (let i = 1; i <= 8; i++) {
         const g = shapeGroup.append("g")
-            .attr("transform", `translate(${(i-1) * shapeWidth - totalShapeWidth/2 + shapeWidth/2}, 0)`);
-        
+            .attr("transform", `translate(${(i - 1) * shapeWidth - totalShapeWidth / 2 + shapeWidth / 2}, 0)`);
+
         g.append("path")
             .attr("d", shapeScale(i))
             .attr("fill", "none")
             .attr("stroke", "#605b5bff")
             .attr("stroke-width", 5)
             .attr("transform", "translate(0, 40) rotate(180) scale(0.4)");
-            
+
         g.append("text")
             .attr("y", 60)
             .call(legendTextStyle)
@@ -157,31 +157,31 @@ d3.json("chosen_game.json").then(function(games) {
         .text("2. 游戏分类 (Categories) -> 光晕颜色");
 
     const colorGroup = legendGroup2.append("g")
-        .attr("transform", `translate(${width/2}, 60)`);
-    
+        .attr("transform", `translate(${width / 2}, 60)`);
+
     const categoriesList = colorScale.domain();
     const colorItemWidth = 80;
     const itemsPerRow = 8; // 每行8个
-    
+
     categoriesList.forEach((cat, i) => {
         const row = Math.floor(i / itemsPerRow);
         const col = i % itemsPerRow;
         const itemsInThisRow = (row === Math.floor((categoriesList.length - 1) / itemsPerRow)) ? (categoriesList.length % itemsPerRow || itemsPerRow) : itemsPerRow;
         const rowWidth = itemsInThisRow * colorItemWidth;
-        
+
         const x = col * colorItemWidth - rowWidth / 2 + colorItemWidth / 2;
-        const y = row * 50; 
+        const y = row * 50;
 
         const g = colorGroup.append("g")
             .attr("transform", `translate(${x}, ${y})`);
-        
+
         g.append("circle")
             .attr("r", 15)
             .attr("fill", colorScale(cat))
             .style("mix-blend-mode", "multiply")
             .style("filter", "url(#motionFilter)")
             .attr("opacity", 0.7);
-            
+
         g.append("text")
             .attr("y", 25)
             .call(legendTextStyle)
@@ -197,19 +197,19 @@ d3.json("chosen_game.json").then(function(games) {
         .text("3. 评论总数 (Total Comments) -> 花瓣数量");
 
     const petalNumGroup = legendGroup3.append("g")
-        .attr("transform", `translate(${width/2}, 70)`);
-    
+        .attr("transform", `translate(${width / 2}, 70)`);
+
     const commentSamples = [minComments, minComments + (maxComments - minComments) * 0.25, minComments + (maxComments - minComments) * 0.5, minComments + (maxComments - minComments) * 0.75, maxComments];
     const numWidth = 120;
     const totalNumWidth = commentSamples.length * numWidth;
 
     commentSamples.forEach((val, i) => {
         const g = petalNumGroup.append("g")
-            .attr("transform", `translate(${i * numWidth - totalNumWidth/2 + numWidth/2}, 0)`);
-        
+            .attr("transform", `translate(${i * numWidth - totalNumWidth / 2 + numWidth / 2}, 0)`);
+
         const numPetals = numPetalScale(val);
-        const path = petalPaths[3]; 
-        
+        const path = petalPaths[3];
+
         for (let k = 0; k < numPetals; k++) {
             g.append("path")
                 .attr("d", path)
@@ -235,7 +235,7 @@ d3.json("chosen_game.json").then(function(games) {
         .text("4. 好评率 (Favorable Rate) -> 花朵大小");
 
     const sizeGroup = legendGroup4.append("g")
-        .attr("transform", `translate(${width/2}, 100)`);
+        .attr("transform", `translate(${width / 2}, 100)`);
 
     const rateSamples = [minRate, minRate + (maxRate - minRate) * 0.25, minRate + (maxRate - minRate) * 0.5, minRate + (maxRate - minRate) * 0.75, maxRate];
     const sizeWidth = 160;
@@ -243,11 +243,11 @@ d3.json("chosen_game.json").then(function(games) {
 
     rateSamples.forEach((val, i) => {
         const g = sizeGroup.append("g")
-            .attr("transform", `translate(${i * sizeWidth - totalSizeWidth/2 + sizeWidth/2}, 0)`);
-        
+            .attr("transform", `translate(${i * sizeWidth - totalSizeWidth / 2 + sizeWidth / 2}, 0)`);
+
         const scale = sizeScale(val);
-        const numPetals = 5; 
-        const path = petalPaths[3]; 
+        const numPetals = 5;
+        const path = petalPaths[3];
 
         for (let k = 0; k < numPetals; k++) {
             g.append("path")
@@ -285,11 +285,11 @@ d3.json("chosen_game.json").then(function(games) {
         });
 
     // 1. 绘制光晕层 (Halo) - 依据 categories 数量
-    flowers.each(function(d) {
+    flowers.each(function (d) {
         const g = d3.select(this);
         const categories = d.categories; // 2-4 个分类
         const scale = sizeScale(d.favorableRate);
-        
+
         // 遍历分类生成光晕圆
         categories.forEach((cat, i) => {
             let angle;
@@ -303,10 +303,10 @@ d3.json("chosen_game.json").then(function(games) {
             }
 
             // 稍微错开圆心
-            const offset = 35 * scale; 
+            const offset = 35 * scale;
             const cx = Math.cos(angle) * offset;
             const cy = Math.sin(angle) * offset;
-            
+
             const r = 65 * scale; // 光晕半径
 
             g.append("circle")
@@ -321,12 +321,12 @@ d3.json("chosen_game.json").then(function(games) {
     });
 
     // 2. 绘制花瓣 (Petals) - 依据 Platform Code 和 Comments
-    flowers.each(function(d) {
+    flowers.each(function (d) {
         const g = d3.select(this);
         const numPetals = numPetalScale(d.totalComments);
         const path = shapeScale(d.platformCode);
         const scale = sizeScale(d.favorableRate);
-        
+
         for (let i = 0; i < numPetals; i++) {
             g.append("path")
                 .attr("d", path)
@@ -335,7 +335,7 @@ d3.json("chosen_game.json").then(function(games) {
                 .attr("stroke-width", 2.5 / scale) // 保持线条视觉宽度一致
                 .attr("transform", `rotate(${(360 / numPetals) * i}) scale(${scale})`);
         }
-        
+
         // 花心
         // g.append("circle")
         //     .attr("r", 3)
@@ -360,6 +360,6 @@ d3.json("chosen_game.json").then(function(games) {
         .style("fill", "#666")
         .text(d => `Rate: ${d.favorableRate}% | Code: ${d.platformCode}`);
 
-}).catch(function(error) {
+}).catch(function (error) {
     console.error("Error loading the data: " + error);
 });
