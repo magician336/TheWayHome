@@ -92,8 +92,13 @@ function createStackedAreaChart() {
         const segments = rows
             .selectAll(".segment")
             .data((d) => {
+                // 每年从左至右按由小到大排序，"其他"始终在最后
+                const sortedLangs = languages.filter(l => l !== 'others')
+                    .sort((a, b) => d[b] - d[a])
+                    .concat(['others']);
+
                 let acc = 0;
-                return languages.map((lang) => {
+                return sortedLangs.map((lang) => {
                     const start = acc;
                     const value = d[lang];
                     acc += value;
@@ -143,8 +148,13 @@ function createStackedAreaChart() {
         rows
             .selectAll(".segment-label")
             .data((d) => {
+                // 标签的顺序也需要与分块一致
+                const sortedLangs = languages.filter(l => l !== 'others')
+                    .sort((a, b) => d[b] - d[a])
+                    .concat(['others']);
+
                 let acc = 0;
-                return languages.map((lang) => {
+                return sortedLangs.map((lang) => {
                     const start = acc;
                     const value = d[lang];
                     acc += value;
@@ -162,6 +172,9 @@ function createStackedAreaChart() {
             .style("pointer-events", "none")
             .style("text-shadow", "0 1px 2px rgba(0,0,0,0.45)")
             .text((d) => {
+                // "其他"分块不放置标签
+                if (d.lang === "others") return "";
+
                 const label = `${languageLabels[d.lang]} ${(d.value * 100).toFixed(1)}%`;
                 const blockWidth = x(d.end) - x(d.start);
                 return blockWidth >= labelThreshold ? label : "";
@@ -243,7 +256,7 @@ function createStackedAreaChart() {
             .attr("fill", "white")
             .style("font-size", "18px")
             .style("font-weight", "bold")
-            .text("各语言用户占比（按年份分行）");
+            .text("各语言用户占比");
     });
 }
 
