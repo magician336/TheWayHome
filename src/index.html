@@ -2,10 +2,9 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>图表容器</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <meta charset="UTF-8">
+    <title>归途：国产独立游戏进化录 | The Way Home</title>
+    <link rel="stylesheet" href="/node_modules/@magician336/assets/theme.css">
     <script type="importmap">
     {
         "imports": {
@@ -13,29 +12,227 @@
         }
     }
     </script>
+    <style>
+        body {
+            margin: 0;
+            background: var(--bg-color);
+            font-family: var(--font-family);
+            color: var(--text-main);
+        }
+
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* 英雄区 */
+        .hero {
+            height: 95vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 5.5rem;
+            letter-spacing: 18px;
+            margin: 0;
+            color: var(--accent-color);
+            font-weight: 900;
+            filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.4));
+        }
+
+        .hero .manifesto {
+            font-size: 1.3rem;
+            max-width: 850px;
+            line-height: 2;
+            opacity: 0.9;
+            margin-top: 40px;
+            color: #fff;
+            font-weight: 300;
+        }
+
+        /* 通用板块样式 */
+        section {
+            padding: 120px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+        }
+
+        .tag {
+            color: var(--accent-color);
+            font-weight: bold;
+            letter-spacing: 3px;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .analysis-text {
+            line-height: 1.8;
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        .analysis-text b {
+            color: var(--accent-color);
+        }
+
+        /* 图表容器占位 */
+        .viz-preview {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 20px;
+            height: 350px;
+            position: relative;
+        }
+
+        /* 引导按钮 */
+        .cta-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 35px;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            text-decoration: none;
+            border-radius: 50px;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+
+        .conclusion-box {
+            text-align: center;
+            padding: 150px 0;
+        }
+    </style>
 </head>
 
-<body>
-    <header class="app-header">
-        <h1>Steam 数据分析可视化</h1>
-    </header>
+<body class="chart-lpt">
+    <div id="canvas-bg"></div>
 
-    <main class="app-main">
-        <div class="charts-wrapper">
-            <div class="chart-section">
-                <div id="chart-area" class="chart-container chart-lpt" aria-label="chart area"></div>
+    <div class="container">
+        <section class="hero">
+            <span class="tag">THE WAY HOME</span>
+            <h1>归途</h1>
+            <p class="manifesto">
+                凭借一代代开发者的匠心耕耘，国产独立游戏已呈现<b>百花齐放</b>之势。作品数量与品质双双攀升，它们不仅赢得了本土玩家的热爱，更正走出国门，惊艳世界。
+            </p>
+            <div id="quick-stats" style="margin-top: 50px; display: flex; gap: 60px;">
             </div>
-        </div>
-    </main>
+        </section>
 
-    <footer class="app-footer">
-        <small>Powered by D3.js | The Way Home 项目组</small>
-    </footer>
+        <section id="market-macro">
+            <div class="section-header">
+                <span class="tag">PHASE 01</span>
+                <h2>市场宏观概览</h2>
+            </div>
+            <div class="content-layout">
+                <div class="analysis-side">
+                    <p class="analysis-text">
+                        <b>分析：</b>从 2017 年的起步到 2021 年的爆发，国产独立游戏在 Steam 等平台的实际收入实现了跨越式增长。
+                        <br><br>
+                        这种攀升不仅体现在产量的增加，更在于单作变现能力的增强。随着玩家审美水平的提高，优质内容正获得前所未有的商业溢价。
+                    </p>
+                    <p class="analysis-text" id="macro-dynamic-text">
+                    </p>
+                    <a href="total.html" class="cta-btn">进入宏观视界 →</a>
+                </div>
+                <div class="viz-preview" id="macro-trend-chart"></div>
+            </div>
+            <p class="analysis-text" style="margin-top: 40px; text-align: center; font-style: italic;">
+                “过渡：当宏观数据向我们展示了市场的波澜壮阔，每一个冰冷数字背后，其实都是一款款鲜活、精致的个体。”
+            </p>
+        </section>
 
-    <!-- D3.js Local -->
-    <script src="/node_modules/d3/dist/d3.min.js"></script>
-    <script type="module" src="user_distribution_v2.js"></script>
+        <section id="flower-dimension">
+            <div class="section-header">
+                <span class="tag">PHASE 02</span>
+                <h2>基因花瓣图</h2>
+            </div>
+            <div class="content-layout">
+                <div class="viz-preview" id="flower-preview"></div>
+                <div class="analysis-side">
+                    <p class="analysis-text">
+                        <b>分析：</b>我们使用统一的量纲，客观比较典型国产独游的基本信息。每一片“花瓣”的伸展，都代表了游戏在价格、评分、热度等维度的表达力。
+                        <br><br>
+                        通过这种可视化形态，我们能一眼看清：有些作品靠极高的性价比取胜，而有些作品则凭借顶尖的艺术性（好评率）屹立不倒。
+                    </p>
+                    <a href="flower.html" class="cta-btn">探索基因详情 →</a>
+                </div>
+            </div>
+            <p class="analysis-text" style="margin-top: 40px; text-align: center; font-style: italic;">
+                “总结：花瓣图证明了国产游戏的基因多样性。然而，这些维度之间是否存在某种必然的因果关联？”
+            </p>
+        </section>
 
+        <section id="parallel-logic">
+            <div class="section-header">
+                <span class="tag">PHASE 03</span>
+                <h2>多维张力坐标</h2>
+            </div>
+            <div class="content-layout">
+                <div class="analysis-side">
+                    <p class="analysis-text">
+                        <b>分析：</b>在平行坐标系中，我们将价格、折扣、评分与销量通过多条轴线交织。通过筛选，我们发现<b>高好评率</b>往往与适中的价格区间高度重合。
+                        <br><br>
+                        这揭示了国产独立游戏的生存法则：在保证核心品质的同时，克制的定价策略是赢得社区口碑的关键。
+                    </p>
+                    <a href="parallel.html" class="cta-btn">解锁多维规律 →</a>
+                </div>
+                <div class="viz-preview" id="parallel-preview"></div>
+            </div>
+        </section>
+
+        <section class="conclusion-box">
+            <span class="tag">FINAL THOUGHTS</span>
+            <h2>总结：匠心不负，向海而行</h2>
+            <p class="analysis-text" style="max-width: 800px; margin: 30px auto;">
+                从 2017 年的微末之光，到如今席卷全球的艺术风暴，国产独立游戏的发展是一场关于“坚持”与“进化”的马拉松。
+                <br><br>
+                数据告诉我们，市场规模的扩大只是结果，真正的驱动力是那些在深夜打磨代码、在笔尖构思世界的开发者。未来，国产独立游戏将不仅是数据的增长，更是中华文化在数字时代的灵魂出海。
+            </p>
+        </section>
+    </div>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script type="module" src="./main_index.js"></script>
 </body>
 
 </html>
