@@ -1,5 +1,8 @@
+import { GlobalVizConfig } from '@magician336/assets';
+
 // 中国客户端游戏市场情况可视化
 const createRevenueChart = () => {
+    const { theme, layout, utils } = GlobalVizConfig;
     const container = d3.select("#chart-revenue");
     if (container.empty()) return;
     container.selectAll("*").remove();
@@ -8,14 +11,11 @@ const createRevenueChart = () => {
     const containerWidth = container.node().getBoundingClientRect().width || 900;
     const containerHeight = container.node().getBoundingClientRect().height || 500;
 
-    const margin = { top: 40, right: 80, bottom: 60, left: 80 };
+    const margin = layout.margin;
     const width = containerWidth - margin.left - margin.right;
     const height = containerHeight - margin.top - margin.bottom;
 
-    const svg = container
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+    const svg = utils.createResponsiveSvg("#chart-revenue", width + margin.left + margin.right, height + margin.top + margin.bottom, "chart-lpt-svg")
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
@@ -64,7 +64,7 @@ const createRevenueChart = () => {
             .attr("text-anchor", "middle")
             .style("font-size", "20px")
             .style("font-weight", "bold")
-            .style("fill", "#ffffff")
+            .style("fill", theme.textMain)
             .style("text-shadow", "0 0 10px rgba(56, 189, 248, 0.5)")
             .text("中国买断制游戏市场实际收入及增长率");
 
@@ -82,7 +82,7 @@ const createRevenueChart = () => {
             .attr("fill", (d) => colorScale(d.num_games))
             .attr("opacity", 0.9)
             .on("mouseover", function (event, d) {
-                d3.select(this).attr("opacity", 1).attr("stroke", "#fff").attr("stroke-width", 1);
+                d3.select(this).attr("opacity", 1).attr("stroke", theme.textMain).attr("stroke-width", 1);
                 showTooltip(event, d, "revenue");
             })
             .on("mouseout", function () {
@@ -101,7 +101,7 @@ const createRevenueChart = () => {
             .datum(data)
             .attr("class", "line")
             .attr("fill", "none")
-            .attr("stroke", "#ff69b4")
+            .attr("stroke", theme.categorical[7])
             .attr("stroke-width", 2.5)
             .attr("d", line);
 
@@ -115,8 +115,8 @@ const createRevenueChart = () => {
             .attr("cx", (d) => xScale(d.year) + xScale.bandwidth() / 2)
             .attr("cy", (d) => yScaleRight(d.growth_rate))
             .attr("r", 5)
-            .attr("fill", "#ff69b4")
-            .attr("stroke", "#fff")
+            .attr("fill", theme.categorical[7])
+            .attr("stroke", theme.textMain)
             .attr("stroke-width", 2)
             .on("mouseover", function (event, d) {
                 d3.select(this).attr("r", 7);
@@ -135,8 +135,8 @@ const createRevenueChart = () => {
             .call(d3.axisBottom(xScale))
             .style("font-size", "12px");
 
-        xAxis.selectAll("text").style("fill", "#ffffff");
-        xAxis.selectAll(".domain, .tick line").style("stroke", "rgba(255, 255, 255, 0.3)");
+        xAxis.selectAll("text").style("fill", theme.textMain);
+        xAxis.selectAll(".domain, .tick line").style("stroke", theme.gridColor);
 
         // 左Y轴 - 实际收入
         const yAxisLeft = svg
@@ -144,8 +144,8 @@ const createRevenueChart = () => {
             .call(d3.axisLeft(yScaleLeft).ticks(8))
             .style("font-size", "12px");
 
-        yAxisLeft.selectAll("text").style("fill", "#ffffff");
-        yAxisLeft.selectAll(".domain, .tick line").style("stroke", "rgba(255, 255, 255, 0.3)");
+        yAxisLeft.selectAll("text").style("fill", theme.textMain);
+        yAxisLeft.selectAll(".domain, .tick line").style("stroke", theme.gridColor);
 
         // 左Y轴标签
         svg
@@ -156,7 +156,7 @@ const createRevenueChart = () => {
             .attr("text-anchor", "middle")
             .style("font-size", "14px")
             .style("font-weight", "600")
-            .style("fill", "#ffffff")
+            .style("fill", theme.textMain)
             .text("实际收入 (亿元)");
 
         // 右Y轴 - 增长率
@@ -166,8 +166,8 @@ const createRevenueChart = () => {
             .call(d3.axisRight(yScaleRight).ticks(8).tickFormat(d => d + "%"))
             .style("font-size", "12px");
 
-        yAxisRight.selectAll("text").style("fill", "#ffffff");
-        yAxisRight.selectAll(".domain, .tick line").style("stroke", "rgba(255, 255, 255, 0.3)");
+        yAxisRight.selectAll("text").style("fill", theme.textMain);
+        yAxisRight.selectAll(".domain, .tick line").style("stroke", theme.gridColor);
 
         // 右Y轴标签
         svg
@@ -178,7 +178,7 @@ const createRevenueChart = () => {
             .attr("text-anchor", "middle")
             .style("font-size", "14px")
             .style("font-weight", "600")
-            .style("fill", "#ffffff")
+            .style("fill", theme.textMain)
             .text("增长率 (%)");
 
         // 图例
@@ -193,7 +193,7 @@ const createRevenueChart = () => {
             .attr("y", 0)
             .attr("width", 20)
             .attr("height", 15)
-            .attr("fill", "#fdae6b")
+            .attr("fill", theme.categorical[1])
             .attr("opacity", 0.8);
 
         legend
@@ -201,7 +201,7 @@ const createRevenueChart = () => {
             .attr("x", 28)
             .attr("y", 12)
             .style("font-size", "12px")
-            .style("fill", "#ffffff")
+            .style("fill", theme.textMain)
             .text("实际收入 (颜色深浅代表发售量)");
 
         // 增长率图例
@@ -211,7 +211,7 @@ const createRevenueChart = () => {
             .attr("x2", 20)
             .attr("y1", 30)
             .attr("y2", 30)
-            .attr("stroke", "#ff69b4")
+            .attr("stroke", theme.categorical[7])
             .attr("stroke-width", 2.5);
 
         legend
@@ -219,8 +219,8 @@ const createRevenueChart = () => {
             .attr("cx", 10)
             .attr("cy", 30)
             .attr("r", 4)
-            .attr("fill", "#ff69b4")
-            .attr("stroke", "#fff")
+            .attr("fill", theme.categorical[7])
+            .attr("stroke", theme.textMain)
             .attr("stroke-width", 1.5);
 
         legend
@@ -228,7 +228,7 @@ const createRevenueChart = () => {
             .attr("x", 28)
             .attr("y", 35)
             .style("font-size", "12px")
-            .style("fill", "#ffffff")
+            .style("fill", theme.textMain)
             .text("增长率");
 
         // Tooltip

@@ -1,3 +1,7 @@
+import { GlobalVizConfig } from "@magician336/assets";
+
+const { theme, layout, utils } = GlobalVizConfig;
+
 // --- 1. 核心数据定义 ---
 const rawData = [
     {
@@ -943,7 +947,7 @@ function drawParallelPlot() {
                     el.raise();
                 } else {
                     el.classed("active", false).classed("inactive", true)
-                        .style("stroke-opacity", 0.05).style("stroke-width", 1).style("stroke", "#555");
+                        .style("stroke-opacity", 0.05).style("stroke-width", 1).style("stroke", theme.gridColor);
                 }
             }
         });
@@ -985,28 +989,28 @@ function drawTagBubbleChart() {
     const color = d3.scaleSequential([0, root.children.length], d3.interpolateMagma);
     const nodes = svg.selectAll("g").data(root.leaves()).join("g").attr("transform", d => `translate(${d.x},${d.y})`).attr("class", "node-group");
 
-    nodes.append("circle").attr("r", d => d.r).attr("class", "bubble").style("fill", (d, i) => color(i)).style("fill-opacity", 0.8).style("stroke", "#000").style("stroke-width", 1);
+    nodes.append("circle").attr("r", d => d.r).attr("class", "bubble").style("fill", (d, i) => color(i)).style("fill-opacity", 0.8).style("stroke", theme.background).style("stroke-width", 1);
 
     nodes.append("text").attr("class", "bubble-text main-label").attr("y", -2).text(d => d.data.name)
         .style("font-size", d => Math.max(8, Math.min(d.r / 2.2, 16)) + "px").style("opacity", d => d.r > 10 ? 1 : 0)
-        .style("pointer-events", "none").style("text-anchor", "middle").style("fill", "#fff").style("text-shadow", "0 1px 2px rgba(0,0,0,0.8)").style("font-weight", "bold");
+        .style("pointer-events", "none").style("text-anchor", "middle").style("fill", theme.textMain).style("text-shadow", "0 1px 2px rgba(0,0,0,0.8)").style("font-weight", "bold");
 
     nodes.append("text").attr("class", "bubble-subtext sub-label").attr("y", d => d.r / 2.2 + 4).text(d => Math.round(d.data.value))
         .style("font-size", d => Math.max(7, Math.min(d.r / 3, 10)) + "px").style("opacity", d => d.r > 12 ? 0.8 : 0)
-        .style("pointer-events", "none").style("text-anchor", "middle").style("fill", "#ddd");
+        .style("pointer-events", "none").style("text-anchor", "middle").style("fill", theme.textMain).style("opacity", 0.7);
 
     nodes.on("mouseover", function (event, d) {
         const group = d3.select(this);
         group.raise();
-        group.select("circle").transition().duration(200).attr("r", d.r * 1.3).style("stroke", "#fff").style("stroke-width", 2).style("fill-opacity", 1);
+        group.select("circle").transition().duration(200).attr("r", d.r * 1.3).style("stroke", theme.textMain).style("stroke-width", 2).style("fill-opacity", 1);
         group.selectAll("text").transition().duration(200).style("opacity", 1).style("font-size", function () { return d3.select(this).classed("main-label") ? "14px" : "10px"; });
         let tagsHtml = "";
         if (d.data.detail_tags) tagsHtml = d.data.detail_tags.map(t => `<span class="tag-pill">${t}</span>`).join("");
-        const content = `<div class="tooltip-title">${d.data.name}</div><div class="tooltip-row"><span>综合热度:</span> <b>${Math.round(d.data.value)}</b></div><div class="tooltip-row"><span>关联游戏数:</span> <b>${d.data.game_count}</b></div><div style="margin-top:8px; border-top:1px solid #333; paddingTop:4px;"><div style="color:#aaa; font-size:10px;">包含 Tags:</div><div style="white-space:normal; max-width:200px;">${tagsHtml}</div></div>`;
+        const content = `<div class="tooltip-title">${d.data.name}</div><div class="tooltip-row"><span>综合热度:</span> <b>${Math.round(d.data.value)}</b></div><div class="tooltip-row"><span>关联游戏数:</span> <b>${d.data.game_count}</b></div><div style="margin-top:8px; border-top:1px solid ${theme.gridColor}; paddingTop:4px;"><div style="color:${theme.textMain}; opacity:0.6; font-size:10px;">包含 Tags:</div><div style="white-space:normal; max-width:200px;">${tagsHtml}</div></div>`;
         showTooltip(event, content);
     }).on("mouseout", function (event, d) {
         const group = d3.select(this);
-        group.select("circle").transition().duration(200).attr("r", d.r).style("stroke", "#000").style("stroke-width", 1).style("fill-opacity", 0.8);
+        group.select("circle").transition().duration(200).attr("r", d.r).style("stroke", theme.background).style("stroke-width", 1).style("fill-opacity", 0.8);
         group.select(".main-label").transition().duration(200).style("font-size", Math.max(8, Math.min(d.r / 2.2, 16)) + "px").style("opacity", d.r > 10 ? 1 : 0);
         group.select(".sub-label").transition().duration(200).style("font-size", Math.max(7, Math.min(d.r / 3, 10)) + "px").style("opacity", d.r > 12 ? 0.8 : 0);
         d3.select("#tooltip").style("opacity", 0);
@@ -1033,11 +1037,11 @@ function drawBarChart(targetKey) {
     const x = d3.scaleLinear().domain([-1, 1]).range([0, innerW]);
     const y = d3.scaleBand().range([0, innerH]).domain(chartData.map(d => d.feature)).padding(0.4);
 
-    svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", 0).attr("y2", innerH).attr("stroke", "#555").attr("stroke-dasharray", "4");
-    svg.selectAll("rect").data(chartData).enter().append("rect").attr("x", d => x(Math.min(0, d.value))).attr("y", d => y(d.feature)).attr("width", d => Math.abs(x(d.value) - x(0))).attr("height", y.bandwidth()).attr("fill", d => d.value > 0 ? "#ff4d4d" : "#00d4ff").attr("rx", 4);
+    svg.append("line").attr("x1", x(0)).attr("x2", x(0)).attr("y1", 0).attr("y2", innerH).attr("stroke", theme.gridColor).attr("stroke-dasharray", "4");
+    svg.selectAll("rect").data(chartData).enter().append("rect").attr("x", d => x(Math.min(0, d.value))).attr("y", d => y(d.feature)).attr("width", d => Math.abs(x(d.value) - x(0))).attr("height", y.bandwidth()).attr("fill", d => d.value > 0 ? theme.categorical[0] : theme.categorical[1]).attr("rx", 4);
     svg.append("g").call(d3.axisLeft(y).tickSize(0)).select(".domain").remove();
     svg.append("g").attr("transform", `translate(0,${innerH})`).call(d3.axisBottom(x).ticks(5));
-    svg.selectAll(".val-label").data(chartData).enter().append("text").attr("x", d => d.value > 0 ? x(d.value) + 5 : x(d.value) - 5).attr("y", d => y(d.feature) + y.bandwidth() / 2 + 4).attr("text-anchor", d => d.value > 0 ? "start" : "end").text(d => d.value.toFixed(2)).style("fill", "#fff").style("font-size", "11px");
+    svg.selectAll(".val-label").data(chartData).enter().append("text").attr("x", d => d.value > 0 ? x(d.value) + 5 : x(d.value) - 5).attr("y", d => y(d.feature) + y.bandwidth() / 2 + 4).attr("text-anchor", d => d.value > 0 ? "start" : "end").text(d => d.value.toFixed(2)).style("fill", theme.textMain).style("font-size", "11px");
 }
 
 // 热力图：变量相关性
@@ -1064,10 +1068,10 @@ function drawHeatmap() {
     const innerH = height - margin.top - margin.bottom;
     const x = d3.scaleBand().range([0, innerW]).domain(d3.range(features.length)).padding(0.05);
     const y = d3.scaleBand().range([0, innerH]).domain(d3.range(features.length)).padding(0.05);
-    const color = d3.scaleLinear().domain([-1, 0, 1]).range(["#00d4ff", "#1a1a1a", "#ff4d4d"]);
+    const color = d3.scaleLinear().domain([-1, 0, 1]).range([theme.categorical[1], theme.background, theme.categorical[0]]);
 
     svg.selectAll().data(heatmapData).enter().append("rect").attr("x", d => x(d.x)).attr("y", d => y(d.y)).attr("width", x.bandwidth()).attr("height", y.bandwidth()).style("fill", d => color(d.value))
-        .on("mouseover", function (event, d) { d3.select(this).style("stroke", "#fff").style("stroke-width", 2); showTooltip(event, `${labels[d.x]} vs ${labels[d.y]}<br>R = <b>${d.value.toFixed(2)}</b>`); })
+        .on("mouseover", function (event, d) { d3.select(this).style("stroke", theme.textMain).style("stroke-width", 2); showTooltip(event, `${labels[d.x]} vs ${labels[d.y]}<br>R = <b>${d.value.toFixed(2)}</b>`); })
         .on("mouseout", function () { d3.select("#tooltip").style("opacity", 0); d3.select(this).style("stroke", "none"); });
     svg.append("g").call(d3.axisLeft(y).tickFormat(i => labels[i])).select(".domain").remove();
     svg.append("g").attr("transform", `translate(0,${innerH})`).call(d3.axisBottom(x).tickFormat(i => labels[i])).select(".domain").remove();
@@ -1098,17 +1102,17 @@ function drawScatterChart(xKey, yKey) {
 
     svg.append("g").attr("transform", `translate(0,${innerH})`).call(xAxis);
     svg.append("g").call(d3.axisLeft(y).ticks(5));
-    svg.append("text").attr("x", innerW / 2).attr("y", innerH + 35).style("text-anchor", "middle").style("fill", "#aaa").style("font-size", "12px").text(nameMap[xKey] || xKey);
-    svg.append("text").attr("transform", "rotate(-90)").attr("y", -35).attr("x", -innerH / 2).style("text-anchor", "middle").style("fill", "#aaa").style("font-size", "12px").text(nameMap[yKey] || yKey);
+    svg.append("text").attr("x", innerW / 2).attr("y", innerH + 35).style("text-anchor", "middle").style("fill", theme.textMain).style("opacity", 0.6).style("font-size", "12px").text(nameMap[xKey] || xKey);
+    svg.append("text").attr("transform", "rotate(-90)").attr("y", -35).attr("x", -innerH / 2).style("text-anchor", "middle").style("fill", theme.textMain).style("opacity", 0.6).style("font-size", "12px").text(nameMap[yKey] || yKey);
 
     const colorScale = d3.scaleSequential().domain([40, 100]).interpolator(d3.interpolateTurbo);
     svg.selectAll("circle").data(data).enter().append("circle").attr("class", "dot").attr("cx", d => x(d[xKey])).attr("cy", d => y(d[yKey])).attr("r", 4).style("fill", d => colorScale(d.favorable_rate))
         .on("mouseover", function (event, d) {
-            d3.select(this).attr("r", 7).style("stroke", "#fff").style("stroke-width", 2);
+            d3.select(this).attr("r", 7).style("stroke", theme.textMain).style("stroke-width", 2);
             const content = `<div class="tooltip-title">${d.name}</div><div class="tooltip-row"><span>${nameMap[xKey]}:</span> <b>${d[xKey]}</b></div><div class="tooltip-row"><span>${nameMap[yKey]}:</span> <b>${d[yKey]}</b></div>`;
             showTooltip(event, content);
         })
-        .on("mouseout", function () { d3.select("#tooltip").style("opacity", 0); d3.select(this).attr("r", 4).style("stroke", "#000").style("stroke-width", 1); });
+        .on("mouseout", function () { d3.select("#tooltip").style("opacity", 0); d3.select(this).attr("r", 4).style("stroke", theme.background).style("stroke-width", 1); });
 }
 
 // --- 5. 初始化与事件监听 ---

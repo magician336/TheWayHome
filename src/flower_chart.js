@@ -1,4 +1,6 @@
-// script.js
+import { GlobalVizConfig } from "@magician336/assets";
+
+const { theme, layout, utils } = GlobalVizConfig;
 
 // 花瓣路径 (4个来自index1 + 5个新生成的)
 var petalPaths = [
@@ -48,7 +50,7 @@ d3.json("chosen_game.json").then(function (games) {
     const allCategories = Array.from(new Set(games.flatMap(d => d.categories)));
     const colorScale = d3.scaleOrdinal()
         .domain(allCategories)
-        .range(["#FFB09E", "#CBF2BD", "#AFE9FF", "#FFC8F0", "#FFF2B4", "#FFD700", "#40E0D0", "#FF69B4", "#8A2BE2", "#00FA9A", "#FFA07A", "#20B2AA", "#87CEFA", "#778899", "#B0C4DE"]);
+        .range(theme.categorical);
 
     // 花瓣数量比例尺 (Total Comments -> 5 to 15)
     const minComments = d3.min(games, d => d.totalComments);
@@ -98,8 +100,8 @@ d3.json("chosen_game.json").then(function (games) {
         .attr("width", width)
         .attr("height", legendHeight)
         .style("display", "block")
+        .style("background", theme.background)
         .style("margin", "0 auto 20px auto")
-        .style("background", "#f9f9f9")
         .style("border-radius", "8px");
 
     // 样式辅助函数
@@ -108,13 +110,13 @@ d3.json("chosen_game.json").then(function (games) {
             .style("font-family", "sans-serif")
             .style("font-size", "16px")
             .style("font-weight", "bold")
-            .style("fill", "#333");
+            .style("fill", theme.textMain);
     };
     const legendTextStyle = (selection) => {
         selection.attr("text-anchor", "middle")
             .style("font-family", "sans-serif")
             .style("font-size", "12px")
-            .style("fill", "#555");
+            .style("fill", theme.textMain);
     };
 
     // 1. Platform Code (形状)
@@ -138,7 +140,7 @@ d3.json("chosen_game.json").then(function (games) {
         g.append("path")
             .attr("d", shapeScale(i))
             .attr("fill", "none")
-            .attr("stroke", "#605b5bff")
+            .attr("stroke", theme.textMain)
             .attr("stroke-width", 5)
             .attr("transform", "translate(0, 40) rotate(180) scale(0.4)");
 
@@ -214,7 +216,7 @@ d3.json("chosen_game.json").then(function (games) {
             g.append("path")
                 .attr("d", path)
                 .attr("fill", "none")
-                .attr("stroke", "#605b5bff")
+                .attr("stroke", theme.textMain)
                 .attr("stroke-width", 5)
                 .attr("transform", `rotate(${(360 / numPetals) * k}) scale(0.3)`);
         }
@@ -253,11 +255,11 @@ d3.json("chosen_game.json").then(function (games) {
             g.append("path")
                 .attr("d", path)
                 .attr("fill", "none")
-                .attr("stroke", "#605b5bff")
+                .attr("stroke", theme.textMain)
                 .attr("stroke-width", 2 / scale)
                 .attr("transform", `rotate(${(360 / numPetals) * k}) scale(${scale})`);
         }
-        g.append("circle").attr("r", 3).attr("fill", "#605b5bff");
+        g.append("circle").attr("r", 3).attr("fill", theme.textMain);
         g.append("text")
             .attr("y", 110)
             .call(legendTextStyle)
@@ -270,7 +272,8 @@ d3.json("chosen_game.json").then(function (games) {
         .attr("width", width)
         .attr("height", height)
         .style("display", "block")
-        .style("margin", "0 auto");
+        .style("margin", "0 auto")
+        .style("background", theme.background);
 
     const flowers = mainSvg.selectAll("g.flower")
         .data(games)
@@ -314,7 +317,7 @@ d3.json("chosen_game.json").then(function (games) {
                 .attr("cy", cy)
                 .attr("r", r)
                 .attr("fill", colorScale(cat))
-                .style("mix-blend-mode", "multiply") // 混合模式
+                .style("mix-blend-mode", theme.background === "#0b1021" ? "screen" : "multiply") // 混合模式
                 .style("filter", "url(#motionFilter)") // 模糊滤镜
                 .attr("opacity", 0.6);
         });
@@ -331,7 +334,7 @@ d3.json("chosen_game.json").then(function (games) {
             g.append("path")
                 .attr("d", path)
                 .attr("fill", "none")
-                .attr("stroke", "#605b5bff") // 线条颜色
+                .attr("stroke", theme.textMain) // 线条颜色
                 .attr("stroke-width", 2.5 / scale) // 保持线条视觉宽度一致
                 .attr("transform", `rotate(${(360 / numPetals) * i}) scale(${scale})`);
         }
@@ -349,7 +352,7 @@ d3.json("chosen_game.json").then(function (games) {
         .style("font-family", "sans-serif")
         .style("font-size", "12px")
         .style("font-weight", "bold")
-        .style("fill", "#333")
+        .style("fill", theme.textMain)
         .text(d => d.name.length > 15 ? d.name.substring(0, 15) + "..." : d.name);
 
     flowers.append("text")
@@ -357,7 +360,8 @@ d3.json("chosen_game.json").then(function (games) {
         .attr("text-anchor", "middle")
         .style("font-family", "sans-serif")
         .style("font-size", "10px")
-        .style("fill", "#666")
+        .style("fill", theme.textMain)
+        .attr("opacity", 0.7)
         .text(d => `Rate: ${d.favorableRate}% | Code: ${d.platformCode}`);
 
 }).catch(function (error) {

@@ -7,49 +7,16 @@
     <title>Steam 市场数据可视化综合看板</title>
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' x2='1' y1='0' y2='1'%3E%3Cstop offset='0%' stop-color='%234e79a7'/%3E%3Cstop offset='100%' stop-color='%23af7aa1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='12' fill='%230b1021'/%3E%3Cpath d='M16 32a16 16 0 1 1 32 0 16 16 0 0 1-32 0Z' fill='url(%23g)'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23ffffff' fill-opacity='.9'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%230b1021'/%3E%3C/svg%3E" />
-    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script type="importmap">
+    {
+        "imports": {
+            "@magician336/assets": "/node_modules/@magician336/assets/index.js"
+        }
+    }
+    </script>
     <style>
-        /* --- 全局样式 --- */
-        :root {
-            --bg-color: #0b1021;
-            --card-bg: #151a2e;
-            --text-color: #e0e0e0;
-            --accent-color: #38bdf8;
-            --border-color: #2d3748;
-        }
-
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-        }
-
-        /* --- Header --- */
-        .app-header {
-            background: linear-gradient(90deg, #1a202c 0%, #2d3748 100%);
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid var(--border-color);
-            text-align: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-        }
-
-        .app-header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            background: linear-gradient(to right, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
-        }
-
-        /* --- Main Layout --- */
-        .app-main {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem 1rem;
-        }
-
+        /* --- 页面特定布局 --- */
         .section-divider {
             margin: 3rem 0 1.5rem 0;
             padding-bottom: 0.5rem;
@@ -153,12 +120,12 @@
         <div class="charts-wrapper">
             <section class="chart-section full-width">
                 <h2>中国买断制游戏市场：发售量 vs 实际收入</h2>
-                <div id="chart-revenue" class="chart-container"></div>
+                <div id="chart-revenue" class="chart-container chart-lpt"></div>
             </section>
 
             <section class="chart-section full-width">
                 <h2>Steam 用户语言占比演变</h2>
-                <div id="chart-area" class="chart-container"></div>
+                <div id="chart-area" class="chart-container chart-lpt"></div>
             </section>
         </div>
 
@@ -179,8 +146,9 @@
         <small>Integration by Gemini | Powered by D3.js</small>
     </footer>
 
-    <script src="revenue.js"></script>
-    <script src="user_distribution_v2.js"></script>
+    <script src="/node_modules/d3/dist/d3.min.js"></script>
+    <script type="module" src="revenue.js"></script>
+    <script type="module" src="user_distribution_v2.js"></script>
 
 </body>
 

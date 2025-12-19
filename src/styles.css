@@ -1,26 +1,20 @@
-:root {
-    --bg: #0f172a;
-    --fg: #e2e8f0;
-    --muted: #94a3b8;
-    --card: #1e293b;
-    --border: #334155;
-    --accent: #38bdf8;
-}
+@import "/node_modules/@magician336/assets/theme.css";
 
 body {
     margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: system-ui, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-family);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
-.app-header, .app-footer {
+.app-header,
+.app-footer {
     padding: 1rem 2rem;
-    background: #111827;
-    border-bottom: 1px solid var(--border);
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .charts-wrapper {
@@ -35,17 +29,17 @@ body {
 h2 {
     font-size: 1.25rem;
     margin-bottom: 1rem;
-    color: var(--accent);
-    border-left: 4px solid var(--accent);
+    color: var(--accent-color);
+    border-left: 4px solid var(--accent-color);
     padding-left: 10px;
 }
 
 .chart-container {
-    background: #0b1020;
-    border: 1px solid var(--border);
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 20px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 

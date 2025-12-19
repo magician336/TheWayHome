@@ -1,28 +1,22 @@
+import { GlobalVizConfig } from '@magician336/assets';
+
 // 水平分段条图：每一行代表一个年份，内部按语言占比分块
 function createStackedAreaChart() {
+    const { theme, layout, utils } = GlobalVizConfig;
     const container = d3.select("#chart-area");
     if (container.empty()) return;
     const containerWidth = container.node().getBoundingClientRect().width || 900;
-    const margin = { top: 40, right: 160, bottom: 30, left: 80 };
+    const margin = layout.margin;
     const width = containerWidth - margin.left - margin.right;
 
     // 清空容器
     container.selectAll("*").remove();
 
-    // tooltip
+    // tooltip - 使用统一类名 .viz-tooltip
     const tooltip = container
         .append("div")
-        .attr("class", "tooltip")
-        .style("position", "fixed")
-        .style("visibility", "hidden")
-        .style("background", "rgba(0, 0, 0, 0.85)")
-        .style("color", "white")
-        .style("padding", "10px 14px")
-        .style("border-radius", "6px")
-        .style("font-size", "13px")
-        .style("pointer-events", "none")
-        .style("box-shadow", "0 4px 12px rgba(0,0,0,0.3)")
-        .style("z-index", "1000");
+        .attr("class", "viz-tooltip")
+        .style("visibility", "hidden");
 
     d3.csv("data/user_distribution.csv").then((rawData) => {
         const data = rawData.map((d) => ({
@@ -48,18 +42,24 @@ function createStackedAreaChart() {
         };
 
         const color = d3
+        // 使用 GlobalVizConfig.theme.categorical，并根据要求调整特定语言颜色映射
+        // 简体中文 -> 红色 (categorical[2]), 英语 -> 蓝色 (categorical[0]), 俄语 -> 橘黄色 (categorical[1])
+        const color = d3
             .scaleOrdinal()
             .domain(languages)
-            .range(["#e15759", "#4e79a7", "#76b7b2", "#f28e2c", "#59a14f", "#edc949", "#af7aa1"]);
+            .range([
+                theme.categorical[2], // zhCN -> Red
+                theme.categorical[0], // en -> Blue
+                theme.categorical[1], // ru -> Orange
+                ...theme.categorical.slice(3) // 其他语言使用剩余颜色
+            ]);
 
         const rowHeight = 32;
         const rowGap = 10;
         const height = data.length * (rowHeight + rowGap) - rowGap;
 
-        const svg = container
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom);
+        // 使用 GlobalVizConfig.utils.createResponsiveSvg
+        const svg = utils.createResponsiveSvg("#chart-area", width + margin.left + margin.right, height + margin.top + margin.bottom, "chart-lpt-svg");
 
         const svgGroup = svg
             .append("g")
@@ -87,7 +87,7 @@ function createStackedAreaChart() {
             .attr("y", 0)
             .attr("width", x(1))
             .attr("height", y.bandwidth())
-            .attr("fill", "#111827")
+            .attr("fill", theme.gridColor)
             .attr("opacity", 0.35)
             .attr("rx", 6);
 
@@ -117,14 +117,14 @@ function createStackedAreaChart() {
             .attr("width", (d) => Math.max(x(d.end) - x(d.start), 0))
             .attr("height", y.bandwidth())
             .attr("fill", (d) => color(d.lang))
-            .attr("stroke", "#1f2937")
+            .attr("stroke", theme.background)
             .attr("stroke-width", 1)
             .attr("opacity", 0.85)
             .style("cursor", "pointer")
             .on("mouseover", function (event, d) {
                 d3.select(this)
                     .attr("opacity", 1)
-                    .attr("stroke", "white")
+                    .attr("stroke", theme.textMain)
                     .attr("stroke-width", 2);
 
                 segments.filter((s) => s.lang !== d.lang)
@@ -142,7 +142,7 @@ function createStackedAreaChart() {
             .on("mouseout", function () {
                 segments
                     .attr("opacity", 0.85)
-                    .attr("stroke", "#1f2937")
+                    .attr("stroke", theme.background)
                     .attr("stroke-width", 1);
 
                 tooltip.style("visibility", "hidden");
@@ -173,7 +173,7 @@ function createStackedAreaChart() {
             .attr("x", (d) => x(d.start) + (x(d.end) - x(d.start)) / 2)
             .attr("y", y.bandwidth() / 2 + 5)
             .attr("text-anchor", "middle")
-            .attr("fill", "white")
+            .attr("fill", theme.textMain)
             .style("font-size", (d) => d.rank <= 3 ? "13px" : "11px")
             .style("font-weight", (d) => d.rank <= 3 ? "800" : "600")
             .style("pointer-events", "none")
@@ -201,7 +201,7 @@ function createStackedAreaChart() {
             .call(d3.axisLeft(y).tickFormat(d3.format("d")));
 
         yAxis.selectAll("text")
-            .attr("fill", "white")
+            .attr("fill", theme.textMain)
             .style("font-size", "13px");
 
         const legend = svgGroup
@@ -217,7 +217,7 @@ function createStackedAreaChart() {
                     segments
                         .filter((s) => s.lang === lang)
                         .attr("opacity", 1)
-                        .attr("stroke", "white")
+                        .attr("stroke", theme.textMain)
                         .attr("stroke-width", 2);
 
                     segments
@@ -226,7 +226,7 @@ function createStackedAreaChart() {
 
                     d3.select(this).select("rect")
                         .attr("opacity", 1)
-                        .attr("stroke", "white")
+                        .attr("stroke", theme.textMain)
                         .attr("stroke-width", 2);
 
                     d3.select(this).select("text")
@@ -235,7 +235,7 @@ function createStackedAreaChart() {
                 .on("mouseout", function () {
                     segments
                         .attr("opacity", 0.85)
-                        .attr("stroke", "#1f2937")
+                        .attr("stroke", theme.background)
                         .attr("stroke-width", 1);
 
                     d3.select(this).select("rect")
@@ -258,7 +258,7 @@ function createStackedAreaChart() {
                 .append("text")
                 .attr("x", 25)
                 .attr("y", 14)
-                .attr("fill", "white")
+                .attr("fill", theme.textMain)
                 .style("font-size", "13px")
                 .text(languageLabels[lang]);
         });
@@ -268,7 +268,7 @@ function createStackedAreaChart() {
             .attr("x", width / 2)
             .attr("y", -10)
             .attr("text-anchor", "middle")
-            .attr("fill", "white")
+            .attr("fill", theme.textMain)
             .style("font-size", "18px")
             .style("font-weight", "bold")
             .text("各语言用户占比");
