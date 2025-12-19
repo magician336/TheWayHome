@@ -3,8 +3,6 @@ import { GlobalVizConfig } from '@magician336/assets';
 // 水平分段条图：每一行代表一个年份，内部按语言占比分块
 function createStackedAreaChart() {
     const { theme, layout, utils } = GlobalVizConfig;
-    const margin = { top: 40, right: 160, bottom: 30, left: 80 };
-    const width = 900 - margin.left - margin.right;
 
     // 清空容器
     const container = d3.select("#chart-area");
