@@ -1,11 +1,5 @@
-:root {
-    --bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    --fg: #ffffff;
-    --muted: #94a3b8;
-    --card: rgba(17, 24, 39, 0.8);
-    --accent: #38bdf8;
-    --chart-bg: rgba(15, 23, 42, 0.6);
-}
+@import "/node_modules/@magician336/assets/theme.css";
+
 
 * {
     box-sizing: border-box;
@@ -18,11 +12,9 @@ body {
 
 body {
     margin: 0;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: #0f172a;
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    background-attachment: fixed;
-    color: #ffffff;
+    font-family: var(--font-family);
+    background: var(--bg-color);
+    color: var(--text-main);
     display: grid;
     grid-template-rows: auto 1fr auto;
 }
@@ -30,13 +22,13 @@ body {
 .app-header,
 .app-footer {
     padding: 20px 24px;
-    background: var(--card);
+    background: var(--card-bg);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .app-footer {
-    border-top: 1px solid rgba(56, 189, 248, 0.2);
+    border-top: 1px solid var(--border-color);
     border-bottom: none;
     text-align: center;
 }
@@ -45,13 +37,12 @@ body {
     margin: 0;
     font-size: 28px;
     font-weight: 700;
-    color: #ffffff;
-    text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+    color: var(--accent-color);
     letter-spacing: 1px;
 }
 
 .app-footer small {
-    color: #ffffff;
+    color: var(--text-main);
     opacity: 0.8;
     font-size: 14px;
 }
@@ -69,11 +60,11 @@ body {
     max-width: 960px;
     height: 540px;
     margin: 0 auto;
-    background: var(--chart-bg);
+    background: var(--bg-color);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(56, 189, 248, 0.3);
+    border: 1px solid var(--border-color);
     border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 60px rgba(56, 189, 248, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: relative;
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -81,7 +72,7 @@ body {
 
 .chart-container:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), 0 0 80px rgba(56, 189, 248, 0.2);
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
 }
 
 .chart-container .placeholder {
@@ -89,7 +80,7 @@ body {
     inset: 0;
     display: grid;
     place-items: center;
-    color: #ffffff;
+    color: var(--text-main);
 }
 
 /* D3 绘制的 SVG 充满容器 */
