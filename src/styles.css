@@ -1,67 +1,71 @@
 @import "/node_modules/@magician336/assets/theme.css";
 
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
 body {
     margin: 0;
+    font-family: var(--font-family);
     background: var(--bg-color);
     color: var(--text-main);
-    font-family: var(--font-family);
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 
 .app-header,
 .app-footer {
-    padding: 1rem 2rem;
+    padding: 12px 16px;
     background: var(--card-bg);
     border-bottom: 1px solid var(--border-color);
 }
 
-.charts-wrapper {
-    max-width: 1200px;
-    margin: 2rem auto;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    padding: 0 1rem;
+.app-footer {
+    border-top: 1px solid var(--border-color);
+    border-bottom: none;
 }
 
-h2 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
+.app-header h1 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
     color: var(--accent-color);
-    border-left: 4px solid var(--accent-color);
-    padding-left: 10px;
+}
+
+.app-main {
+    padding: 16px;
 }
 
 .chart-container {
+    width: 100%;
+    max-width: 960px;
+    height: 480px;
+    /* 初始高度，可按需调整 */
+    margin: 0 auto;
     background: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-.scrollable {
-    overflow-y: auto;
-    max-height: 800px;
+.chart-container .placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--text-main);
+    opacity: 0.6;
 }
 
-/* 针对 Flower Chart 的深色适配 */
-.chart-container svg text {
-    fill: #cbd5e1 !important;
-}
-
-/* Tooltip 统一 */
-.tooltip {
-    position: fixed;
-    background: rgba(15, 23, 42, 0.9);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid var(--accent);
-    font-size: 12px;
-    pointer-events: none;
-    z-index: 100;
+/* D3 绘制的 SVG 充满容器 */
+.chart-container svg {
+    width: 100%;
+    height: 100%;
+    display: block;
 }

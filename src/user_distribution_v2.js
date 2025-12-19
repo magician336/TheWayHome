@@ -3,6 +3,10 @@ import { GlobalVizConfig } from '@magician336/assets';
 // 水平分段条图：每一行代表一个年份，内部按语言占比分块
 function createStackedAreaChart() {
     const { theme, layout, utils } = GlobalVizConfig;
+    const margin = { top: 40, right: 160, bottom: 30, left: 80 };
+    const width = 900 - margin.left - margin.right;
+
+    // 清空容器
     const container = d3.select("#chart-area");
     if (container.empty()) return;
     const containerWidth = container.node().getBoundingClientRect().width || 900;
@@ -41,7 +45,6 @@ function createStackedAreaChart() {
             others: "其他",
         };
 
-        const color = d3
         // 使用 GlobalVizConfig.theme.categorical，并根据要求调整特定语言颜色映射
         // 简体中文 -> 红色 (categorical[2]), 英语 -> 蓝色 (categorical[0]), 俄语 -> 橘黄色 (categorical[1])
         const color = d3
