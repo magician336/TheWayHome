@@ -1,3 +1,5 @@
+import { GlobalVizConfig } from '@magician336/assets';
+
 // 水平分段条图：每一行代表一个年份，内部按语言占比分块
 function createStackedAreaChart() {
     const { theme, layout, utils } = GlobalVizConfig;
