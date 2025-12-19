@@ -3,6 +3,8 @@
  * 导出配置以便发布到 npm
  */
 
+import { GlobalVizConfig } from './config.js';
+
 const config = {
   name: "thewayhome-assets",
   version: "1.0.0",
@@ -17,4 +19,4 @@ const config = {
 export default config;
 
 // 命名导出
-export { config };
+export { config, GlobalVizConfig };

@@ -1,6 +1,6 @@
 {
   "name": "@magician336/assets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "前端可视化同步规范文件",
   "main": "index.js",
   "style": "theme.css",

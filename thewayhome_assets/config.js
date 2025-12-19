@@ -49,6 +49,9 @@ const GlobalVizConfig = {
     }
 };
 
+// 显式导出供 ES Module 使用
+export { GlobalVizConfig };
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { GlobalVizConfig };
 } else {
