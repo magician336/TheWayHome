@@ -1,3 +1,6 @@
+/* [修改] 引入全局主题配置 */
+@import "theme.css";
+
 body {
   margin: 0; padding: 0;
   background-color: var(--bg-color);

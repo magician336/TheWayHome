@@ -9,6 +9,8 @@
  * 4. 变量关系散点图绘制 (Scatter Plot)
  * 5. 交互逻辑：观察模式 (Focus Mode)、筛选联动、高亮显示
  * 6. 高级分析模块：折扣策略矩阵 (Discount Strategy Matrix)
+ * * @author Gemini & User
+ * @version 1.5.0 (Clean & Synchronized Animation)
  */
 
 // --- 全局变量定义 ---
@@ -33,7 +35,9 @@ let isFocusMode = false;
 let matrixState = { x: 0, y: 0, isDragged: false };
 let prevCorrelationR = 0;
 
-const MARGIN = typeof GlobalVizConfig !== 'undefined' ? GlobalVizConfig.layout.margin : { top: 100, right: 60, bottom: 60, left: 60 };
+// 布局与动画配置
+const MARGIN = { top: 100, right: 60, bottom: 60, left: 60 };
+const ANIMATION_DURATION = 500; // 统一动画时长
 
 /**
  * 初始化并加载数据
@@ -94,7 +98,14 @@ function initYearSelect() {
 }
 
 function showTooltip(event, content) {
-  const tooltip = GlobalVizConfig.setupTooltip();
+  let tooltip;
+  if (typeof GlobalVizConfig !== 'undefined') {
+      tooltip = GlobalVizConfig.setupTooltip();
+  } else {
+      tooltip = d3.select("#shared-tooltip");
+      if (tooltip.empty()) tooltip = d3.select("body").append("div").attr("id", "shared-tooltip").attr("class", "viz-tooltip");
+  }
+  
   tooltip.style("pointer-events", "none");
   tooltip.html(content).style("opacity", 1);
   
@@ -147,8 +158,14 @@ function drawParallelPlot() {
   });
 
   const cExtent = d3.extent(data, d => d[colorKey]);
-  let scaleDomain = colorKey === 'favorable_rate' ? [cExtent[0], cExtent[1]] : [cExtent[1], cExtent[0]];
-  const cScale = d3.scaleSequential().domain(scaleDomain).interpolator(t => d3.interpolateTurbo(0.95 - 0.85 * t));
+  let scaleDomain = [cExtent[1], cExtent[0]]; 
+  if (colorKey === 'favorable_rate') {
+      scaleDomain = [cExtent[0], cExtent[1]]; 
+  }
+  
+  const cScale = d3.scaleSequential()
+    .domain(scaleDomain)
+    .interpolator(t => d3.interpolateTurbo(0.95 - 0.85 * t));
   
   const lineGenerator = d3.line().defined(d => !isNaN(d[1])).x(d => x(d[0])).y(d => y[d[0]](d[1]));
 
@@ -217,12 +234,10 @@ function drawParallelPlot() {
   const axisG = svg.selectAll("g.axis").data(parallelDimensions, d => d).enter()
     .append("g").attr("class", "axis").attr("transform", d => `translate(${x(d)})`);
 
-  // 配置坐标轴 Ticks
   axisG.each(function(d) { 
       let axis = d3.axisLeft(y[d]);
       if (d === 'year') {
           const yearExtent = d3.extent(data, item => item.year);
-          // 生成完整的年份序列
           const years = d3.range(yearExtent[0], yearExtent[1] + 1);
           axis.tickValues(years).tickFormat(d3.format("d"));
       } else {
@@ -234,7 +249,6 @@ function drawParallelPlot() {
   axisG.append("text").attr("class", "axis-title").style("text-anchor", "middle").attr("y", -15)
     .style("font-weight", "bold").style("fill", "var(--text-main)").style("font-size", "12px").text(d => nameMap[d]);
   
-  // 初始化选中状态
   svg.selectAll("g.axis").each(function(d, i) {
     const title = d3.select(this).select("text.axis-title");
     if (selectedAxisIndex !== null && i === selectedAxisIndex) {
@@ -252,15 +266,14 @@ function drawParallelPlot() {
     if (selectedAxisIndex === null) {
       selectedAxisIndex = clickedIdx;
       
-      // 选中动画：平滑变大变色
       svg.selectAll("g.axis").each(function(d, i) {
         const title = d3.select(this).select("text.axis-title");
         if (i === clickedIdx) {
-          title.transition().duration(200)
+          title.transition().duration(ANIMATION_DURATION)
                .style("fill", "var(--accent-color)").style("font-size", "16px")
                .on("end", function() { d3.select(this).classed("axis-selected", true); });
         } else {
-          title.transition().duration(200)
+          title.transition().duration(ANIMATION_DURATION)
                .style("fill", "var(--text-main)").style("font-size", "12px")
                .on("end", function() { d3.select(this).classed("axis-selected", false); });
         }
@@ -272,7 +285,6 @@ function drawParallelPlot() {
         drawParallelPlot(); 
       }
     } else {
-      // 交换逻辑
       const targetIdx = selectedAxisIndex;
       const temp = parallelDimensions[targetIdx];
       parallelDimensions[targetIdx] = parallelDimensions[clickedIdx];
@@ -280,23 +292,20 @@ function drawParallelPlot() {
       selectedAxisIndex = null;
       x.domain(parallelDimensions);
 
-      const duration = 500;
-      
-      // 1. 轴位置动画
-      svg.selectAll(".axis").transition().duration(duration)
+      // 执行轴交换动画
+      svg.selectAll(".axis").transition().duration(ANIMATION_DURATION)
          .attr("transform", d => `translate(${x(d)})`);
       
-      // 2. 线条路径动画
-      window.parallelPaths.transition().duration(duration)
+      window.parallelPaths.transition().duration(ANIMATION_DURATION)
          .attr("d", d => lineGenerator(parallelDimensions.map(p => [p, d[p]])));
       
-      // 3. 标题恢复动画：平滑的逆过程
-      svg.selectAll("text.axis-title").transition().duration(duration)
+      // 标题复原动画：与移动保持完全同步
+      svg.selectAll("text.axis-title").transition().duration(ANIMATION_DURATION)
          .style("fill", "var(--text-main)").style("font-size", "12px")
          .on("end", function() { d3.select(this).classed("axis-selected", false); });
 
       if (isFocusMode) {
-          setTimeout(() => drawParallelPlot(), duration + 50);
+          setTimeout(() => drawParallelPlot(), ANIMATION_DURATION + 50);
       }
     }
   });
@@ -315,7 +324,7 @@ function drawParallelPlot() {
     });
 
     drawDiscountStrategyMatrix(svg, width, height, cScale, colorKey, x);
-    drawCorrelationBar(svg, width);
+    drawCorrelationBar(svg, width, cScale);
   }
 
   window.updateParallelChart = function(s, y_val) {
@@ -513,7 +522,7 @@ function drawDiscountStrategyMatrix(svg, chartWidth, chartHeight, cScale, colorK
 /**
  * 绘制皮尔逊关联度条
  */
-function drawCorrelationBar(svg, chartWidth) {
+function drawCorrelationBar(svg, chartWidth, cScale) {
   const dim = parallelDimensions;
   const xArr = data.map(d => d[dim[2]]), yArr = data.map(d => d[dim[3]]);
   const muX = d3.mean(xArr), muY = d3.mean(yArr);
@@ -618,7 +627,6 @@ function drawScatterChart(xKey, yKey) {
   const svg = d3.select("#scatter-viz").append("svg").attr("width", w).attr("height", h).attr("class", "shared-viz-svg").append("g").attr("transform", `translate(${m.left},${m.top})`);
   const iW = w - m.left - m.right, iH = h - m.top - m.bottom;
   
-  // [修复] 增加 5% Padding，防止点贴在坐标轴上
   const xExtent = d3.extent(data, d => d[xKey]);
   const xSpan = xExtent[1] - xExtent[0];
   const xPad = xSpan === 0 ? 1 : xSpan * 0.05;
@@ -633,7 +641,6 @@ function drawScatterChart(xKey, yKey) {
       .domain([yExtent[0] - yPad, yExtent[1] + yPad])
       .range([iH, 0]);
   
-  // [修复] 散点图年份轴也强制为整数刻度
   let xAxisCall = d3.axisBottom(x).ticks(5);
   if (xKey === 'year') {
       const yearExtent = d3.extent(data, d => d.year);
@@ -676,7 +683,14 @@ window.exitFocusMode = () => {
     isFocusMode = false; selectedAxisIndex = null; 
     document.getElementById('exitFocusBtn').style.display = 'none'; 
     const svg = d3.select("#main-chart-container svg.shared-viz-svg"); 
-    if (!svg.empty()) svg.selectAll("text.axis-title").style("fill", "var(--text-main)").style("font-size", "12px").classed("axis-selected", false);
+    
+    // [动画] 平滑复原标题样式
+    if (!svg.empty()) {
+        svg.selectAll("text.axis-title").transition().duration(ANIMATION_DURATION)
+           .style("fill", "var(--text-main)").style("font-size", "12px")
+           .on("end", function() { d3.select(this).classed("axis-selected", false); });
+    }
+    
     drawParallelPlot(); 
 };
 
