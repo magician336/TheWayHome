@@ -9,9 +9,10 @@
     "retention_days": 49,
     "discount_count": 20,
     "avg_discount_rate": 0.08,
-    "discount_strength": 43.53,
+    "discount_strength": 43.42,
+    "discount_frequency": 2.76,
     "main_tag": "RPG",
-    "years_since_release": 7.2
+    "years_since_release": 7.3
   },
   {
     "name": "Chinese Parents",
@@ -23,7 +24,8 @@
     "retention_days": 42,
     "discount_count": 20,
     "avg_discount_rate": 0.19,
-    "discount_strength": 93.42,
+    "discount_strength": 93.2,
+    "discount_frequency": 2.45,
     "main_tag": "Life Sim",
     "years_since_release": 8.2
   },
@@ -37,7 +39,8 @@
     "retention_days": 56,
     "discount_count": 5,
     "avg_discount_rate": 0.26,
-    "discount_strength": 23.22,
+    "discount_strength": 23.16,
+    "discount_frequency": 0.71,
     "main_tag": "RPG",
     "years_since_release": 7.0
   },
@@ -51,7 +54,8 @@
     "retention_days": 238,
     "discount_count": 54,
     "avg_discount_rate": 0.34,
-    "discount_strength": 441.75,
+    "discount_strength": 440.75,
+    "discount_frequency": 6.37,
     "main_tag": "Life Sim",
     "years_since_release": 8.5
   },
@@ -65,7 +69,8 @@
     "retention_days": 56,
     "discount_count": 10,
     "avg_discount_rate": 0.25,
-    "discount_strength": 42.83,
+    "discount_strength": 42.73,
+    "discount_frequency": 1.2,
     "main_tag": "Survival",
     "years_since_release": 8.3
   },
@@ -79,7 +84,8 @@
     "retention_days": 77,
     "discount_count": 36,
     "avg_discount_rate": 0.28,
-    "discount_strength": 276.42,
+    "discount_strength": 275.7,
+    "discount_frequency": 4.86,
     "main_tag": "Massively Multiplayer",
     "years_since_release": 7.4
   },
@@ -93,7 +99,8 @@
     "retention_days": 189,
     "discount_count": 28,
     "avg_discount_rate": 0.19,
-    "discount_strength": 169.26,
+    "discount_strength": 168.81,
+    "discount_frequency": 3.94,
     "main_tag": "RPG",
     "years_since_release": 7.1
   },
@@ -107,7 +114,8 @@
     "retention_days": 133,
     "discount_count": 10,
     "avg_discount_rate": 0.23,
-    "discount_strength": 88.25,
+    "discount_strength": 87.94,
+    "discount_frequency": 1.79,
     "main_tag": "Roguelite",
     "years_since_release": 5.6
   },
@@ -121,7 +129,8 @@
     "retention_days": 21,
     "discount_count": 23,
     "avg_discount_rate": 0.26,
-    "discount_strength": 244.06,
+    "discount_strength": 243.08,
+    "discount_frequency": 4.81,
     "main_tag": "Souls-like",
     "years_since_release": 4.8
   },
@@ -135,9 +144,10 @@
     "retention_days": 35,
     "discount_count": 20,
     "avg_discount_rate": 0.23,
-    "discount_strength": 172.71,
+    "discount_strength": 172.15,
+    "discount_frequency": 3.35,
     "main_tag": "Open World",
-    "years_since_release": 5.9
+    "years_since_release": 6.0
   },
   {
     "name": "Neon Abyss",
@@ -149,7 +159,8 @@
     "retention_days": 49,
     "discount_count": 52,
     "avg_discount_rate": 0.28,
-    "discount_strength": 549.5,
+    "discount_strength": 547.56,
+    "discount_frequency": 9.56,
     "main_tag": "Roguelike",
     "years_since_release": 5.4
   },
@@ -163,9 +174,10 @@
     "retention_days": 98,
     "discount_count": 43,
     "avg_discount_rate": 0.2,
-    "discount_strength": 299.55,
+    "discount_strength": 298.58,
+    "discount_frequency": 7.21,
     "main_tag": "Horror",
-    "years_since_release": 5.9
+    "years_since_release": 6.0
   },
   {
     "name": "Biped",
@@ -177,7 +189,8 @@
     "retention_days": 35,
     "discount_count": 46,
     "avg_discount_rate": 0.28,
-    "discount_strength": 469.29,
+    "discount_strength": 467.73,
+    "discount_frequency": 8.02,
     "main_tag": "Cartoony",
     "years_since_release": 5.7
   },
@@ -191,7 +204,8 @@
     "retention_days": 28,
     "discount_count": 1,
     "avg_discount_rate": 0.26,
-    "discount_strength": 9.98,
+    "discount_strength": 9.94,
+    "discount_frequency": 0.18,
     "main_tag": "RPG",
     "years_since_release": 5.6
   },
@@ -205,7 +219,8 @@
     "retention_days": 42,
     "discount_count": 31,
     "avg_discount_rate": 0.13,
-    "discount_strength": 211.31,
+    "discount_strength": 210.28,
+    "discount_frequency": 7.9,
     "main_tag": "Action Roguelike",
     "years_since_release": 3.9
   },
@@ -219,7 +234,8 @@
     "retention_days": 28,
     "discount_count": 22,
     "avg_discount_rate": 0.22,
-    "discount_strength": 245.57,
+    "discount_strength": 244.26,
+    "discount_frequency": 6.15,
     "main_tag": "Life Sim",
     "years_since_release": 3.6
   },
@@ -233,7 +249,8 @@
     "retention_days": 238,
     "discount_count": 23,
     "avg_discount_rate": 0.19,
-    "discount_strength": 250.48,
+    "discount_strength": 248.96,
+    "discount_frequency": 7.25,
     "main_tag": "Indie",
     "years_since_release": 3.2
   },
@@ -247,7 +264,8 @@
     "retention_days": 21,
     "discount_count": 25,
     "avg_discount_rate": 0.1,
-    "discount_strength": 123.12,
+    "discount_strength": 122.52,
+    "discount_frequency": 6.38,
     "main_tag": "Exploration",
     "years_since_release": 3.9
   },
@@ -261,9 +279,10 @@
     "retention_days": 14,
     "discount_count": 32,
     "avg_discount_rate": 0.2,
-    "discount_strength": 334.83,
+    "discount_strength": 333.13,
+    "discount_frequency": 8.49,
     "main_tag": "RPG",
-    "years_since_release": 3.7
+    "years_since_release": 3.8
   },
   {
     "name": "奇怪的RPG",
@@ -275,7 +294,8 @@
     "retention_days": 98,
     "discount_count": 20,
     "avg_discount_rate": 0.19,
-    "discount_strength": 265.13,
+    "discount_strength": 263.55,
+    "discount_frequency": 6.2,
     "main_tag": "RPG",
     "years_since_release": 3.2
   },
@@ -289,7 +309,8 @@
     "retention_days": 35,
     "discount_count": 13,
     "avg_discount_rate": 0.32,
-    "discount_strength": 218.06,
+    "discount_strength": 216.93,
+    "discount_frequency": 3.53,
     "main_tag": "Sandbox",
     "years_since_release": 3.7
   },
@@ -303,7 +324,8 @@
     "retention_days": 42,
     "discount_count": 3,
     "avg_discount_rate": 0.08,
-    "discount_strength": 26.32,
+    "discount_strength": 26.0,
+    "discount_frequency": 1.95,
     "main_tag": "Mythology",
     "years_since_release": 1.5
   },
@@ -317,9 +339,10 @@
     "retention_days": 161,
     "discount_count": 12,
     "avg_discount_rate": 0.12,
-    "discount_strength": 177.46,
+    "discount_strength": 175.42,
+    "discount_frequency": 7.21,
     "main_tag": "Visual Novel",
-    "years_since_release": 1.6
+    "years_since_release": 1.7
   },
   {
     "name": "Soulmask",
@@ -331,9 +354,10 @@
     "retention_days": 84,
     "discount_count": 15,
     "avg_discount_rate": 0.13,
-    "discount_strength": 228.36,
+    "discount_strength": 225.56,
+    "discount_frequency": 9.61,
     "main_tag": "Survival",
-    "years_since_release": 1.5
+    "years_since_release": 1.6
   },
   {
     "name": "Murders on the Yangtze River",
@@ -345,7 +369,8 @@
     "retention_days": 105,
     "discount_count": 16,
     "avg_discount_rate": 0.13,
-    "discount_strength": 224.28,
+    "discount_strength": 222.0,
+    "discount_frequency": 8.46,
     "main_tag": "Detective",
     "years_since_release": 1.9
   },
@@ -359,7 +384,8 @@
     "retention_days": 21,
     "discount_count": 11,
     "avg_discount_rate": 0.1,
-    "discount_strength": 156.33,
+    "discount_strength": 154.23,
+    "discount_frequency": 7.71,
     "main_tag": "CRPG",
     "years_since_release": 1.4
   },
@@ -373,7 +399,8 @@
     "retention_days": 620,
     "discount_count": 9,
     "avg_discount_rate": 0.06,
-    "discount_strength": 66.11,
+    "discount_strength": 65.42,
+    "discount_frequency": 4.91,
     "main_tag": "Cute",
     "years_since_release": 1.8
   },
@@ -387,7 +414,8 @@
     "retention_days": 42,
     "discount_count": 11,
     "avg_discount_rate": 0.05,
-    "discount_strength": 86.28,
+    "discount_strength": 85.11,
+    "discount_frequency": 7.8,
     "main_tag": "Multiplayer",
     "years_since_release": 1.4
   },
@@ -401,7 +429,8 @@
     "retention_days": 14,
     "discount_count": 12,
     "avg_discount_rate": 0.22,
-    "discount_strength": 55.75,
+    "discount_strength": 55.63,
+    "discount_frequency": 1.31,
     "main_tag": "Action",
     "years_since_release": 9.1
   },
@@ -415,7 +444,8 @@
     "retention_days": 1295,
     "discount_count": 24,
     "avg_discount_rate": 0.27,
-    "discount_strength": 121.89,
+    "discount_strength": 121.65,
+    "discount_frequency": 2.43,
     "main_tag": "Action",
     "years_since_release": 9.9
   },
@@ -429,7 +459,8 @@
     "retention_days": 168,
     "discount_count": 13,
     "avg_discount_rate": 0.31,
-    "discount_strength": 98.49,
+    "discount_strength": 98.27,
+    "discount_frequency": 1.55,
     "main_tag": "RPG",
     "years_since_release": 8.4
   },
@@ -443,9 +474,10 @@
     "retention_days": 112,
     "discount_count": 76,
     "avg_discount_rate": 0.33,
-    "discount_strength": 601.81,
+    "discount_strength": 600.42,
+    "discount_frequency": 9.1,
     "main_tag": "Visual Novel",
-    "years_since_release": 8.3
+    "years_since_release": 8.4
   },
   {
     "name": "古剑奇谭 (GuJian)",
@@ -457,7 +489,8 @@
     "retention_days": 49,
     "discount_count": 16,
     "avg_discount_rate": 0.33,
-    "discount_strength": 126.52,
+    "discount_strength": 126.23,
+    "discount_frequency": 1.92,
     "main_tag": "RPG",
     "years_since_release": 8.3
   },
@@ -471,7 +504,8 @@
     "retention_days": 28,
     "discount_count": 13,
     "avg_discount_rate": 0.27,
-    "discount_strength": 61.46,
+    "discount_strength": 61.33,
+    "discount_frequency": 1.42,
     "main_tag": "Horror",
     "years_since_release": 9.1
   },
@@ -485,9 +519,10 @@
     "retention_days": 105,
     "discount_count": 25,
     "avg_discount_rate": 0.46,
-    "discount_strength": 143.32,
+    "discount_strength": 143.02,
+    "discount_frequency": 2.76,
     "main_tag": "Open World",
-    "years_since_release": 9.0
+    "years_since_release": 9.1
   },
   {
     "name": "隐形守护者",
@@ -499,7 +534,8 @@
     "retention_days": 14,
     "discount_count": 23,
     "avg_discount_rate": 0.22,
-    "discount_strength": 147.65,
+    "discount_strength": 147.24,
+    "discount_frequency": 3.33,
     "main_tag": "RPG",
     "years_since_release": 6.9
   },
@@ -513,7 +549,8 @@
     "retention_days": 847,
     "discount_count": 27,
     "avg_discount_rate": 0.2,
-    "discount_strength": 150.2,
+    "discount_strength": 149.79,
+    "discount_frequency": 3.9,
     "main_tag": "Horror",
     "years_since_release": 6.9
   },
@@ -527,7 +564,8 @@
     "retention_days": 49,
     "discount_count": 19,
     "avg_discount_rate": 0.15,
-    "discount_strength": 87.97,
+    "discount_strength": 87.73,
+    "discount_frequency": 2.74,
     "main_tag": "Simulation",
     "years_since_release": 6.9
   },
@@ -541,7 +579,8 @@
     "retention_days": 14,
     "discount_count": 56,
     "avg_discount_rate": 0.25,
-    "discount_strength": 436.94,
+    "discount_strength": 435.7,
+    "discount_frequency": 8.31,
     "main_tag": "Detective",
     "years_since_release": 6.7
   },
@@ -555,7 +594,8 @@
     "retention_days": 21,
     "discount_count": 18,
     "avg_discount_rate": 0.2,
-    "discount_strength": 134.07,
+    "discount_strength": 133.7,
+    "discount_frequency": 2.59,
     "main_tag": "Female Protagonist",
     "years_since_release": 6.9
   },
@@ -569,7 +609,8 @@
     "retention_days": 21,
     "discount_count": 21,
     "avg_discount_rate": 0.39,
-    "discount_strength": 230.48,
+    "discount_strength": 229.84,
+    "discount_frequency": 3.03,
     "main_tag": "Nudity",
     "years_since_release": 6.9
   },
@@ -583,7 +624,8 @@
     "retention_days": 21,
     "discount_count": 44,
     "avg_discount_rate": 0.25,
-    "discount_strength": 278.5,
+    "discount_strength": 277.85,
+    "discount_frequency": 5.42,
     "main_tag": "Action",
     "years_since_release": 8.1
   },
@@ -598,6 +640,7 @@
     "discount_count": 0,
     "avg_discount_rate": 0.0,
     "discount_strength": 0.0,
+    "discount_frequency": 0.0,
     "main_tag": "Battle Royale",
     "years_since_release": 4.5
   },
@@ -611,7 +654,8 @@
     "retention_days": 84,
     "discount_count": 16,
     "avg_discount_rate": 0.12,
-    "discount_strength": 81.94,
+    "discount_strength": 81.62,
+    "discount_frequency": 3.26,
     "main_tag": "Management",
     "years_since_release": 4.9
   },
@@ -625,7 +669,8 @@
     "retention_days": 217,
     "discount_count": 31,
     "avg_discount_rate": 0.09,
-    "discount_strength": 112.29,
+    "discount_strength": 111.85,
+    "discount_frequency": 6.3,
     "main_tag": "Automation",
     "years_since_release": 4.9
   },
@@ -639,9 +684,10 @@
     "retention_days": 21,
     "discount_count": 24,
     "avg_discount_rate": 0.22,
-    "discount_strength": 249.12,
+    "discount_strength": 248.03,
+    "discount_frequency": 5.5,
     "main_tag": "Pixel Graphics",
-    "years_since_release": 4.3
+    "years_since_release": 4.4
   },
   {
     "name": "古网海外版 (Swords of Legends Online)",
@@ -654,6 +700,7 @@
     "discount_count": 0,
     "avg_discount_rate": 0.0,
     "discount_strength": 0.0,
+    "discount_frequency": 0.0,
     "main_tag": "Free to Play",
     "years_since_release": 4.7
   },
@@ -667,7 +714,8 @@
     "retention_days": 21,
     "discount_count": 27,
     "avg_discount_rate": 0.14,
-    "discount_strength": 186.3,
+    "discount_strength": 185.43,
+    "discount_frequency": 6.59,
     "main_tag": "Puzzle",
     "years_since_release": 4.1
   },
@@ -681,9 +729,10 @@
     "retention_days": 35,
     "discount_count": 41,
     "avg_discount_rate": 0.22,
-    "discount_strength": 400.45,
+    "discount_strength": 398.61,
+    "discount_frequency": 9.84,
     "main_tag": "RPG",
-    "years_since_release": 4.1
+    "years_since_release": 4.2
   },
   {
     "name": "猛兽派对 (Party Animals)",
@@ -695,7 +744,8 @@
     "retention_days": 49,
     "discount_count": 7,
     "avg_discount_rate": 0.19,
-    "discount_strength": 95.09,
+    "discount_strength": 94.31,
+    "discount_frequency": 3.0,
     "main_tag": "Multiplayer",
     "years_since_release": 2.3
   },
@@ -709,7 +759,8 @@
     "retention_days": 35,
     "discount_count": 17,
     "avg_discount_rate": 0.11,
-    "discount_strength": 180.54,
+    "discount_strength": 178.95,
+    "discount_frequency": 7.8,
     "main_tag": "Dating Sim",
     "years_since_release": 2.2
   },
@@ -723,7 +774,8 @@
     "retention_days": 35,
     "discount_count": 24,
     "avg_discount_rate": 0.13,
-    "discount_strength": 199.4,
+    "discount_strength": 197.97,
+    "discount_frequency": 8.98,
     "main_tag": "Life Sim",
     "years_since_release": 2.7
   },
@@ -737,7 +789,8 @@
     "retention_days": 42,
     "discount_count": 21,
     "avg_discount_rate": 0.15,
-    "discount_strength": 227.52,
+    "discount_strength": 225.95,
+    "discount_frequency": 7.52,
     "main_tag": "RPG",
     "years_since_release": 2.8
   },
@@ -751,7 +804,8 @@
     "retention_days": 126,
     "discount_count": 13,
     "avg_discount_rate": 0.2,
-    "discount_strength": 183.65,
+    "discount_strength": 182.45,
+    "discount_frequency": 4.43,
     "main_tag": "Survival",
     "years_since_release": 2.9
   },
@@ -765,7 +819,8 @@
     "retention_days": 63,
     "discount_count": 21,
     "avg_discount_rate": 0.08,
-    "discount_strength": 143.52,
+    "discount_strength": 142.31,
+    "discount_frequency": 9.25,
     "main_tag": "RPG",
     "years_since_release": 2.3
   },
@@ -779,8 +834,9 @@
     "retention_days": 14,
     "discount_count": 15,
     "avg_discount_rate": 0.16,
-    "discount_strength": 169.5,
+    "discount_strength": 168.39,
+    "discount_frequency": 5.08,
     "main_tag": "FMV",
-    "years_since_release": 2.9
+    "years_since_release": 3.0
   }
 ]
