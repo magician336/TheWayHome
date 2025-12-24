@@ -1,7 +1,9 @@
 // script.js
+import * as d3 from "d3";
+import { GlobalVizConfig } from "@magician336/assets";
 
 // 花瓣路径 (4个来自index1 + 5个新生成的)
-var petalPaths = [
+const petalPaths = [
     // 1. Round (原版圆形 - 饱满，重叠度高)
     'M0 0 C50 50 50 100 0 100 C-50 100 -50 50 0 0',
 

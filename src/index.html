@@ -1,18 +1,33 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Flowers Replication</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Flowers Replication</title>
+
+  <!-- 1) 统一视觉规范的主题样式（也可以放到 styles.css 里 @import） -->
+  <link rel="stylesheet" href="/node_modules/@magician336/assets/theme.css" />
+
+  <!-- 你自己的样式（保留） -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- 2) importmap：让浏览器认识 npm 包名 -->
+  <script type="importmap">
+  {
+    "imports": {
+      "@magician336/assets": "/node_modules/@magician336/assets/index.js",
+      "d3": "https://cdn.jsdelivr.net/npm/d3@7/+esm"
+    }
+  }
+  </script>
 </head>
+
 <body>
+  <h1>游戏花瓣图</h1>
 
-    <h1>游戏花瓣图 </h1>
-    
-    <div class="charts-container" id="canvas"></div>
+  <div class="charts-container" id="canvas"></div>
 
-    <script src="main.js"></script>
+  <!-- 3) 你的主脚本改为 module，这样 main.js 才能写 import -->
+  <script type="module" src="./main.js"></script>
 </body>
 </html>

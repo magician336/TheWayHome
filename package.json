@@ -23,6 +23,7 @@
     "http-server": "^14.1.1"
   },
   "dependencies": {
+    "@magician336/assets": "^1.0.1",
     "d3": "^7.9.0"
   }
 }
