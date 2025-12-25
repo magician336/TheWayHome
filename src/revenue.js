@@ -9,7 +9,7 @@ export const createRevenueChart = (data) => {
     const containerRect = container.node().getBoundingClientRect();
     const containerWidth = containerRect.width || 960;
     const containerHeight = containerRect.height || 500;
-    const margin = { top: 60, right: 80, bottom: 60, left: 60 };
+    const margin = { top: 60, right: 90, bottom: 60, left: 60 };
 
     // 1. 计算【内部】绘图宽度 = 总宽度 - 左边距 - 右边距
     const width = containerWidth - margin.left - margin.right;
@@ -181,7 +181,7 @@ export const createRevenueChart = (data) => {
     svg.append("text")
         .attr("class", "axis-label")
         .attr("transform", "rotate(-90)")
-        .attr("x", -height / 2)
+        .attr("x", -height / 2 - 20)
         .attr("y", width + 60)
         .attr("text-anchor", "middle")
         .text("增长率 (%)");
@@ -241,7 +241,6 @@ export const createRevenueChart = (data) => {
         .text("游戏发售量 (颜色深浅)");
 
     // 8. 独立的 Tooltip 逻辑
-    // 检查是否存在，不存在则创建。注意使用新的专用类名。
     let tooltip = d3.select("body").select(".revenue-dedicated-tooltip");
 
     if (tooltip.empty()) {
@@ -251,21 +250,29 @@ export const createRevenueChart = (data) => {
     }
 
     function showTooltip(event, d) {
-        let html = `<strong>${d.year}年</strong><br/>`;
+        let html = `<strong>${d.year}年</strong>`;
         html += `实际收入: <span class="val-money">${d.actual_revenue.toFixed(2)} 亿元</span><br/>`;
         html += `增长率: <span class="val-rate">${d.growth_rate}%</span><br/>`;
         html += `游戏发售量: ${d.num_games}`;
 
-        tooltip.html(html).style("visibility", "visible");
+        tooltip.html(html);
+
+        // 【关键修改】：使用 classed 切换类名，激活 CSS 中的 opacity: 1 和动画
+        tooltip.classed("visible", true);
+
         updateTooltipPosition(event);
     }
 
     function updateTooltipPosition(event) {
         // 防止 tooltip 跑出屏幕，做简单的边界检查
         const tooltipNode = tooltip.node();
-        const tooltipWidth = tooltipNode.offsetWidth;
-        // 如果靠右边缘太近，就显示在鼠标左侧
+        // 只有当 tooltip 显示时才能获取宽度，增加安全检查
+        if (!tooltipNode) return;
+
+        const tooltipWidth = tooltipNode.offsetWidth || 200; // 默认给个宽度防止为0
+
         let leftPos = event.clientX + 15;
+        // 如果靠右边缘太近，就显示在鼠标左侧
         if (event.clientX + tooltipWidth + 20 > window.innerWidth) {
             leftPos = event.clientX - tooltipWidth - 15;
         }
@@ -276,12 +283,14 @@ export const createRevenueChart = (data) => {
     }
 
     function hideTooltip() {
-        tooltip.style("visibility", "hidden");
+        // 【关键修改】：移除类名，CSS 会自动处理淡出动画
+        tooltip.classed("visible", false);
     }
 
     // 在图表区域移动时也要更新 Tooltip 位置
     container.on("mousemove", function (event) {
-        if (tooltip.style("visibility") === "visible") {
+        // 检查是否含有 visible 类
+        if (tooltip.classed("visible")) {
             updateTooltipPosition(event);
         }
     });

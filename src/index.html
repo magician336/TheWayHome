@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="revenue_style.css">
     <link rel="stylesheet" href="hero_style.css">
+    <link rel="stylesheet" href="user_dist_styles.css">
     <!-- 引入 D3.js -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
@@ -16,14 +17,14 @@
     <!-- 背景容器：用于实现背景切换的渐入渐出效果 -->
     <div id="bg-container">
         <!-- 初始背景 -->
-        <div class="bg-layer active"
+        <div class="bg-layer active" id="bg-hero"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/Jason_and_Lucia_02_landscape.jpg');">
         </div>
         <!-- 预设背景层，后续可通过 JS 动态切换 -->
-        <div class="bg-layer"
+        <div class="bg-layer" id="bg-revenue"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/Jason_and_Lucia_01_landscape.jpg');">
         </div>
-        <div class="bg-layer"
+        <div class="bg-layer" id="bg-distribution"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/Jason_and_Lucia_Motel_landscape.jpg');">
         </div>
     </div>
@@ -31,7 +32,7 @@
     <!-- 页面主体内容 -->
     <main>
         <!-- 第一屏：英雄页/概览 -->
-        <section class="hero-section" id="hero-section" data-bg-index="0">
+        <section class="hero-section" id="hero-section" data-bg="bg-hero">
             <div class="content-wrapper reveal">
                 <h1 class="main-title">归途</h1>
                 <p class="subtitle">记录国产独立游戏从萌芽到质变的十年征程</p>
@@ -46,7 +47,7 @@
         </section>
 
         <!-- 第二屏：营收趋势图表 -->
-        <section class="revenue-section" id="revenue-section" data-bg-index="1">
+        <section class="revenue-section" id="revenue-section" data-bg="bg-revenue">
             <div class="content-wrapper reveal">
                 <div class="text-content">
                     <h2 class="section-title">市场规模的飞跃</h2>
@@ -60,7 +61,7 @@
         </section>
 
         <!-- 第三屏：用户分布/其他图表 -->
-        <section class="distribution-section" id="distribution-section" data-bg-index="2">
+        <section class="distribution-section" id="distribution-section" data-bg="bg-distribution">
             <div class="content-wrapper reveal">
                 <div class="text-content">
                     <h2 class="section-title">多元化的玩家群体</h2>

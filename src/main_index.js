@@ -1,4 +1,7 @@
 import { createRevenueChart } from './revenue.js';
+// 1. 引入用户分布图表函数 (注意文件名是 user_dist.js)
+import { createDistributionChart } from './user_dist.js';
+
 /**
  * 首页核心驱动：数据解析、微缩图表渲染与动态交互
  */
@@ -7,11 +10,23 @@ async function initHomePage() {
         // 1. 初始化滚动交互
         initScrollInteractions();
 
-        // 2. 加载核心数据
-        const [games, revenueData] = await Promise.all([
+        // 2. 加载核心数据 (增加 user_distribution.csv 的加载)
+        const [games, revenueData, rawdistData] = await Promise.all([
             d3.json("/src/games.json"),
-            d3.csv("/src/data/revenue.csv")
+            d3.csv("/src/data/revenue.csv"),
+            d3.csv("/src/data/user_distribution.csv")
         ]);
+
+        const distData = rawdistData.map(d => ({
+            year: +d.year,
+            zhCN: +d.zhCN || 0,
+            en: +d.en || 0,
+            ru: +d.ru || 0,
+            es: +d.es || 0,
+            pt: +d.pt || 0,
+            de: +d.de || 0,
+            others: +d.others || 0
+        }));
 
         // 3. 统计看板初始化
         renderQuickStats(games, revenueData);
@@ -19,55 +34,128 @@ async function initHomePage() {
         // 4. 渲染板块一：宏观趋势图表
         createRevenueChart(revenueData);
 
-        // 5. 渲染板块二：用户分布
+        // 1. 获取图表控制器
+        const distChartController = createDistributionChart(distData);
+
+        // 2. 设置专门的滚动监听，控制图表排序动画
+        setupDistChartAnimation(distChartController);
 
     } catch (err) {
         console.error("首页初始化失败:", err);
     }
 }
+/**
+ * 专门用于控制第三屏图表排序动画的 Observer
+ */
+function setupDistChartAnimation(controller) {
+    if (!controller) return;
+
+    const section = document.querySelector("#distribution-section");
+
+    // 1. 状态追踪：记录当前是哪个模式，默认为 'fixed'
+    let currentMode = 'fixed';
+
+    // --- 滚动监听部分 (保持原有逻辑并增加状态同步) ---
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // 保留调试日志
+            // console.log(`当前显示比例: ${entry.intersectionRatio.toFixed(2)}`);
+
+            if (entry.intersectionRatio > 0.7) {
+                // 只有当状态真的改变时才执行，避免重复调用
+                if (currentMode !== 'ranked') {
+                    currentMode = 'ranked';
+                    controller.updateLayout('ranked');
+                }
+            } else if (entry.intersectionRatio < 0.2) {
+                if (currentMode !== 'fixed') {
+                    currentMode = 'fixed';
+                    controller.updateLayout('fixed');
+                }
+            }
+        });
+    }, {
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    });
+
+    if (section) {
+        observer.observe(section);
+
+        // 1. 设置鼠标手势，提示用户可以点击
+        section.style.cursor = 'pointer';
+        section.setAttribute('title', '点击切换排序视图');
+
+        // 2. 添加点击事件监听
+        section.addEventListener('click', (e) => {
+            // 阻止冒泡，防止触发页面其他潜在点击事件
+            e.stopPropagation();
+
+            // 切换逻辑：如果是 fixed 就变 ranked，反之亦然
+            const nextMode = (currentMode === 'fixed') ? 'ranked' : 'fixed';
+
+            console.log(`🖱️ 用户手动点击，切换至: ${nextMode}`);
+
+            // 执行动画
+            controller.updateLayout(nextMode);
+
+            // 更新当前状态记录
+            currentMode = nextMode;
+        });
+    }
+}
 
 /**
- * 初始化滚动交互：背景切换与内容揭示
+ * 初始化滚动交互：背景切换与内容揭示 (ID 匹配版)
  */
 function initScrollInteractions() {
     const sections = document.querySelectorAll('section');
-    const bgLayers = document.querySelectorAll('.bg-layer');
     const reveals = document.querySelectorAll('.reveal');
 
     // 背景切换观察者
     const bgObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            // 当某个 Section 进入视口超过 50% 时
             if (entry.isIntersecting) {
-                const index = entry.target.getAttribute('data-bg-index');
-                if (index !== null) {
-                    switchBackground(index);
+                // 1. 获取该 Section 指定的背景 ID
+                const targetBgId = entry.target.getAttribute('data-bg');
+
+                // 2. 如果存在 ID，则进行切换
+                if (targetBgId) {
+                    switchBackground(targetBgId);
                 }
             }
         });
     }, { threshold: 0.5 });
 
-    // 内容揭示观察者
+    // 内容揭示观察者 (保持不变)
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // 当元素进入视口时
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                // 性能优化：动画触发后就不需要再观察了，避免反复触发消耗资源
                 revealObserver.unobserve(entry.target);
             }
         });
     }, {
-        // 修改这里：
-        threshold: 0.15, // 稍微降低阈值，露头 15% 就开始准备跳
-        rootMargin: "0px 0px -50px 0px" // 意思是：视口底部向上缩 50px 才算边界。这能确保元素是在屏幕内部跳出来，而不是贴着底边。
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
     });
 
     sections.forEach(section => bgObserver.observe(section));
     reveals.forEach(reveal => revealObserver.observe(reveal));
 
-    function switchBackground(index) {
-        bgLayers.forEach((layer, i) => {
-            layer.classList.toggle('active', i == index);
+    // --- 核心修改逻辑 ---
+    function switchBackground(targetId) {
+        // 1. 找到所有的背景层
+        const allLayers = document.querySelectorAll('.bg-layer');
+
+        // 2. 遍历所有层
+        allLayers.forEach(layer => {
+            // 3. 如果这个层的 ID 等于目标 ID，就加上 active，否则移除
+            if (layer.id === targetId) {
+                layer.classList.add('active');
+            } else {
+                layer.classList.remove('active');
+            }
         });
     }
 }
@@ -76,6 +164,8 @@ function initScrollInteractions() {
  * 渲染顶部实时数据块
  */
 function renderQuickStats(games, revenue) {
+    if (!games || !revenue) return;
+
     const totalGames = games.length;
     const latestRevenue = +revenue[revenue.length - 1].actual_revenue;
     const avgRating = d3.mean(games, d => d.favorableRate).toFixed(1);
@@ -87,7 +177,7 @@ function renderQuickStats(games, revenue) {
     ];
 
     const container = d3.select("#quick-stats");
-    container.selectAll("*").remove(); // 清空占位符
+    container.selectAll("*").remove();
 
     stats.forEach(s => {
         const div = container.append("div").attr("class", "stat-item");
@@ -102,7 +192,6 @@ function renderQuickStats(games, revenue) {
             .style("margin-top", "10px")
             .text(s.label);
 
-        // 数字滚动动画
         div.select("div")
             .transition().duration(2000)
             .tween("text", function () {
@@ -111,12 +200,8 @@ function renderQuickStats(games, revenue) {
             });
     });
 
-    // 动态生成第一板块的分析句
     const growth = revenue[revenue.length - 1].growth_rate;
     d3.select("#macro-dynamic-text").html(`<b>实时洞察：</b>最新数据显示，年增长率已达 <b>${growth}%</b>，国产独立游戏正处于黄金成长期。`);
 }
 
-
-
-// 启动初始化
 document.addEventListener('DOMContentLoaded', initHomePage);

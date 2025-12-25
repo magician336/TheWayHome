@@ -1,52 +1,179 @@
-/* hero_style.css - 第一屏专属配置 */
+/* hero_style.css - 第一屏专属配置 (高阶优化版) */
 
 /* --- 【配置区域】 --- */
 #hero-section {
-    /* 字体配置 */
-    --hero-title-font: "PingFang SC", sans-serif;
-    --hero-title-size: 5rem;
-    /* 主标题大小 */
-    --hero-subtitle-size: 1.5rem;
-    /* 副标题大小 */
+    /* 字体配置：增加备选字体，确保各平台显示优雅 */
+    --hero-title-font: "Inter", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
+
+    /* 尺寸配置：使用 clamp 实现丝滑的响应式字号 (最小值, 视口偏好, 最大值) */
+    --hero-title-size: clamp(2.5rem, 6vw, 5.5rem);
+    --hero-subtitle-size: clamp(1rem, 1.5vw, 1.5rem);
 
     /* 颜色配置 */
-    --hero-title-gradient-top: #ffffff;
-    --hero-title-gradient-bottom: #aaaaaa;
+    --hero-text-gradient: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #a0a0a0 100%);
     --hero-accent-color: #00d4ff;
-    /* 这一页的强调色 (比如数字颜色) */
-
-    /* 间距配置 */
-    --hero-stats-gap: 40px;
+    /* 核心亮色 */
+    --hero-glow-color: rgba(0, 212, 255, 0.4);
+    /* 光晕色 */
 }
 
 /* --- 【样式实现区域】 --- */
 
-/* 覆盖主标题 */
+/* 1. 容器整体调整 */
+#hero-section {
+    position: relative;
+    /* 确保内容垂直居中 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+    /* 防止手机端贴边 */
+}
+
+/* 2. 主标题：增加质感与光感 */
 #hero-section .main-title {
     font-family: var(--hero-title-font);
     font-size: var(--hero-title-size);
-    background: linear-gradient(to bottom, var(--hero-title-gradient-top), var(--hero-title-gradient-bottom));
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    /*稍微收紧字间距，更现代 */
+
+    /* 渐变文字 */
+    background: var(--hero-text-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    /* 文字光晕：营造科幻/高端感 */
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.15));
+
+    margin-bottom: 1.5rem;
+
+    /* 入场动画 */
+    animation: heroFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
-/* 覆盖副标题 */
+/* 3. 副标题：优化阅读体验 */
 #hero-section .subtitle {
     font-size: var(--hero-subtitle-size);
-    color: #eee;
-    /* 或者引用变量 */
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 300;
+    max-width: 800px;
+    margin: 0 auto 4rem auto;
+    /* 底部留出空间给统计块 */
+    line-height: 1.6;
+    letter-spacing: 0.05em;
+
+    /* 动画延迟 */
+    animation: heroFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s forwards;
+    opacity: 0;
+    transform: translateY(20px);
 }
 
-/* 覆盖统计数字块 */
+/* 4. 统计数字容器 (需要在 HTML 中确保这些 .stat-item 被包裹在一个容器里，如 #quick-stats) */
+#quick-stats {
+    display: flex;
+    gap: 30px;
+    /* 卡片间距 */
+    justify-content: center;
+    flex-wrap: wrap;
+    /* 允许换行，适配手机 */
+    width: 100%;
+    max-width: 1000px;
+
+    animation: heroFadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* 5. 统计数字单项：玻璃拟态卡片 */
 #hero-section .stat-item {
-    background: rgba(255, 255, 255, 0.05);
-    /* 这一页特有的玻璃磨砂 */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    flex: 1;
+    /* 均分宽度 */
+    min-width: 200px;
+    /* 最小宽度，防止太窄 */
+    padding: 25px 20px;
+
+    /* 玻璃磨砂效果 */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+
+    /* 交互过渡 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: default;
 }
 
-/* 统计数字的颜色 (注意：这里需要配合 main_index.js 里的生成逻辑，或者用 CSS 强行覆盖) */
+/* 鼠标悬停交互：上浮 + 边框发光 */
+#hero-section .stat-item:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2),
+        0 0 15px var(--hero-glow-color);
+    /* 霓虹微光 */
+}
+
+/* 6. 数字特写 (覆盖 main_index.js 生成的内联样式) */
 #hero-section .stat-item div:first-child {
+    font-family: var(--hero-title-font);
     color: var(--hero-accent-color) !important;
-    /* 强制使用配置色 */
-    font-size: 2.5rem !important;
+    font-size: 2.8rem !important;
+    font-weight: 700;
+    margin-bottom: 5px;
+
+    /* 数字发光 */
+    text-shadow: 0 0 10px var(--hero-glow-color);
+}
+
+/* 7. 标签文字 */
+#hero-section .stat-item div:last-child {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.9rem !important;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
+}
+
+/* --- 简单的入场动画定义 --- */
+@keyframes heroFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- 移动端特别优化 --- */
+@media (max-width: 768px) {
+    #hero-section {
+        padding-top: 80px;
+        /* 避开顶部导航栏 */
+    }
+
+    #quick-stats {
+        gap: 15px;
+    }
+
+    #hero-section .stat-item {
+        min-width: 140px;
+        /* 手机上一行显示两个 */
+        padding: 15px 10px;
+    }
+
+    #hero-section .stat-item div:first-child {
+        font-size: 2rem !important;
+        /* 手机上数字稍微小一点 */
+    }
 }

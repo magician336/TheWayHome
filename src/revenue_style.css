@@ -1,146 +1,260 @@
-/* revenue_style.css - 第二屏专属配置*/
+/* revenue_style.css - 第二屏专属配置 (优化版) */
 
 /* --- 【配置区域】 --- */
 #revenue-section {
-    /* 这一页我想用稍微严肃点的字体风格 */
+    /* 字体系统 */
+    --rev-font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --rev-font-serif: "KaiTi", "STKaiti", "Baskerville", serif;
+    /* 增加楷体兼容性 */
+
+    /* 尺寸配置 */
     --rev-title-size: 2.8rem;
-    --rev-desc-size: 1.2rem;
-    --rev-text-color: #e0e0e0;
+    --rev-desc-size: 1.1rem;
 
-    /* 这一页的主题色是粉色和橙色，配合图表 */
-    --rev-accent-color: #ff69b4;
+    /* 配色系统 */
+    --rev-bg-color: transparent;
+    /* 保持背景透明或设为深色 */
+    --rev-text-main: #e0e0e0;
+    --rev-text-muted: #aaaaaa;
 
-    /* 图表本身的配置 (保留你之前的) */
-    --rev-axis-color: #aaaaaa;
-    --rev-growth-color: #ff69b4;
+    /* 主题色：粉色(增长) & 橙色(收入) */
+    --rev-accent-pink: #ff69b4;
+    --rev-accent-orange: #fdae6b;
+    --rev-axis-color: #666666;
+    /* 坐标轴颜色稍微调深一点，更有质感 */
+    --rev-grid-color: rgba(255, 255, 255, 0.1);
+    /* 新增：网格线颜色 */
+}
+
+/* 移动端适配：屏幕小于 768px 时调整字号 */
+@media (max-width: 768px) {
+    #revenue-section {
+        --rev-title-size: 2rem;
+        --rev-desc-size: 1rem;
+    }
 }
 
 /* --- 【样式实现区域】 --- */
 
+#revenue-section {
+    position: relative;
+    width: 100%;
+    /* 防止外边距塌陷 */
+    overflow: hidden;
+}
+
 /* 这一页的标题 */
 #revenue-section .section-title {
+    font-family: var(--rev-font-primary);
     font-size: var(--rev-title-size);
-    color: var(--rev-accent-color);
-    /* 使用粉色标题 */
-    text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+    color: var(--rev-accent-pink);
+    font-weight: 700;
+    /* 优化发光效果：多层阴影营造层次感 */
+    text-shadow:
+        0 0 5px rgba(255, 105, 180, 0.2),
+        0 0 15px rgba(255, 105, 180, 0.4);
+    margin-bottom: 1rem;
 }
 
 /* 这一页的描述文字 */
 #revenue-section .description {
     font-size: var(--rev-desc-size);
-    color: var(--rev-text-color);
-    max-width: 900px;
-    /* 这一页文字可以宽一点 */
+    color: var(--rev-text-main);
+    max-width: 800px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
 }
 
 /* 这一页的动态分析文字 */
 #revenue-section .dynamic-analysis {
-    color: #fdae6b;
-    /* 橙色 */
-    font-family: "KaiTi", serif;
-    /* 这一行字我想用楷体 */
+    color: var(--rev-accent-orange);
+    font-family: var(--rev-font-serif);
+    font-size: 1.1em;
+    padding: 10px 0;
+    border-left: 3px solid var(--rev-accent-orange);
+    padding-left: 15px;
+    margin-bottom: 20px;
+    background: linear-gradient(90deg, rgba(253, 174, 107, 0.1), transparent);
 }
 
-/* 图表容器 */
+/* --- 图表容器 (核心优化) --- */
 #revenue-chart {
     width: 100%;
-    height: 100%;
-
-    min-height: 500px;
-    min-width: 800px;
+    /* 移除硬性 min-width: 800px，改为 100% 配合 overflow 处理 */
+    /* 保持一定高度，但允许在小屏幕上调整 */
+    height: 60vh;
+    min-height: 400px;
+    max-height: 700px;
 
     position: relative;
+    /* 径向渐变：中间深灰 -> 边缘纯黑 */
+    background: radial-gradient(circle at center,
+            rgba(40, 40, 50, 0.8) 0%,
+            rgba(10, 10, 15, 0.9) 100%);
 
-    --rev-text-color: #e0e0e0;
-    /* 文字颜色 */
-    --rev-axis-color: #aaaaaa;
-    /* 坐标轴颜色 */
-    --rev-growth-color: #ff69b4;
-    /* 增长率折线颜色 (粉色) */
-    --rev-bar-hover: #ffffff;
-    /* 柱子悬停边框色 */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    /* 内阴影增加深邃感 */
+
+    /* 内边距 */
+    padding: 20px;
+    box-sizing: border-box;
 }
+
+/* SVG 内部样式 */
 
 /* 标题样式 */
 #revenue-chart .chart-title {
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: bold;
-    fill: var(--rev-text-color);
-    text-shadow: 0 0 10px rgba(244, 252, 7, 0.5);
-    /* 保持原本的发光效果 */
+    fill: var(--rev-text-main);
+    /* 稍微减弱标题发光，避免抢视觉中心 */
+    text-shadow: 0 0 8px rgba(244, 252, 7, 0.3);
 }
 
 /* 坐标轴通用样式 */
 #revenue-chart .axis text {
-    fill: var(--rev-text-color);
-    font-size: 12px;
+    fill: var(--rev-text-muted);
+    font-size: 15px;
+    font-family: var(--rev-font-primary);
 }
 
-#revenue-chart .axis line,
-#revenue-chart .axis path.domain {
-    stroke: var(--chart-axis-color);
+#revenue-chart .axis path,
+#revenue-chart .axis line {
+    stroke: var(--rev-axis-color);
+    /* 让线条更锐利 */
+    shape-rendering: crispEdges;
 }
 
-/* 坐标轴标签 (如 "实际收入(亿元)") */
+/* 坐标轴标签 */
 #revenue-chart .axis-label {
-    fill: var(--rev-text-color);
-    font-size: 14px;
-    font-weight: 600;
+    fill: var(--rev-text-main);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* 辅助网格线 (需要在 D3 代码中添加 grid class) */
+#revenue-chart .grid-line {
+    stroke: var(--rev-grid-color);
+    stroke-dasharray: 4, 4;
+}
+
+/* --- 数据元素 --- */
+
+/* 柱子 */
+#revenue-chart .bar {
+    /* 填充色通常由 JS 控制，这里控制交互 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* 默认稍微带一点透明度，显得现代 */
+    opacity: 0.9;
+}
+
+/* 柱子悬停效果：不再只是变透明，而是变亮且发光 */
+#revenue-chart .bar:hover {
+    opacity: 1;
+    filter: brightness(1.2);
+    /* 只有在支持 SVG filter 的浏览器才显示阴影，性能考虑可去掉 */
+    filter: drop-shadow(0 0 5px var(--rev-accent-orange));
 }
 
 /* 增长率折线 */
 #revenue-chart .growth-line {
     fill: none;
-    stroke: var(--rev-growth-color);
-    stroke-width: 2.5px;
+    stroke: var(--rev-accent-pink);
+    stroke-width: 3px;
+    /* 让折线连接处圆润 */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    /* 添加滤镜让线条发光 */
+    filter: drop-shadow(0 0 3px rgba(255, 105, 180, 0.5));
 }
 
 /* 增长率圆点 */
 #revenue-chart .growth-dot {
-    fill: var(--rev-growth-color);
-    stroke: var(--rev-text-color);
+    fill: #fff;
+    /* 内部白色 */
+    stroke: var(--rev-accent-pink);
+    /* 边框粉色 */
     stroke-width: 2px;
-    transition: r 0.2s ease;
-    /* 添加一点动画效果 */
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-box: fill-box;
+    transform-origin: center;
 }
 
-/* 柱状图交互效果 */
-#revenue-chart .bar {
-    transition: opacity 0.2s;
+#revenue-chart .growth-dot:hover {
+    transform: scale(1.5);
+    /* 悬停放大 */
+    fill: var(--rev-accent-pink);
+    stroke: #fff;
+    cursor: pointer;
 }
 
+/* 图例 */
 #revenue-chart .legend-text {
-    fill: var(--rev-text-color);
+    fill: var(--rev-text-muted);
     font-size: 12px;
+    font-weight: 400;
     dominant-baseline: middle;
 }
 
-/* --- 专用 Tooltip 样式 --- */
-/* Tooltip 通常挂在 body 上以避免遮挡，所以它不能写在 #revenue-chart 里面，
-   必须给它起一个独特的名字以防冲突 */
+/* --- 专用 Tooltip 样式 (增强版) --- */
 .revenue-dedicated-tooltip {
     position: fixed;
+    /* 初始状态：完全隐藏 */
+    opacity: 0;
     visibility: hidden;
-    background-color: rgba(0, 0, 0, 0.85);
+
+    background-color: rgba(20, 20, 20, 0.9);
+    /* 深色背景 */
     color: #fff;
-    padding: 10px 14px;
-    border-radius: 6px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: var(--rev-font-primary);
     font-size: 13px;
+    line-height: 1.6;
+
     pointer-events: none;
     z-index: 9999;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    line-height: 1.6;
+
+    /* 玻璃拟态效果 */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* 边框和阴影 */
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+    /* 出现动画 */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateY(10px);
+    /* 默认向下偏移一点 */
 }
 
-/* Tooltip 内部特定的高亮样式 */
+/* Tooltip 显示状态 (JS 添加此类时触发) */
+.revenue-dedicated-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.revenue-dedicated-tooltip strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 2px;
+}
+
 .revenue-dedicated-tooltip .val-money {
-    color: #fdae6b;
-    font-weight: bold;
+    color: var(--rev-accent-orange);
+    font-weight: 700;
+    font-size: 1.1em;
 }
 
 .revenue-dedicated-tooltip .val-rate {
-    color: #ff69b4;
-    font-weight: bold;
+    color: var(--rev-accent-pink);
+    font-weight: 700;
 }
