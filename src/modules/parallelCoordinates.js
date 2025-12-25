@@ -3,7 +3,6 @@ const ANIMATION_DURATION = 500;
 
 let selectedAxisIndex = null;
 let isFocusMode = false;
-let matrixState = { x: 0, y: 0, isDragged: false };
 let prevCorrelationR = 0;
 
 function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorSelectId, searchNameId, selectYearId, exitFocusBtnId) {
@@ -120,15 +119,6 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
       const isF = s !== "" || y_val !== "";
       
       d3.select(this).style("stroke-opacity", isFocusMode ? (match ? 0.1 : 0.02) : (match ? (isF ? 1 : 0.6) : 0.05));
-      
-      const restoreDot = (selector) => {
-        d3.select(selector).selectAll(".matrix-dot")
-          .filter(p => p.name === d.name)
-          .attr("r", d3.select(selector).classed("expanded") ? 4 : 2)
-          .style("fill", p => cScale(p[colorKey])).style("stroke", "none");
-      };
-      restoreDot("#strategy-matrix-group");
-      restoreDot("#expanded-matrix-group");
     });
 
   const axisG = svg.selectAll("g.axis").data(parallelDimensions, d => d).enter()
@@ -227,10 +217,6 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
           .style("stroke", cScale(d[colorKey])).style("stroke-opacity", 0.8).style("stroke-width", 1.5).style("fill", "none").style("pointer-events", "none");
       }
     });
-
-    if (parallelDimensions[2] === 'discount_strength' || parallelDimensions[3] === 'discount_strength') {
-        drawDiscountStrategyMatrix(svg, width, height, cScale, colorKey, x, data, parallelDimensions);
-    }
     
     drawCorrelationBar(svg, width, cScale, parallelDimensions, data);
   }
@@ -272,155 +258,6 @@ function renderLegend(svg, width, height, ext, scale, key, nameMap) {
   g.append("g").attr("transform", `translate(0,${lH + 5})`).call(d3.axisBottom(d3.scaleLinear().domain(ext).range([0, lW])).ticks(5));
   g.append("text").attr("x", lW / 2).attr("y", -5)
     .style("text-anchor", "middle").style("font-size", "11px").text(nameMap[key] || key);
-}
-
-function drawDiscountStrategyMatrix(svg, chartWidth, chartHeight, cScale, colorKey, xScale, data, parallelDimensions) {
-  const baseW = 120, baseH = 70; 
-  let hideTimer = null; 
-
-  if (!matrixState.isDragged) {
-      if (xScale && parallelDimensions.length >= 4) {
-          const xPos2 = xScale(parallelDimensions[2]);
-          const xPos3 = xScale(parallelDimensions[3]);
-          const centerX = (xPos2 + xPos3) / 2 - (baseW / 2);
-          matrixState.x = centerX;
-          matrixState.y = -90; 
-      }
-  }
-
-  const group = svg.append("g").attr("id", "strategy-matrix-group")
-    .attr("transform", `translate(${matrixState.x}, ${matrixState.y})`);
-
-  const drag = d3.drag()
-    .on("start", function() { d3.select(this).style("cursor", "grabbing").raise(); })
-    .on("drag", function(event) {
-      matrixState.isDragged = true; 
-      matrixState.x += event.dx;
-      matrixState.y += event.dy;
-      group.attr("transform", `translate(${matrixState.x}, ${matrixState.y})`);
-    })
-    .on("end", function() { d3.select(this).style("cursor", "grab"); });
-
-  group.call(drag).style("cursor", "grab");
-
-  group.append("rect").attr("width", baseW).attr("height", baseH)
-    .attr("fill", "var(--card-bg)").attr("stroke", "var(--border-color)").attr("stroke-width", 1).attr("rx", 4);
-  group.append("text").attr("x", 5).attr("y", 12).text("折扣策略 (拖拽/Hover展开)")
-    .style("font-size", "9px").style("fill", "var(--text-main)").style("font-weight", "bold").style("pointer-events", "none");
-
-  const clipId = "matrix-clip";
-  group.append("clipPath").attr("id", clipId).append("rect").attr("x", 0).attr("y", 15).attr("width", baseW).attr("height", baseH - 15);
-  const plotG = group.append("g").attr("clip-path", `url(#${clipId})`).style("pointer-events", "none");
-
-  const matrixData = data.filter(d => d.strategy_class !== "未知" && d.original_price > 0);
-
-  const maxFreq = d3.max(matrixData, d => d.discount_frequency) || 5;
-  const x = d3.scaleLinear().domain([0, maxFreq]).range([5, baseW - 5]);
-  const y = d3.scaleLinear().domain([0, 0.5]).range([baseH - 5, 20]); 
-
-  plotG.selectAll("circle").data(matrixData).enter().append("circle")
-    .attr("class", "matrix-dot")
-    .attr("cx", d => x(d.discount_frequency))
-    .attr("cy", d => y(Math.min(d.avg_discount_rate, 0.5)))
-    .attr("r", 2).style("fill", d => cScale(d[colorKey])).style("opacity", 0.6);
-
-  const showExpandedMatrix = () => {
-      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-      if (!d3.select("#expanded-matrix-group").empty()) return; 
-
-      const bigW = 500, bigH = 350;
-      const bigX = (chartWidth - bigW) / 2; 
-      const bigY = (chartHeight - bigH) / 2;
-
-      const expandedG = svg.append("g").attr("id", "expanded-matrix-group")
-        .attr("class", "expanded")
-        .attr("transform", `translate(${bigX}, ${bigY})`)
-        .style("opacity", 0);
-      
-      expandedG
-        .on("mouseover", () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } })
-        .on("mouseout", () => {
-            hideTimer = setTimeout(() => {
-                d3.select("#expanded-matrix-group").transition().duration(150).style("opacity", 0).remove();
-            }, 300);
-        });
-
-      expandedG.append("rect").attr("width", bigW).attr("height", bigH)
-        .attr("fill", "var(--card-bg)").attr("stroke", "var(--accent-color)").attr("stroke-width", 2).attr("rx", 8)
-        .style("filter", "drop-shadow(0 10px 20px rgba(0,0,0,0.3))");
-
-      const bx = d3.scaleLinear().domain([0, maxFreq]).range([50, bigW - 30]);
-      const by = d3.scaleLinear().domain([0, 0.5]).range([bigH - 40, 40]);
-
-      expandedG.append("g").attr("transform", `translate(0, ${bigH - 40})`)
-        .call(d3.axisBottom(bx).ticks(10))
-        .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll("text").style("fill", "var(--text-main)"));
-      
-      expandedG.append("g").attr("transform", `translate(50, 0)`)
-        .call(d3.axisLeft(by).ticks(5).tickFormat(d => (d*100)+"%"))
-        .call(g => g.select(".domain").remove())
-        .call(g => g.selectAll("text").style("fill", "var(--text-main)"));
-
-      expandedG.append("text").attr("x", bigW/2).attr("y", bigH - 5).text("年均打折频率 (次/年)").style("text-anchor", "middle").style("font-size", "12px").style("fill", "#666");
-      expandedG.append("text").attr("transform", "rotate(-90)").attr("x", -bigH/2).attr("y", 15).text("平均折扣深度").style("text-anchor", "middle").style("font-size", "12px").style("fill", "#666");
-
-      const midFreq = 3.0; 
-      const midRate = 0.25; 
-      expandedG.append("line").attr("x1", bx(midFreq)).attr("y1", 40).attr("x2", bx(midFreq)).attr("y2", bigH-40).style("stroke", "#ccc").style("stroke-dasharray", "4,4");
-      expandedG.append("line").attr("x1", 50).attr("y1", by(midRate)).attr("x2", bigW-30).attr("y2", by(midRate)).style("stroke", "#ccc").style("stroke-dasharray", "4,4");
-
-      expandedG.selectAll("circle").data(matrixData).enter().append("circle")
-        .attr("class", "matrix-dot")
-        .attr("cx", d => bx(d.discount_frequency))
-        .attr("cy", d => by(Math.min(d.avg_discount_rate, 0.5)))
-        .attr("r", 4)
-        .style("fill", d => cScale(d[colorKey]))
-        .style("opacity", 0.7)
-        .style("stroke", "#fff").style("stroke-width", 0.5)
-        .on("mouseover", function(event, d) {
-             d3.select(this).attr("r", 7).style("stroke", "#ff0000").style("stroke-width", 2).raise();
-             
-             let eventsHtml = "";
-             if (d.events_breakdown) {
-                const events = Object.entries(d.events_breakdown)
-                    .filter(([k, v]) => v > 0 && k !== "日常")
-                    .sort((a, b) => b[1] - a[1]).slice(0, 3);
-                if (events.length > 0) {
-                    eventsHtml = `<div class="tooltip-row" style="margin-top:4px; color:#ff8800;"><span>🔥 热门节点:</span> <b>${events.map(e => e[0].split(' ')[0]).join(', ')}</b></div>`;
-                }
-             }
-             
-             if (typeof Utils !== 'undefined' && Utils.showTooltip) {
-               Utils.showTooltip(event, `
-                  <div class="tooltip-title">${d.name}</div>
-                  <div class="tooltip-row"><span>📊 策略类型:</span> <b>${d.strategy_class}</b></div>
-                  <div class="tooltip-row"><span>📉 年均折扣:</span> <b>${d.discount_frequency.toFixed(1)} 次</b></div>
-                  <div class="tooltip-row"><span>💸 平均折扣:</span> <b>${(d.avg_discount_rate*100).toFixed(0)}% (off)</b></div>
-                  <div class="tooltip-row"><span>🎉 节假日占比:</span> <b>${(d.seasonal_ratio*100).toFixed(0)}%</b></div>
-                  ${eventsHtml}
-               `);
-             }
-        })
-        .on("mouseout", function() {
-             d3.select(this).attr("r", 4).style("stroke", "#fff").style("stroke-width", 0.5);
-             GlobalVizConfig.setupTooltip().style("opacity", 0);
-        });
-
-      const labelStyle = "font-size:14px; font-weight:bold; fill:var(--text-main); opacity:0.8; pointer-events:none;";
-      expandedG.append("text").attr("x", bigW - 40).attr("y", 60).attr("text-anchor", "end").attr("style", labelStyle).text("💸 清仓甩卖型");
-      expandedG.append("text").attr("x", 60).attr("y", 60).attr("text-anchor", "start").attr("style", labelStyle).text("💎 高冷节日型");
-      expandedG.append("text").attr("x", 60).attr("y", bigH - 50).attr("text-anchor", "start").attr("style", labelStyle).text("🛡️ 价值坚守型");
-      expandedG.append("text").attr("x", bigW - 40).attr("y", bigH - 50).attr("text-anchor", "end").attr("style", labelStyle).text("📢 刷脸曝光型");
-
-      expandedG.transition().duration(200).style("opacity", 1);
-  };
-
-  group.on("mouseover", showExpandedMatrix).on("mouseout", function() {
-      hideTimer = setTimeout(() => {
-        d3.select("#expanded-matrix-group").transition().duration(150).style("opacity", 0).remove();
-      }, 300);
-  });
 }
 
 function drawCorrelationBar(svg, chartWidth, cScale, parallelDimensions, data) {
@@ -497,4 +334,3 @@ const ParallelCoordinates = {
 };
 
 window.ParallelCoordinates = ParallelCoordinates;
-

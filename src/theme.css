@@ -1,6 +1,5 @@
-/* shared-theme.css */
+/* theme.css */
 :root {
-    /* 浅色模式一键切换 */
     --bg-color: #ffffff;
     --text-main: #1e293b;
     --card-bg: #f8fafc;
@@ -10,7 +9,6 @@
     --font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
-/* 移除全局 body 选择器，改为沙箱化容器 */
 .chart-lpt {
     background-color: var(--bg-color);
     color: var(--text-main);
@@ -20,25 +18,34 @@
     border: 1px solid var(--border-color);
 }
 
-/* 强制规范所有图表的文字 */
+/* --- 核心修复：移除 fill 的 !important --- */
 .shared-viz-svg text {
     font-family: var(--font-family);
-    fill: var(--text-main) !important;
+    fill: var(--text-main); /* 移除 !important，允许 D3 覆盖颜色 */
 }
 
-/* 选中轴的标题例外：使用 accent-color 突出显示 */
+/* 选中轴的标题例外 */
 .shared-viz-svg .axis-title.axis-selected {
     fill: var(--accent-color) !important;
 }
 
-/* 气泡图文字例外：深色背景上使用白色文字 */
+/* 气泡图文字例外 */
 .shared-viz-svg .bubble-text,
 .shared-viz-svg .bubble-subtext {
     fill: #fff !important;
 }
 
-/* 统一 Tooltip 样式 */
-.viz-tooltip {
+/* Tag图的标签文字增强 */
+.shared-viz-svg .tag-text {
+    font-weight: 800;
+    paint-order: stroke;
+    stroke: var(--bg-color);
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/*.viz-tooltip {
     position: fixed;
     background: rgba(255, 255, 255, 0.95);
     color: #1e293b;
@@ -47,11 +54,38 @@
     padding: 12px;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     pointer-events: none;
+    z-index: 10000;
+    backdrop-filter: blur(4px);
+    transition: opacity 0.2s;
+}*/
+/* theme.css */
+
+.viz-tooltip {
+    position: absolute; /* 确保是绝对定位 */
+    background: rgba(255, 255, 255, 0.98);
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    pointer-events: none; /* 关键：Tooltip 自己不能挡鼠标 */
     z-index: 9999;
     backdrop-filter: blur(4px);
+    transition: opacity 0.1s;
+    min-width: 220px;
+    max-width: 300px;
+}*/
+
+.tag-pill {
+    display: inline-block; 
+    border: 1px solid; 
+    padding: 2px 8px; 
+    margin: 2px; 
+    border-radius: 12px; 
+    font-size: 11px; 
+    font-weight: 500;
 }
 
-/* 强制统一坐标轴样式，开发者无需再写 .attr("fill", ...) */
 .shared-viz-svg .domain,
 .shared-viz-svg .tick line {
     stroke: var(--grid-color) !important;
@@ -62,16 +96,8 @@
     font-size: 11px;
 }
 
-/* 统一图例标题样式 */
 .legend-title {
     fill: var(--accent-color) !important;
     font-weight: bold;
     font-size: 14px;
-}
-
-/* 修复 Tooltip 的显示层级 */
-.viz-tooltip {
-    z-index: 10000;
-    pointer-events: none;
-    transition: opacity 0.2s;
 }

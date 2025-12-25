@@ -27,6 +27,7 @@ function init() {
   ParallelCoordinates.draw(data, parallelDimensions, nameMap, 'main-chart-container', 'colorSelect', 'searchName', 'selectYear', 'exitFocusBtn');
   TagBubble.draw(tagData, 'tag-viz');
   updateScatter();
+  updateDiscountMatrix();
 }
 
 window.redrawParallelChart = function() {
@@ -46,6 +47,20 @@ function updateScatter() {
   const xKey = document.getElementById('scatterX').value;
   const yKey = document.getElementById('scatterY').value;
   ScatterPlot.draw(data, nameMap, xKey, yKey, 'scatter-viz', 'colorSelect');
+}
+
+function updateDiscountMatrix() {
+  const data = DataManager.getData();
+  const colorKey = document.getElementById('colorSelect').value;
+  const cExtent = d3.extent(data, d => d[colorKey]);
+  let scaleDomain = [cExtent[1], cExtent[0]];
+  if (colorKey === 'favorable_rate') {
+    scaleDomain = [cExtent[0], cExtent[1]];
+  }
+  const cScale = d3.scaleSequential()
+    .domain(scaleDomain)
+    .interpolator(t => d3.interpolateTurbo(0.95 - 0.85 * t));
+  DiscountStrategyMatrix.draw(data, cScale, colorKey, 'discount-matrix-viz');
 }
 
 window.resetFilters = () => { 
