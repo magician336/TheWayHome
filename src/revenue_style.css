@@ -1,0 +1,146 @@
+/* revenue_style.css - 第二屏专属配置*/
+
+/* --- 【配置区域】 --- */
+#revenue-section {
+    /* 这一页我想用稍微严肃点的字体风格 */
+    --rev-title-size: 2.8rem;
+    --rev-desc-size: 1.2rem;
+    --rev-text-color: #e0e0e0;
+
+    /* 这一页的主题色是粉色和橙色，配合图表 */
+    --rev-accent-color: #ff69b4;
+
+    /* 图表本身的配置 (保留你之前的) */
+    --rev-axis-color: #aaaaaa;
+    --rev-growth-color: #ff69b4;
+}
+
+/* --- 【样式实现区域】 --- */
+
+/* 这一页的标题 */
+#revenue-section .section-title {
+    font-size: var(--rev-title-size);
+    color: var(--rev-accent-color);
+    /* 使用粉色标题 */
+    text-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+}
+
+/* 这一页的描述文字 */
+#revenue-section .description {
+    font-size: var(--rev-desc-size);
+    color: var(--rev-text-color);
+    max-width: 900px;
+    /* 这一页文字可以宽一点 */
+}
+
+/* 这一页的动态分析文字 */
+#revenue-section .dynamic-analysis {
+    color: #fdae6b;
+    /* 橙色 */
+    font-family: "KaiTi", serif;
+    /* 这一行字我想用楷体 */
+}
+
+/* 图表容器 */
+#revenue-chart {
+    width: 100%;
+    height: 100%;
+
+    min-height: 500px;
+    min-width: 800px;
+
+    position: relative;
+
+    --rev-text-color: #e0e0e0;
+    /* 文字颜色 */
+    --rev-axis-color: #aaaaaa;
+    /* 坐标轴颜色 */
+    --rev-growth-color: #ff69b4;
+    /* 增长率折线颜色 (粉色) */
+    --rev-bar-hover: #ffffff;
+    /* 柱子悬停边框色 */
+}
+
+/* 标题样式 */
+#revenue-chart .chart-title {
+    font-size: 20px;
+    font-weight: bold;
+    fill: var(--rev-text-color);
+    text-shadow: 0 0 10px rgba(244, 252, 7, 0.5);
+    /* 保持原本的发光效果 */
+}
+
+/* 坐标轴通用样式 */
+#revenue-chart .axis text {
+    fill: var(--rev-text-color);
+    font-size: 12px;
+}
+
+#revenue-chart .axis line,
+#revenue-chart .axis path.domain {
+    stroke: var(--chart-axis-color);
+}
+
+/* 坐标轴标签 (如 "实际收入(亿元)") */
+#revenue-chart .axis-label {
+    fill: var(--rev-text-color);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* 增长率折线 */
+#revenue-chart .growth-line {
+    fill: none;
+    stroke: var(--rev-growth-color);
+    stroke-width: 2.5px;
+}
+
+/* 增长率圆点 */
+#revenue-chart .growth-dot {
+    fill: var(--rev-growth-color);
+    stroke: var(--rev-text-color);
+    stroke-width: 2px;
+    transition: r 0.2s ease;
+    /* 添加一点动画效果 */
+}
+
+/* 柱状图交互效果 */
+#revenue-chart .bar {
+    transition: opacity 0.2s;
+}
+
+#revenue-chart .legend-text {
+    fill: var(--rev-text-color);
+    font-size: 12px;
+    dominant-baseline: middle;
+}
+
+/* --- 专用 Tooltip 样式 --- */
+/* Tooltip 通常挂在 body 上以避免遮挡，所以它不能写在 #revenue-chart 里面，
+   必须给它起一个独特的名字以防冲突 */
+.revenue-dedicated-tooltip {
+    position: fixed;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    pointer-events: none;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    line-height: 1.6;
+}
+
+/* Tooltip 内部特定的高亮样式 */
+.revenue-dedicated-tooltip .val-money {
+    color: #fdae6b;
+    font-weight: bold;
+}
+
+.revenue-dedicated-tooltip .val-rate {
+    color: #ff69b4;
+    font-weight: bold;
+}

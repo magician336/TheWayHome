@@ -1,4 +1,7 @@
-@import "/node_modules/@magician336/assets/theme.css";
+/* 全局布局和动画 */
+:root {
+    --transition-speed: 0.8s;
+}
 
 * {
     box-sizing: border-box;
@@ -6,66 +9,121 @@
 
 html,
 body {
-    height: 100%;
-}
-
-body {
     margin: 0;
-    font-family: var(--font-family);
-    background: var(--bg-color);
-    color: var(--text-main);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-}
-
-.app-header,
-.app-footer {
-    padding: 12px 16px;
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border-color);
-}
-
-.app-footer {
-    border-top: 1px solid var(--border-color);
-    border-bottom: none;
-}
-
-.app-header h1 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--accent-color);
-}
-
-.app-main {
-    padding: 16px;
-}
-
-.chart-container {
+    padding: 0;
     width: 100%;
-    max-width: 960px;
-    height: 480px;
-    /* 初始高度，可按需调整 */
-    margin: 0 auto;
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    position: relative;
+    height: 100%;
+    font-family: "PingFang SC", sans-serif;
+    color: #fff;
+    overflow-x: hidden;
 }
 
-.chart-container .placeholder {
+/* 背景容器 */
+#bg-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.bg-layer {
     position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    color: var(--text-main);
-    opacity: 0.6;
-}
-
-/* D3 绘制的 SVG 充满容器 */
-.chart-container svg {
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    display: block;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease-in-out;
+}
+
+.bg-layer.active {
+    opacity: 1;
+}
+
+/* 页面布局 */
+main {
+    position: relative;
+    z-index: 1;
+}
+
+section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.content-wrapper {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* 滚动揭示动画 */
+/* 1. 容器状态：仅作为触发器，不负责具体动画 */
+.reveal {
+    /* 这里的样式留空或保持默认即可 */
+}
+
+/* 2. 子元素初始状态：隐藏、下沉、缩小 */
+/* 我们直接控制 content-wrapper 里面的每一个直接子元素 (h1, p, div...) */
+.reveal>* {
+    opacity: 0;
+    /* 向下位移 60px，增加沉重感 */
+    /* 缩小到 0.9，制造纵深感 */
+    transform: translateY(60px) scale(0.9);
+
+    /* 告诉浏览器提前准备渲染，防止滚动卡顿 */
+    will-change: opacity, transform;
+
+    /* 使用弹性贝塞尔曲线：让动画带有"冲过头再弹回来"的感觉 */
+    transition:
+        opacity 0.6s ease-out,
+        transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 3. 激活状态：回到原位 */
+/* 当 JS 给父级加上 .visible 类时，所有子元素归位 */
+.reveal.visible>* {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* --- 关键点：错峰动画 (Staggering) --- */
+/* 让子元素一个接一个地出来，而不是一窝蜂挤出来 */
+
+/* 第1个元素 (通常是标题) - 几乎立即出现 */
+.reveal.visible>*:nth-child(1) {
+    transition-delay: 0.05s;
+}
+
+/* 第2个元素 (通常是副标题) - 延迟一下 */
+.reveal.visible>*:nth-child(2) {
+    transition-delay: 0.15s;
+}
+
+/* 第3个元素 (通常是图表或统计栏) - 再延迟 */
+.reveal.visible>*:nth-child(3) {
+    transition-delay: 0.25s;
+}
+
+/* 第4个及以后的元素 - 延迟更久 */
+.reveal.visible>*:nth-child(n+4) {
+    transition-delay: 0.35s;
+}
+
+/* --- 通用类名定义 (只给默认值，具体由各页面CSS覆盖) --- */
+.main-title,
+.section-title {
+    margin-bottom: 1rem;
+    font-weight: bold;
 }
