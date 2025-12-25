@@ -1,28 +1,76 @@
-/* 初始化一个空的 D3 图表画布 */
-(function initChart() {
-    const container = document.getElementById('chart');
-    if (!container) return;
+async function loadData() {
+  const result = await DataManager.loadData();
+  initYearSelect();
+  init();
+}
 
-    // 创建 SVG（响应式填充容器）
-    const svg = d3.select(container)
-        .append('svg')
-        .attr('viewBox', `0 0 ${container.clientWidth} ${container.clientHeight}`)
-        .attr('preserveAspectRatio', 'xMidYMid meet');
-
-    // 背景占位文本，提示可开始绘制
-    svg.append('text')
-        .attr('x', container.clientWidth / 2)
-        .attr('y', container.clientHeight / 2)
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr('fill', '#94a3b8')
-        .style('font-size', '16px')
-        .text('在此处使用 D3.js 绘制你的图表');
-
-    // 简单的自适应：窗口大小变化时更新 viewBox
-    window.addEventListener('resize', () => {
-        const w = container.clientWidth;
-        const h = container.clientHeight;
-        svg.attr('viewBox', `0 0 ${w} ${h}`);
+function initYearSelect() {
+  const data = DataManager.getData();
+  const yearSelect = document.getElementById('selectYear');
+  if (data.length > 0) {
+    const years = [...new Set(data.map(d => d.year))].sort((a, b) => b - a);
+    years.forEach(year => {
+      const opt = document.createElement('option');
+      opt.value = year;
+      opt.innerText = year;
+      yearSelect.appendChild(opt);
     });
-})();
+  }
+}
+
+function init() {
+  const data = DataManager.getData();
+  const tagData = DataManager.getTagData();
+  const nameMap = DataManager.getNameMap();
+  const parallelDimensions = DataManager.getParallelDimensions();
+  
+  ParallelCoordinates.draw(data, parallelDimensions, nameMap, 'main-chart-container', 'colorSelect', 'searchName', 'selectYear', 'exitFocusBtn');
+  TagBubble.draw(tagData, 'tag-viz');
+  updateScatter();
+}
+
+window.redrawParallelChart = function() {
+  const data = DataManager.getData();
+  const nameMap = DataManager.getNameMap();
+  const parallelDimensions = DataManager.getParallelDimensions();
+  ParallelCoordinates.draw(data, parallelDimensions, nameMap, 'main-chart-container', 'colorSelect', 'searchName', 'selectYear', 'exitFocusBtn');
+};
+
+window.exitFocusMode = function() {
+  ParallelCoordinates.exitFocusMode('exitFocusBtn');
+};
+
+function updateScatter() {
+  const data = DataManager.getData();
+  const nameMap = DataManager.getNameMap();
+  const xKey = document.getElementById('scatterX').value;
+  const yKey = document.getElementById('scatterY').value;
+  ScatterPlot.draw(data, nameMap, xKey, yKey, 'scatter-viz', 'colorSelect');
+}
+
+window.resetFilters = () => { 
+    document.getElementById('searchName').value = ''; 
+    document.getElementById('selectYear').value = ''; 
+    if (window.updateParallelChart) {
+      window.updateParallelChart("", ""); 
+    }
+};
+
+document.getElementById('searchName').addEventListener('input', e => {
+  if (window.updateParallelChart) {
+    window.updateParallelChart(e.target.value, document.getElementById('selectYear').value);
+  }
+});
+document.getElementById('selectYear').addEventListener('change', e => {
+  if (window.updateParallelChart) {
+    window.updateParallelChart(document.getElementById('searchName').value, e.target.value);
+  }
+});
+document.getElementById('colorSelect').addEventListener('change', () => { 
+  init();
+});
+document.getElementById('scatterX').addEventListener('change', updateScatter);
+document.getElementById('scatterY').addEventListener('change', updateScatter);
+window.addEventListener('resize', () => init());
+
+loadData();
