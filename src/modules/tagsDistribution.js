@@ -68,10 +68,9 @@ function drawTagBubbleChart(tagData, containerId) {
         opacity: 1; 
         display: flex;
         flex-direction: column;
-        position: relative; /* 为内部绝对定位的SVG做参照 */
+        position: relative;
     }
     
-    /* 卡片背景花纹层 */
     .card-decoration-svg {
         position: absolute;
         top: 0; left: 0;
@@ -282,20 +281,22 @@ function drawTagBubbleChart(tagData, containerId) {
   });
 
   // ============================================
-  //  🌺 启动花开动画
+  //  🌺 启动花开动画 (Spiral Bloom)
   // ============================================
   
   const wreathGroup = ornamentGroup.append("g")
       .attr("class", "floral-wreath")
-      .attr("transform", "scale(0) rotate(-90)");
+      .attr("transform", "scale(0) rotate(-90)"); // 初始缩放+旋转
 
-  generateEntwinedWreath(wreathGroup); 
+  // 【核心修改】执行颜色扫描，并生成花环
+  generateSequentialWreath(wreathGroup); 
 
   playBloomAnimation();
 
   function playBloomAnimation() {
       const duration = 2000; 
 
+      // 1. 花环容器整体展开 (从中心放大)
       wreathGroup.transition()
           .duration(duration)
           .ease(d3.easeBackOut.overshoot(0.6)) 
@@ -306,6 +307,7 @@ function drawTagBubbleChart(tagData, containerId) {
   }
 
   function bloomInnerContent() {
+      // 1. 气泡浮现
       cellPaths.transition()
           .delay(100)
           .duration(1200)
@@ -315,31 +317,46 @@ function drawTagBubbleChart(tagData, containerId) {
               cellPaths.style("pointer-events", "all");
           });
 
+      // 2. 边界浮现
       groupBorders.transition()
           .delay(100)
           .duration(1200)
           .ease(d3.easeCubicOut)
           .style("stroke-opacity", 0.5);
 
+      // 3. 文字自然浮现
+      const textBaseDelay = 2800; // 等圆环(1.5s) + 叶子(1.5s) 差不多了再出
+      
       textGroup.selectAll("text")
           .transition()
           .duration(800)
           .delay((d) => {
-              if (!d || !d.polygon) return 1000;
+              if (!d || !d.polygon) return textBaseDelay;
               const centroid = d3.polygonCentroid(d.polygon);
               const dist = Math.hypot(centroid[0], centroid[1]);
-              return 800 + dist * 2.5; 
+              return textBaseDelay + dist * 2.5; 
           })
           .style("opacity", 1);
   }
 
-  // --- 🌺 生成缠绕花环 ---
-  function generateEntwinedWreath(container) {
+  // --- 🌺 生成缠绕花环 (Sequential + Stored Color Map) ---
+  function generateSequentialWreath(container) {
       const ringRadius = radius + 12; 
-      const segmentCount = 180; 
-      const growthDuration = 1500; 
+      
+      // 时间控制
+      const ringDrawTime = 1500; 
+      const leafDrawTime = 1500; 
 
-      function getColorForAngle(angleRad) {
+      // -----------------------------------------------------
+      // 【步骤1】扫描并存储颜色 (Color Map Storage)
+      // -----------------------------------------------------
+      const totalDegrees = 360;
+      const colorMapArray = new Array(totalDegrees);
+
+      // 探测函数 (仅用于构建数据)
+      function probeColorAtDegree(deg) {
+          const angleRad = deg * Math.PI / 180;
+          // 向内探测，确保命中
           const testR = radius - 15; 
           const tx = Math.cos(angleRad) * testR;
           const ty = Math.sin(angleRad) * testR;
@@ -352,27 +369,63 @@ function drawTagBubbleChart(tagData, containerId) {
           return "#cbd5e1"; 
       }
 
+      // 填充数组
+      for (let i = 0; i < totalDegrees; i++) {
+          colorMapArray[i] = probeColorAtDegree(i);
+      }
+
+      // 辅助：从数组中安全读取颜色
+      function getColorFromMap(degree) {
+          // 规范化角度到 0-359
+          let idx = Math.floor(degree) % 360;
+          if (idx < 0) idx += 360;
+          return colorMapArray[idx];
+      }
+
+      // -----------------------------------------------------
+      // 【步骤2】绘制实体圆环 (Stem) - 使用存储的颜色
+      // -----------------------------------------------------
+      // 为了动画顺滑，我们把圆切成 180 段来画
+      const segmentCount = 180; 
       const arcGen = d3.arc()
           .innerRadius(ringRadius)
           .outerRadius(ringRadius + 2); 
 
       for(let i=0; i<segmentCount; i++) {
-          const startAngle = (i / segmentCount) * 2 * Math.PI;
-          const endAngle = ((i + 1) / segmentCount) * 2 * Math.PI;
-          const midAngle = (startAngle + endAngle) / 2;
-          const segmentColor = getColorForAngle(midAngle);
-          const delay = (i / segmentCount) * growthDuration;
+          // d3.arc 的 0度 是 12点钟
+          // Math 的 0度 是 3点钟 (PI/2 偏差)
+          // 我们统一用 "Math度数" (0=3点钟) 来查表
+          
+          const startAngleRad = (i / segmentCount) * 2 * Math.PI;
+          const endAngleRad = ((i + 1) / segmentCount) * 2 * Math.PI;
+          
+          // 计算对应的 Math 度数 (0-360)
+          const midAngleRad = (startAngleRad + endAngleRad) / 2;
+          const midDegree = midAngleRad * 180 / Math.PI;
+          
+          // 查表取色
+          const segmentColor = getColorFromMap(midDegree);
+
+          // 延迟：0 -> 1500ms
+          const delay = (i / segmentCount) * ringDrawTime;
 
           container.append("path")
-              .attr("d", arcGen({startAngle: startAngle, endAngle: endAngle}))
+              // d3.arc 需要传入相对于12点钟的弧度，所以要 + PI/2
+              .attr("d", arcGen({
+                  startAngle: startAngleRad + Math.PI/2, 
+                  endAngle: endAngleRad + Math.PI/2
+              }))
               .attr("fill", segmentColor) 
               .attr("opacity", 0) 
               .transition()
               .delay(delay) 
-              .duration(100) 
+              .duration(200) 
               .attr("opacity", 0.8); 
       }
 
+      // -----------------------------------------------------
+      // 【步骤3】绘制缠绕叶子 (Leaves) - 查同一张表
+      // -----------------------------------------------------
       const leafCount = 120; 
       const waveFreq = 16; 
       const waveAmp = 7;   
@@ -380,12 +433,16 @@ function drawTagBubbleChart(tagData, containerId) {
       for(let i=0; i<leafCount; i++) {
           const angleRad = (i / leafCount) * 2 * Math.PI;
           const angleDeg = angleRad * 180 / Math.PI;
-          const leafColor = getColorForAngle(angleRad); 
+          
+          // 查表取色 (直接用角度查，保证与圆环一致)
+          const leafColor = getColorFromMap(angleDeg); 
           
           const rOffset = Math.sin(angleRad * waveFreq) * waveAmp;
           const myRadius = ringRadius + rOffset;
+
           const cx = Math.cos(angleRad) * myRadius;
           const cy = Math.sin(angleRad) * myRadius;
+
           const waveTilt = Math.cos(angleRad * waveFreq) * 50; 
           const rotation = angleDeg + 90 + waveTilt;
 
@@ -395,8 +452,9 @@ function drawTagBubbleChart(tagData, containerId) {
 
           const scale = 0.4 + Math.random() * 0.4;
           const flip = (rOffset > 0 ? 1 : -1); 
-          
-          const delay = growthDuration + (i / leafCount) * growthDuration;
+
+          // 延迟：圆环画完后(ringDrawTime)，再开始长叶子
+          const delay = ringDrawTime + (i / leafCount) * leafDrawTime;
 
           container.append("path")
               .attr("d", leafPath)
@@ -406,7 +464,7 @@ function drawTagBubbleChart(tagData, containerId) {
               .attr("transform", `translate(${cx}, ${cy}) rotate(${rotation}) scale(0)`) 
               .style("opacity", 0.9)
               .transition()
-              .delay(delay) 
+              .delay(delay) // 顺序生长
               .duration(500)
               .ease(d3.easeBackOut) 
               .attr("transform", `translate(${cx}, ${cy}) rotate(${rotation}) scale(${scale}, ${scale * flip})`);
@@ -739,9 +797,7 @@ function drawTagBubbleChart(tagData, containerId) {
              .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${angle}) scale(${scale})`);
       }
       
-      // 【修改】将 "Buds" (圆形) 替换为 "Star Flowers" (星形花朵路径)
-      const bloomCount = 8; // 稍微多一点花朵
-      // 四瓣星形花朵路径
+      const bloomCount = 8; 
       const bloomPathStr = "M0,-4 Q0.5,-0.5 4,0 Q0.5,0.5 0,4 Q-0.5,0.5 -4,0 Q-0.5,-0.5 0,-4";
 
       for(let i=0; i<bloomCount; i++) {
@@ -751,18 +807,18 @@ function drawTagBubbleChart(tagData, containerId) {
           const pt = chosenPath.getPointAtLength(t * len);
 
           const scale = 0.6 + Math.random() * 0.4;
-          const rotation = Math.random() * 360; // 随机旋转
+          const rotation = Math.random() * 360; 
 
           svg.append("path")
              .attr("d", bloomPathStr)
-             .attr("fill", "white") // 白色花心
-             .attr("stroke", color) // 描边同色
+             .attr("fill", "white") 
+             .attr("stroke", color) 
              .attr("stroke-width", 1)
-             .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(0)`) // 初始 scale 0
+             .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(0)`) 
              .transition()
-             .delay(t * 1200 + 300) // 稍微比叶子晚一点点
+             .delay(t * 1200 + 300) 
              .duration(500)
-             .ease(d3.easeBackOut) // 弹跳弹出
+             .ease(d3.easeBackOut) 
              .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(${scale})`);
       }
   }
