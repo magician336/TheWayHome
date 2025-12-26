@@ -68,6 +68,22 @@ function drawTagBubbleChart(tagData, containerId) {
         opacity: 1; 
         display: flex;
         flex-direction: column;
+        position: relative; /* 为内部绝对定位的SVG做参照 */
+    }
+    
+    /* 卡片背景花纹层 */
+    .card-decoration-svg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        z-index: 0; 
+        overflow: visible;
+    }
+
+    .detail-header, .detail-stats-grid, .detail-tags-wrapper {
+        position: relative;
+        z-index: 1; 
     }
     
     .placeholder-content {
@@ -81,6 +97,8 @@ function drawTagBubbleChart(tagData, containerId) {
         text-align: center;
         height: 100%;
         min-height: 250px;
+        position: relative;
+        z-index: 1;
     }
     .placeholder-icon {
         font-size: 40px;
@@ -136,24 +154,19 @@ function drawTagBubbleChart(tagData, containerId) {
     .style("z-index", 1); 
 
   // ==========================================
-  //  🎨 图层顺序 (严格控制)
+  //  🎨 图层顺序
   // ==========================================
   
-  // 1. 气泡层 (DrawingGroup) - 底层
   const drawingGroup = svg.append("g") 
     .attr("transform", `translate(${centerX},${centerY})`);
 
-  // 2. 花纹/动画层 (OrnamentGroup) - 中层 (覆盖气泡边缘)
   const ornamentGroup = svg.append("g") 
     .attr("transform", `translate(${centerX},${centerY})`);
 
-  // 3. 文字层 (TextGroup) - 上层
   const textGroup = svg.append("g") 
     .attr("transform", `translate(${centerX},${centerY})`)
-    .style("pointer-events", "none")
-    .style("opacity", 0); // 初始隐藏
+    .style("pointer-events", "none");
 
-  // 4. 连线层 (LinkGroup) - 顶层
   const linkGroup = svg.append("g") 
     .attr("class", "link-group")
     .style("pointer-events", "none"); 
@@ -222,7 +235,7 @@ function drawTagBubbleChart(tagData, containerId) {
   const groups = root.children;
 
   // ============================================
-  //  🎨 预渲染 (初始隐藏)
+  //  🎨 预渲染
   // ============================================
 
   const cellGroup = drawingGroup.selectAll("g.cell")
@@ -251,175 +264,153 @@ function drawTagBubbleChart(tagData, containerId) {
 
   leaves.forEach(d => {
       if(!d.polygon) return;
-      if(d3.polygonArea(d.polygon) > 400) { 
+      if(d3.polygonArea(d.polygon) > 200) { 
           const center = d3.polygonCentroid(d.polygon);
+          const catColor = getCategoryColor(d.parent.data.name);
+
           textGroup.append("text")
+              .datum(d)
               .attr("x", center[0]).attr("y", center[1])
               .attr("text-anchor", "middle").attr("dy", "0.35em")
-              .style("font-size", "10px").style("fill", "#333")
-              .style("text-shadow", "0 1px 2px rgba(255,255,255,0.8)")
+              .style("font-size", "10px")
+              .style("font-weight", "bold")
+              .style("fill", catColor) 
+              .style("text-shadow", "0 1px 4px rgba(255,255,255,0.95)") 
+              .style("opacity", 0) 
               .text(d.data.name.substring(0, 5));
       }
   });
 
   // ============================================
-  //  🪄 开场动画
+  //  🌺 启动花开动画
   // ============================================
-  playIntroAnimation();
+  
+  const wreathGroup = ornamentGroup.append("g")
+      .attr("class", "floral-wreath")
+      .attr("transform", "scale(0) rotate(-90)");
 
-  function playIntroAnimation() {
-      const sketchColor = "#64748b"; 
+  generateEntwinedWreath(wreathGroup); 
 
-      const centerDot = ornamentGroup.append("circle")
-          .attr("r", 0)
-          .attr("fill", sketchColor)
-          .attr("opacity", 1);
-      
-      centerDot.transition().duration(500).ease(d3.easeBackOut)
-          .attr("r", 4)
+  playBloomAnimation();
+
+  function playBloomAnimation() {
+      const duration = 2000; 
+
+      wreathGroup.transition()
+          .duration(duration)
+          .ease(d3.easeBackOut.overshoot(0.6)) 
+          .attr("transform", "scale(1) rotate(0)")
+          .on("start", () => {
+              bloomInnerContent();
+          });
+  }
+
+  function bloomInnerContent() {
+      cellPaths.transition()
+          .delay(100)
+          .duration(1200)
+          .ease(d3.easeCubicOut)
+          .style("opacity", 1)
           .on("end", () => {
-              const radiusLine = ornamentGroup.append("line")
-                  .attr("x1", 0).attr("y1", 0)
-                  .attr("x2", 0).attr("y2", 0)
-                  .attr("stroke", sketchColor)
-                  .attr("stroke-width", 1.5)
-                  .attr("stroke-dasharray", "4,2"); 
-              
-              radiusLine.transition().duration(400)
-                  .attr("y2", -radius) 
-                  .on("end", () => {
-                      centerDot.remove();
-                      startSweep(radiusLine, sketchColor);
-                  });
+              cellPaths.style("pointer-events", "all");
           });
-  }
 
-  function startSweep(lineElement, color) {
-      const arc = d3.arc()
-          .innerRadius(radius - 1)
-          .outerRadius(radius + 1)
-          .startAngle(0);
+      groupBorders.transition()
+          .delay(100)
+          .duration(1200)
+          .ease(d3.easeCubicOut)
+          .style("stroke-opacity", 0.5);
 
-      const circlePath = ornamentGroup.append("path")
-          .attr("fill", color)
-          .attr("d", arc({endAngle: 0}));
-
-      const duration = 1000;
-
-      lineElement.transition()
-          .duration(duration)
-          .ease(d3.easeLinear)
-          .attrTween("transform", function() {
-              return d3.interpolateString("rotate(0)", "rotate(360)");
+      textGroup.selectAll("text")
+          .transition()
+          .duration(800)
+          .delay((d) => {
+              if (!d || !d.polygon) return 1000;
+              const centroid = d3.polygonCentroid(d.polygon);
+              const dist = Math.hypot(centroid[0], centroid[1]);
+              return 800 + dist * 2.5; 
           })
-          .on("end", function() {
-              d3.select(this).remove(); 
-              circlePath.transition().duration(500).style("opacity", 0).remove();
-              
-              bloomContent();
-              // 【核心】调用花环生成函数
-              growColorfulWreath(); 
-          });
-
-      circlePath.transition()
-          .duration(duration)
-          .ease(d3.easeLinear)
-          .attrTween("d", function() {
-              const i = d3.interpolate(0, 2 * Math.PI);
-              return function(t) {
-                  return arc({endAngle: i(t)});
-              };
-          });
+          .style("opacity", 1);
   }
 
-  // --- 🌸 生成缠绕藤蔓花环 (Entwining Vine Wreath) ---
-  function growColorfulWreath() {
-      const wreathGroup = ornamentGroup.append("g").attr("class", "floral-wreath");
-      
-      // 1. 实体圆环 (作为花架)
-      // 向外偏移 15px，给花瓣留出缠绕空间
-      const ringRadius = radius + 15; 
-      
-      const stemPath = wreathGroup.append("circle")
-          .attr("cx", 0).attr("cy", 0)
-          .attr("r", ringRadius)
-          .attr("fill", "none")
-          .attr("stroke", "#cbd5e1") // 浅灰色枝干
-          .attr("stroke-width", 1.5)
-          .attr("stroke-opacity", 0);
+  // --- 🌺 生成缠绕花环 ---
+  function generateEntwinedWreath(container) {
+      const ringRadius = radius + 12; 
+      const segmentCount = 180; 
+      const growthDuration = 1500; 
 
-      // 慢慢浮现枝干
-      stemPath.transition().duration(1000).attr("stroke-opacity", 0.8);
+      function getColorForAngle(angleRad) {
+          const testR = radius - 15; 
+          const tx = Math.cos(angleRad) * testR;
+          const ty = Math.sin(angleRad) * testR;
+          
+          for (let leaf of leaves) {
+              if (leaf.polygon && d3.polygonContains(leaf.polygon, [tx, ty])) {
+                  return getCategoryColor(leaf.parent.data.name);
+              }
+          }
+          return "#cbd5e1"; 
+      }
 
-      // 2. 生成缠绕的叶子
-      const leafCount = 100; // 叶子数量
-      const colors = Object.values(colorMap); 
-      
-      // 缠绕参数：
-      const waveFreq = 12; // 绕圈频率 (花环绕主干转几圈)
-      const waveAmp = 8;   // 缠绕幅度 (偏离主干的距离)
+      const arcGen = d3.arc()
+          .innerRadius(ringRadius)
+          .outerRadius(ringRadius + 2); 
+
+      for(let i=0; i<segmentCount; i++) {
+          const startAngle = (i / segmentCount) * 2 * Math.PI;
+          const endAngle = ((i + 1) / segmentCount) * 2 * Math.PI;
+          const midAngle = (startAngle + endAngle) / 2;
+          const segmentColor = getColorForAngle(midAngle);
+          const delay = (i / segmentCount) * growthDuration;
+
+          container.append("path")
+              .attr("d", arcGen({startAngle: startAngle, endAngle: endAngle}))
+              .attr("fill", segmentColor) 
+              .attr("opacity", 0) 
+              .transition()
+              .delay(delay) 
+              .duration(100) 
+              .attr("opacity", 0.8); 
+      }
+
+      const leafCount = 120; 
+      const waveFreq = 16; 
+      const waveAmp = 7;   
 
       for(let i=0; i<leafCount; i++) {
           const angleRad = (i / leafCount) * 2 * Math.PI;
           const angleDeg = angleRad * 180 / Math.PI;
+          const leafColor = getColorForAngle(angleRad); 
           
-          const leafColor = colors[i % colors.length];
-          
-          // 【核心算法】正弦波偏移，模拟藤蔓缠绕
           const rOffset = Math.sin(angleRad * waveFreq) * waveAmp;
           const myRadius = ringRadius + rOffset;
-
           const cx = Math.cos(angleRad) * myRadius;
           const cy = Math.sin(angleRad) * myRadius;
-
-          // 计算旋转：为了自然，叶子角度需要结合 圆切线 + 波浪切线
-          // 简单模拟：根据偏移量正负决定向内还是向外倾斜
-          const waveTilt = Math.cos(angleRad * waveFreq) * 45; 
+          const waveTilt = Math.cos(angleRad * waveFreq) * 50; 
           const rotation = angleDeg + 90 + waveTilt;
 
           const leafTypeA = "M0,0 Q6,-8 12,0 T0,0"; 
           const leafTypeB = "M0,0 Q4,-6 8,0 Q4,6 0,0"; 
           const leafPath = Math.random() > 0.5 ? leafTypeA : leafTypeB;
 
-          const scale = 0.5 + Math.random() * 0.4;
-          // 根据在主干内侧还是外侧翻转叶子
+          const scale = 0.4 + Math.random() * 0.4;
           const flip = (rOffset > 0 ? 1 : -1); 
+          
+          const delay = growthDuration + (i / leafCount) * growthDuration;
 
-          wreathGroup.append("path")
+          container.append("path")
               .attr("d", leafPath)
               .attr("fill", leafColor) 
               .attr("stroke", "white")
               .attr("stroke-width", 0.5)
               .attr("transform", `translate(${cx}, ${cy}) rotate(${rotation}) scale(0)`) 
-              .style("opacity", 0.9) 
+              .style("opacity", 0.9)
               .transition()
-              .delay(i * 15 + 500) 
-              .duration(600)
-              .ease(d3.easeBackOut)
+              .delay(delay) 
+              .duration(500)
+              .ease(d3.easeBackOut) 
               .attr("transform", `translate(${cx}, ${cy}) rotate(${rotation}) scale(${scale}, ${scale * flip})`);
       }
-  }
-
-  function bloomContent() {
-      cellPaths.style("pointer-events", "all");
-
-      cellPaths.transition()
-          .duration(1000)
-          .delay((d) => {
-              const centroid = d3.polygonCentroid(d.polygon);
-              return Math.hypot(centroid[0], centroid[1]) * 2; 
-          })
-          .style("opacity", 1); 
-
-      groupBorders.transition()
-          .delay(500)
-          .duration(1000)
-          .style("stroke-opacity", 0.5);
-
-      textGroup.transition()
-          .delay(1200) 
-          .duration(800)
-          .style("opacity", 1);
   }
 
   // --- 交互逻辑 ---
@@ -453,11 +444,13 @@ function drawTagBubbleChart(tagData, containerId) {
       linkGroup.selectAll("*").remove(); 
 
       const polyCentroid = d3.polygonCentroid(d.polygon);
-      const startX = centerX + polyCentroid[0]; 
-      const startY = centerY + polyCentroid[1];
-      
       const angle = Math.atan2(polyCentroid[1], polyCentroid[0]);
+      
       const orbitGap = 25; 
+      const vineStartRadius = radius + 12; 
+      const startX = centerX + vineStartRadius * Math.cos(angle);
+      const startY = centerY + vineStartRadius * Math.sin(angle);
+      
       const orbitRadius = radius + orbitGap; 
       
       let pathData = "";
@@ -487,8 +480,8 @@ function drawTagBubbleChart(tagData, containerId) {
           if (isTopHalf) { tangentX = Math.sin(entryAngle); tangentY = -Math.cos(entryAngle); } 
           else { tangentX = -Math.sin(entryAngle); tangentY = Math.cos(entryAngle); }
 
-          const cp1X = startX + Math.cos(angle) * 100;
-          const cp1Y = startY + Math.sin(angle) * 100;
+          const cp1X = startX + Math.cos(angle) * 50;
+          const cp1Y = startY + Math.sin(angle) * 50;
           
           const bridgeSmoothness = 60; 
           const cp2X = entryX + tangentX * bridgeSmoothness;
@@ -645,6 +638,133 @@ function drawTagBubbleChart(tagData, containerId) {
            <div class="detail-tag-list">${tagsHtml}</div>
         </div>
       `;
+      
+      drawCardBorder(card, color);
+  }
+
+  // --- 新增：矩形卡片边框藤蔓 (带花朵装饰) ---
+  function drawCardBorder(card, color) {
+      const oldSvg = card.querySelector(".card-decoration-svg");
+      if (oldSvg) oldSvg.remove();
+
+      const rect = card.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+
+      const svg = d3.select(card).append("svg")
+          .attr("class", "card-decoration-svg")
+          .attr("width", "100%")
+          .attr("height", "100%")
+          .style("position", "absolute")
+          .style("top", 0).style("left", 0)
+          .style("pointer-events", "none");
+
+      function createWavyPath(points) {
+          const lineGen = d3.line()
+              .curve(d3.curveBasis) 
+              .x(d => d[0])
+              .y(d => d[1]);
+          return lineGen(points);
+      }
+
+      function generateWiggleLine(x1, y1, x2, y2, steps = 10, amp = 3) {
+          const pts = [];
+          for (let i = 0; i <= steps; i++) {
+              const t = i / steps;
+              const x = x1 + (x2 - x1) * t;
+              const y = y1 + (y2 - y1) * t;
+              const ox = (Math.random() - 0.5) * amp;
+              const oy = (Math.random() - 0.5) * amp;
+              pts.push([x + ox, y + oy]);
+          }
+          return pts;
+      }
+
+      const topPathPts = generateWiggleLine(0, 0, w, 0, 15, 4);
+      const rightPathPts = generateWiggleLine(w, 0, w, h, 10, 4);
+      const leftPathPts = generateWiggleLine(0, 0, 0, h, 10, 4);
+      const bottomPathPts = generateWiggleLine(0, h, w, h, 15, 4);
+
+      const pathA_d = createWavyPath([...topPathPts, ...rightPathPts]); 
+      const pathB_d = createWavyPath([...leftPathPts, ...bottomPathPts]); 
+
+      const vineA = svg.append("path")
+          .attr("d", pathA_d)
+          .attr("fill", "none")
+          .attr("stroke", color)
+          .attr("stroke-width", 1.5)
+          .attr("stroke-linecap", "round")
+          .attr("opacity", 0.6);
+
+      const lenA = vineA.node().getTotalLength();
+      vineA.attr("stroke-dasharray", lenA + " " + lenA)
+           .attr("stroke-dashoffset", lenA)
+           .transition().duration(1200).ease(d3.easeLinear)
+           .attr("stroke-dashoffset", 0);
+
+      const vineB = svg.append("path")
+          .attr("d", pathB_d)
+          .attr("fill", "none")
+          .attr("stroke", color)
+          .attr("stroke-width", 1.5)
+          .attr("stroke-linecap", "round")
+          .attr("opacity", 0.6);
+
+      const lenB = vineB.node().getTotalLength();
+      vineB.attr("stroke-dasharray", lenB + " " + lenB)
+           .attr("stroke-dashoffset", lenB)
+           .transition().duration(1200).ease(d3.easeLinear)
+           .attr("stroke-dashoffset", 0);
+
+      const leafCount = 12; 
+      const leafPathStr = "M0,0 Q4,-6 8,0 T0,0"; 
+
+      for(let i=0; i<leafCount; i++) {
+          const t = Math.random();
+          const chosenPath = Math.random() > 0.5 ? vineA.node() : vineB.node();
+          const len = chosenPath.getTotalLength();
+          const pt = chosenPath.getPointAtLength(t * len);
+          
+          const angle = Math.random() * 360;
+          const scale = 0.5 + Math.random() * 0.5;
+
+          svg.append("path")
+             .attr("d", leafPathStr)
+             .attr("fill", color)
+             .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${angle}) scale(0)`)
+             .style("opacity", 0.8)
+             .transition()
+             .delay(t * 1200) 
+             .duration(400)
+             .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${angle}) scale(${scale})`);
+      }
+      
+      // 【修改】将 "Buds" (圆形) 替换为 "Star Flowers" (星形花朵路径)
+      const bloomCount = 8; // 稍微多一点花朵
+      // 四瓣星形花朵路径
+      const bloomPathStr = "M0,-4 Q0.5,-0.5 4,0 Q0.5,0.5 0,4 Q-0.5,0.5 -4,0 Q-0.5,-0.5 0,-4";
+
+      for(let i=0; i<bloomCount; i++) {
+          const t = Math.random();
+          const chosenPath = Math.random() > 0.5 ? vineA.node() : vineB.node();
+          const len = chosenPath.getTotalLength();
+          const pt = chosenPath.getPointAtLength(t * len);
+
+          const scale = 0.6 + Math.random() * 0.4;
+          const rotation = Math.random() * 360; // 随机旋转
+
+          svg.append("path")
+             .attr("d", bloomPathStr)
+             .attr("fill", "white") // 白色花心
+             .attr("stroke", color) // 描边同色
+             .attr("stroke-width", 1)
+             .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(0)`) // 初始 scale 0
+             .transition()
+             .delay(t * 1200 + 300) // 稍微比叶子晚一点点
+             .duration(500)
+             .ease(d3.easeBackOut) // 弹跳弹出
+             .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(${scale})`);
+      }
   }
 
   svg.on("click", () => {
@@ -658,6 +778,9 @@ function drawTagBubbleChart(tagData, containerId) {
       const card = document.getElementById("tagDetailCard");
       if(card) {
           card.style.borderLeftColor = "#cbd5e1";
+          const decor = card.querySelector(".card-decoration-svg");
+          if (decor) decor.remove();
+          
           card.innerHTML = `
             <div class="placeholder-content">
                <div class="placeholder-icon">❦</div>
