@@ -40,39 +40,45 @@ button {
   border-radius: 6px; cursor: pointer; font-size: 13px;
 }
 
-/* --- 核心布局修改开始 --- */
+/* --- 核心布局调整 --- */
 #dashboard {
   display: flex;
-  flex-direction: column; /* 垂直堆叠 */
+  flex-direction: column; 
   align-items: center;
   gap: 30px;
-  width: 100%; max-width: 1800px; margin: 30px auto; padding-bottom: 60px;
+  width: 95%; 
+  max-width: 1800px; 
+  margin: 30px auto; 
+  padding-bottom: 60px;
 }
 
-#main-chart-wrapper { width: 66%; height: 600px; flex-shrink: 0; }
+#main-chart-wrapper { width: 100%; height: 600px; flex-shrink: 0; }
 
-#tags-chart-wrapper { width: 50%; height: 500px; flex-shrink: 0; }
+/* 【修改点】：高度加高到 750px，给上下藤蔓留空间 */
+#tags-chart-wrapper { 
+  width: 100%; 
+  height: 750px; 
+  flex-shrink: 0; 
+}
 
 #bottom-charts-wrapper {
-    display: flex; flex-direction: column; align-items: center; width: 100%; gap: 30px;
-}
-#bottom-charts-wrapper > .chart-box:nth-child(2) {
-  width: 33%; height: 320px; flex-shrink: 0;
-}
-#bottom-charts-wrapper > .chart-box:nth-child(3) {
-  width: 66%; height: 450px; flex-shrink: 0;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%; 
+    gap: 30px;
 }
 
-/* 确保没有全局样式干扰 pointer-events */
+#bottom-charts-wrapper > .chart-box:nth-child(2) {
+  width: 100%; 
+  height: 550px; 
+  flex-shrink: 0;
+}
+
 .shared-viz-svg text {
     font-family: var(--font-family);
     fill: var(--text-main);
-    /* 这里不要写 pointer-events，我们在 JS 里控制了 */
 }
-
-
-
-/* --- 核心布局修改结束 --- */
 
 .chart-box {
   background: var(--card-bg); 
@@ -81,7 +87,7 @@ button {
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   padding: 15px; box-sizing: border-box;
   display: flex; flex-direction: column;
-  overflow: hidden;
+  overflow: hidden; 
 }
 
 .chart-header {
@@ -94,13 +100,40 @@ button {
   padding-left: 10px; font-weight: 600;
 }
 
-.viz-box { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
+.viz-box { flex: 1; position: relative; width: 100%; height: 100%; }
 
-/* 线条样式保持不变 */
-path.line { fill: none; transition: stroke-opacity 0.3s, stroke-width 0.3s; }
-path.line.active { stroke-opacity: 1 !important; stroke-width: 2px; }
-path.line.inactive { stroke-opacity: 0.15 !important; stroke-width: 1px; stroke: var(--grid-color) !important;}
-path.line.highlight { stroke-opacity: 1 !important; stroke-width: 3px; stroke: var(--accent-color) !important; z-index: 1000; }
+.viz-tooltip {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 99999 !important;
+  pointer-events: none !important;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  line-height: 1.5;
+  min-width: 200px;
+  max-width: 320px;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
 
-.tooltip-title { color: var(--accent-color); font-weight: bold; margin-bottom: 6px; border-bottom: 1px solid var(--border-color); padding-bottom: 4px; font-size: 14px;}
-.tooltip-row { display: flex; justify-content: space-between; gap: 20px; margin-bottom: 3px; color: var(--text-main); }
+.tag-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 2px;
+  border: 1px solid;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+#tag-viz {
+  position: relative;
+  display: flex;
+  overflow: visible; 
+}

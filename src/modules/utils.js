@@ -1,52 +1,48 @@
 // modules/utils.js
 
 function showTooltip(event, content) {
-  // 1. 查找或创建 Tooltip 元素
+  // 1. 查找 Tooltip 元素
   let tooltip = d3.select("#shared-tooltip");
   
+  // 2. 如果不存在，则创建
   if (tooltip.empty()) {
     tooltip = d3.select("body").append("div")
       .attr("id", "shared-tooltip")
-      .attr("class", "viz-tooltip")
-      // 强制内联样式，确保不受其他 CSS 干扰，保证交互穿透
-      .style("position", "absolute")
-      .style("z-index", "9999")
-      .style("pointer-events", "none") // 关键：让鼠标穿透 Tooltip，不要挡住下面的图表
-      .style("opacity", 0)
-      .style("transition", "opacity 0.1s");
+      .attr("class", "viz-tooltip");
   }
   
-  // 2. 设置内容
+  // 3. ★★★ 关键修复：无论它是新建的还是已存在的，都强制设置核心样式 ★★★
+  // 这能防止 CSS 文件没加载或被覆盖时导致 Tooltip 失效
+  tooltip
+    .style("position", "absolute")
+    .style("z-index", "99999")
+    .style("pointer-events", "none"); 
+
+  // 4. 设置内容并显示
   tooltip.html(content).style("opacity", 1);
   
-  // 3. 智能定位 (防止超出屏幕边界)
-  // 获取 Tooltip 尺寸
+  // 5. 智能定位
   const tipNode = tooltip.node();
-  const w = tipNode.offsetWidth || 300; // 兜底宽度
-  const h = tipNode.offsetHeight || 150; // 兜底高度
+  const w = tipNode.offsetWidth || 300; 
+  const h = tipNode.offsetHeight || 150; 
   
-  // 获取鼠标在整个文档中的位置 (pageX/Y 比 clientX/Y 更稳，不怕滚动)
+  // 使用 pageX/Y (文档坐标) 
   let left = event.pageX + 15;
   let top = event.pageY + 15;
   
-  // 右边界检测
-  if (left + w > window.innerWidth + window.scrollX) {
+  // 边界检测
+  if (left + w > document.documentElement.clientWidth) {
     left = event.pageX - w - 15;
   }
-  
-  // 下边界检测
-  if (top + h > window.innerHeight + window.scrollY) {
+  if (top + h > document.documentElement.clientHeight + window.scrollY) {
     top = event.pageY - h - 15;
   }
   
-  // 应用位置
   tooltip.style("left", left + "px").style("top", top + "px");
 }
 
-// 导出
 const Utils = {
   showTooltip
 };
 
-// 挂载到 window 确保全局可用
 window.Utils = Utils;

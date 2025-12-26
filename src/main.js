@@ -1,3 +1,7 @@
+// main.js
+
+let currentScatterMode = 'scatter'; // 'scatter' or 'matrix'
+
 async function loadData() {
   const result = await DataManager.loadData();
   initYearSelect();
@@ -24,11 +28,50 @@ function init() {
   const nameMap = DataManager.getNameMap();
   const parallelDimensions = DataManager.getParallelDimensions();
   
+  // 1. 平行坐标
   ParallelCoordinates.draw(data, parallelDimensions, nameMap, 'main-chart-container', 'colorSelect', 'searchName', 'selectYear', 'exitFocusBtn');
+  
+  // 2. Tag 气泡
   TagBubble.draw(tagData, 'tag-viz');
+  
+  // 3. 统一散点图 (初始渲染)
   updateScatter();
-  updateDiscountMatrix();
 }
+
+// 供 index.html 的切换按钮调用
+window.toggleScatterMode = function() {
+    const btn = document.getElementById('toggleViewBtn');
+    const controls = document.getElementById('scatter-controls');
+    
+    if (currentScatterMode === 'scatter') {
+        currentScatterMode = 'matrix';
+        btn.innerText = "⬅ 返回散点分布";
+        btn.style.background = "#64748b"; // 变成灰色表示返回
+        controls.style.opacity = "0.3"; // 禁用散点控制器的视觉效果
+        controls.style.pointerEvents = "none";
+    } else {
+        currentScatterMode = 'scatter';
+        btn.innerText = "切换至折扣策略视图 ➡";
+        btn.style.background = "var(--accent-color)";
+        controls.style.opacity = "1";
+        controls.style.pointerEvents = "all";
+    }
+    
+    updateScatter();
+};
+
+function updateScatter() {
+  const data = DataManager.getData();
+  const nameMap = DataManager.getNameMap();
+  const xKey = document.getElementById('scatterX').value;
+  const yKey = document.getElementById('scatterY').value;
+  
+  // 核心改动：把 currentScatterMode 传进去
+  // 注意：我们复用了 'scatter-viz' 这个容器
+  ScatterPlot.draw(data, nameMap, xKey, yKey, 'scatter-viz', 'colorSelect', currentScatterMode);
+}
+
+// ... (以下保持不变，去掉 updateDiscountMatrix 及其相关调用) ...
 
 window.redrawParallelChart = function() {
   const data = DataManager.getData();
@@ -40,28 +83,6 @@ window.redrawParallelChart = function() {
 window.exitFocusMode = function() {
   ParallelCoordinates.exitFocusMode('exitFocusBtn');
 };
-
-function updateScatter() {
-  const data = DataManager.getData();
-  const nameMap = DataManager.getNameMap();
-  const xKey = document.getElementById('scatterX').value;
-  const yKey = document.getElementById('scatterY').value;
-  ScatterPlot.draw(data, nameMap, xKey, yKey, 'scatter-viz', 'colorSelect');
-}
-
-function updateDiscountMatrix() {
-  const data = DataManager.getData();
-  const colorKey = document.getElementById('colorSelect').value;
-  const cExtent = d3.extent(data, d => d[colorKey]);
-  let scaleDomain = [cExtent[1], cExtent[0]];
-  if (colorKey === 'favorable_rate') {
-    scaleDomain = [cExtent[0], cExtent[1]];
-  }
-  const cScale = d3.scaleSequential()
-    .domain(scaleDomain)
-    .interpolator(t => d3.interpolateTurbo(0.95 - 0.85 * t));
-  DiscountStrategyMatrix.draw(data, cScale, colorKey, 'discount-matrix-viz');
-}
 
 window.resetFilters = () => { 
     document.getElementById('searchName').value = ''; 

@@ -52,36 +52,41 @@
     </div>
 
     <div id="bottom-charts-wrapper">
+      
       <div id="tags-chart-wrapper" class="chart-box">
         <div class="chart-header"><span class="chart-title">Tags 类别与热度</span></div>
         <div id="tag-viz" class="viz-box"></div>
       </div>
-      <div class="chart-box">
+
+      <div class="chart-box" style="width: 66%; height: 550px; flex-shrink: 0;">
         <div class="chart-header">
-          <span class="chart-title">变量关系分布 (Scatter)</span>
-          <div style="display:flex; gap:5px; align-items: center;">
-            <span style="font-size:12px; color:#888;">X:</span>
-            <select id="scatterX" style="width: 75px;">
-              <option value="year" selected>年份</option>
-              <option value="original_price">售价</option>
-              <option value="discount_strength">折扣</option>
-            </select>
-            <span style="font-size:12px; color:#888;">Y:</span>
-            <select id="scatterY" style="width: 75px;">
-              <option value="log_players" selected>在线</option>
-              <option value="favorable_rate">好评率</option>
-              <option value="retention_days">留存</option>
-            </select>
+          <span class="chart-title">游戏分布与策略分析</span>
+          
+          <div style="display:flex; align-items: center;">
+            <div id="scatter-controls" style="display:flex; gap:5px; align-items: center; transition: opacity 0.3s; margin-right: 15px;">
+              <span style="font-size:12px; color:#888;">X:</span>
+              <select id="scatterX" style="width: 75px;">
+                <option value="year" selected>年份</option>
+                <option value="original_price">售价</option>
+                <option value="discount_strength">折扣</option>
+              </select>
+              <span style="font-size:12px; color:#888;">Y:</span>
+              <select id="scatterY" style="width: 75px;">
+                <option value="log_players" selected>在线</option>
+                <option value="favorable_rate">好评率</option>
+                <option value="retention_days">留存</option>
+              </select>
+            </div>
+
+            <button id="toggleViewBtn" onclick="toggleScatterMode()" style="font-size: 12px; padding: 4px 12px; background: var(--accent-color); border: none; color: white; border-radius: 4px; cursor: pointer; transition: background 0.3s;">
+              切换至折扣策略视图 ➡
+            </button>
           </div>
         </div>
+        
         <div id="scatter-viz" class="viz-box"></div>
       </div>
-      <div class="chart-box">
-        <div class="chart-header">
-          <span class="chart-title">折扣策略分析</span>
-        </div>
-        <div id="discount-matrix-viz" class="viz-box"></div>
-      </div>
+      
     </div>
   </div>
 
@@ -91,8 +96,9 @@
   <script src="modules/utils.js"></script>
   <script src="modules/parallelCoordinates.js"></script>
   <script src="modules/tagsDistribution.js"></script>
+  
   <script src="modules/scatterPlot.js"></script>
-  <script src="modules/discountStrategyMatrix.js"></script>
+  
   <script src="main.js"></script>
 </body>
 </html>

@@ -221,17 +221,71 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
     drawCorrelationBar(svg, width, cScale, parallelDimensions, data);
   }
 
+// --- 替换原有的 updateParallelChart 函数 ---
+  
   window.updateParallelChart = function(s, y_val) {
     const sLower = s.toLowerCase();
     const isNowFiltered = s !== "" || y_val !== "";
+
+    // 1. 定义动画配置 (800ms 舒缓曲线)
+    const t = d3.transition().duration(1000).ease(d3.easeCubicInOut);
+    const gridColor = "#e2e8f0"; // 未选中时的灰色 (对应 theme.css 的 var(--grid-color))
+
     window.parallelPaths.each(function(d) {
-      const m = (!s || d.name.toLowerCase().includes(sLower)) && (!y_val || d.year == y_val);
-      d3.select(this).classed("inactive", !m)
-        .style("stroke-opacity", isFocusMode ? (m ? 0.1 : 0.02) : (m ? (isNowFiltered ? 1 : 0.6) : 0.05));
+      const el = d3.select(this);
+      const match = (!s || d.name.toLowerCase().includes(sLower)) && 
+                    (!y_val || d.year == y_val);
+      
+      // 2. 计算目标状态
+      let targetOpacity;
+      let targetColor;
+      let shouldBeInactive = false;
+
+      if (isFocusMode) {
+          // [模式A] 聚焦模式：非焦点的线极淡
+          targetOpacity = match ? 0.8 : 0.02;
+          targetColor = match ? cScale(d[colorKey]) : gridColor;
+          shouldBeInactive = !match;
+      } else {
+          // [模式B] 普通模式
+          if (isNowFiltered) {
+            // 有筛选：匹配的线高亮(1.0)，不匹配的线变灰且淡出(0.05)
+            targetOpacity = match ? 1 : 0.05;
+            targetColor = match ? cScale(d[colorKey]) : gridColor;
+            shouldBeInactive = !match;
+          } else {
+            // 无筛选：恢复默认状态(0.6)
+            targetOpacity = 0.6;
+            targetColor = cScale(d[colorKey]);
+            shouldBeInactive = false;
+          }
+      }
+
+      // 3. 执行过渡动画
+      el.interrupt() // 打断之前可能正在进行的动画
+        .transition(t)
+        .style("stroke-opacity", targetOpacity)
+        .style("stroke", targetColor) // 颜色也做过渡，从彩色渐变到灰色
+        .on("start", function() {
+            // 如果是“出现”的动画，先移除 inactive 类，防止 CSS !important 阻挡动画
+            if (match) d3.select(this).classed("inactive", false);
+        })
+        .on("end", function() {
+            // 动画结束后，才正式加上 inactive 类 (用于 pointer-events 控制)
+            d3.select(this).classed("inactive", shouldBeInactive);
+            
+            // 确保选中项的颜色最终是正确的 (防止被中间状态影响)
+            if (!shouldBeInactive) {
+                d3.select(this).style("stroke", cScale(d[colorKey]));
+            }
+        });
     });
+
+    // 4. 同步更新散点图/矩阵图中的点 (如果有的话)
     if (isFocusMode) {
         const updateDots = (selector) => {
-             d3.select(selector).selectAll(".matrix-dot")
+            d3.select(selector).selectAll(".matrix-dot")
+              .transition(t) // 点也加动画
               .style("opacity", d => {
                 const m = (!s || d.name.toLowerCase().includes(sLower)) && (!y_val || d.year == y_val);
                 return m ? 0.8 : 0.1;
