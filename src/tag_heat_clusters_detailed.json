@@ -1,0 +1,232 @@
+{
+  "name": "root",
+  "children": [
+    {
+      "name": "角色扮演",
+      "value": 1975.17,
+      "game_count": 46,
+      "detail_tags": [
+        "RPG",
+        "ARPG",
+        "Character Customization",
+        "Turn-Based",
+        "JRPG",
+        "CRPG",
+        "Loot",
+        "Turn-Based Combat"
+      ]
+    },
+    {
+      "name": "动作格斗",
+      "value": 1651.17,
+      "game_count": 41,
+      "detail_tags": [
+        "Action",
+        "Martial Arts",
+        "Action-Adventure",
+        "Hack and Slash",
+        "Violent",
+        "Gore",
+        "Combat",
+        "Fighting"
+      ]
+    },
+    {
+      "name": "剧情叙事",
+      "value": 1427.55,
+      "game_count": 34,
+      "detail_tags": [
+        "Story Rich",
+        "Drama",
+        "Dating Sim",
+        "Multiple Endings",
+        "Visual Novel",
+        "Choices Matter",
+        "Choose Your Own Adventure",
+        "Romance"
+      ]
+    },
+    {
+      "name": "生存开放",
+      "value": 1324.88,
+      "game_count": 32,
+      "detail_tags": [
+        "Open World",
+        "Sandbox",
+        "Survival",
+        "Exploration",
+        "Crafting",
+        "Open World Survival Craft",
+        "Immersive Sim",
+        "Mining"
+      ]
+    },
+    {
+      "name": "休闲治愈",
+      "value": 1311.47,
+      "game_count": 30,
+      "detail_tags": [
+        "Casual",
+        "Atmospheric",
+        "Funny",
+        "Cute",
+        "Relaxing",
+        "Cartoony",
+        "Family Friendly",
+        "Memes"
+      ]
+    },
+    {
+      "name": "射击弹幕",
+      "value": 1014.78,
+      "game_count": 24,
+      "detail_tags": [
+        "Third Person",
+        "FPS",
+        "Shooter",
+        "Top-Down",
+        "Looter Shooter",
+        "Bullet Hell",
+        "3D Vision"
+      ]
+    },
+    {
+      "name": "模拟建造",
+      "value": 982.91,
+      "game_count": 23,
+      "detail_tags": [
+        "Simulation",
+        "Building",
+        "Life Sim",
+        "Base Building",
+        "Management",
+        "Farming Sim",
+        "Time Management",
+        "Cooking"
+      ]
+    },
+    {
+      "name": "多人竞技",
+      "value": 976.49,
+      "game_count": 24,
+      "detail_tags": [
+        "Multiplayer",
+        "Online Co-Op",
+        "Co-op",
+        "Massively Multiplayer",
+        "PvP",
+        "Local Co-Op",
+        "Local Multiplayer",
+        "Battle Royale"
+      ]
+    },
+    {
+      "name": "奇幻神话",
+      "value": 825.53,
+      "game_count": 19,
+      "detail_tags": [
+        "Fantasy",
+        "Mythology",
+        "Magic",
+        "Historical",
+        "Medieval",
+        "Dragons"
+      ]
+    },
+    {
+      "name": "肉鸽挑战",
+      "value": 725.13,
+      "game_count": 17,
+      "detail_tags": [
+        "Roguelite",
+        "Roguelike",
+        "Action Roguelike",
+        "Souls-like",
+        "Dungeon Crawler",
+        "Replay Value",
+        "Difficult",
+        "Procedural Generation"
+      ]
+    },
+    {
+      "name": "策略战棋",
+      "value": 690.37,
+      "game_count": 16,
+      "detail_tags": [
+        "Strategy",
+        "RTS",
+        "Turn-Based Strategy",
+        "War",
+        "Real Time Tactics",
+        "Tower Defense",
+        "Military",
+        "Tactical"
+      ]
+    },
+    {
+      "name": "恐怖悬疑",
+      "value": 596.64,
+      "game_count": 14,
+      "detail_tags": [
+        "Psychological Horror",
+        "Horror",
+        "Survival Horror",
+        "Dark",
+        "Dark Fantasy",
+        "Thriller",
+        "Lovecraftian",
+        "Zombies"
+      ]
+    },
+    {
+      "name": "平台银河城",
+      "value": 458.11,
+      "game_count": 11,
+      "detail_tags": [
+        "Platformer",
+        "2D Platformer",
+        "2.5D",
+        "3D Platformer",
+        "Side Scroller",
+        "Metroidvania",
+        "Parkour"
+      ]
+    },
+    {
+      "name": "解谜探案",
+      "value": 403.75,
+      "game_count": 10,
+      "detail_tags": [
+        "Puzzle",
+        "Puzzle Platformer",
+        "Mystery",
+        "Detective",
+        "Point & Click",
+        "Logic",
+        "Investigation"
+      ]
+    },
+    {
+      "name": "科幻机甲",
+      "value": 400.84,
+      "game_count": 10,
+      "detail_tags": [
+        "Sci-fi",
+        "Post-apocalyptic",
+        "Cyberpunk",
+        "Futuristic",
+        "Mechs",
+        "Space",
+        "Space Sim"
+      ]
+    },
+    {
+      "name": "卡牌构建",
+      "value": 54.69,
+      "game_count": 1,
+      "detail_tags": [
+        "Deckbuilding"
+      ]
+    }
+  ]
+}

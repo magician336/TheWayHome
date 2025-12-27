@@ -1,75 +1,159 @@
-:root {
-    --bg: #0f172a;
-    --fg: #e2e8f0;
-    --muted: #94a3b8;
-    --card: #111827;
-    --accent: #38bdf8;
+/* styles.css */
+@import "theme.css";
+
+.parallel-chart-body {
+  margin: 0; padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  overflow-x: hidden;
+  overflow-y: auto;
+  min-height: 100vh;
 }
 
-* {
-    box-sizing: border-box;
+.parallel-chart-body h2 {
+  text-align: center; padding: 20px 0; margin: 0;
+  font-weight: 600; 
+  color: var(--text-main); 
+  background: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+  letter-spacing: 2px; font-size: 22px; 
 }
 
-html,
-body {
-    height: 100%;
+.parallel-chart-controls {
+  display: flex; justify-content: flex-start; align-items: center; gap: 15px;
+  padding: 10px 15px; 
+  margin-bottom: 10px;
 }
 
-body {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, 'Helvetica Neue', Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
-    background: var(--bg);
-    color: var(--fg);
-    display: grid;
-    grid-template-rows: auto 1fr auto;
+.parallel-chart-input-group { display: flex; align-items: center; gap: 8px; }
+.parallel-chart-controls label { font-size: 13px; color: var(--text-main); font-weight: 500; }
+
+.parallel-chart-input {
+  background: var(--bg-color); border: 1px solid var(--border-color); 
+  color: var(--text-main); padding: 6px 10px; border-radius: 6px; outline: none; font-size: 13px;
+  transition: border-color 0.2s;
+}
+.parallel-chart-input:focus {
+  border-color: var(--accent-color);
 }
 
-.app-header,
-.app-footer {
-    padding: 12px 16px;
-    background: var(--card);
-    border-bottom: 1px solid #1f2937;
+.parallel-chart-select {
+  background: var(--bg-color); border: 1px solid var(--border-color); 
+  color: var(--text-main); padding: 6px 10px; border-radius: 6px; outline: none; font-size: 13px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  min-width: 100px;
+}
+.parallel-chart-select:hover {
+  border-color: var(--accent-color);
+}
+.parallel-chart-select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.1);
 }
 
-.app-footer {
-    border-top: 1px solid #1f2937;
-    border-bottom: none;
+.parallel-chart-btn {
+  background: var(--accent-color); color: #fff; border: none; padding: 6px 15px;
+  border-radius: 6px; cursor: pointer; font-size: 13px;
+  transition: background 0.2s;
+}
+.parallel-chart-btn:hover {
+  background: #0284c7;
 }
 
-.app-header h1 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: 600;
+#parallel-chart-dashboard {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  gap: 30px;
+  width: 95%; 
+  max-width: 1800px; 
+  margin: 30px auto; 
+  padding-bottom: 60px;
 }
 
-.app-main {
-    padding: 16px;
+#parallel-chart-main-wrapper { width: 66%; height: 600px; flex-shrink: 0; }
+
+#parallel-chart-tags-wrapper { 
+  width: 100%; 
+  height: 750px; 
+  flex-shrink: 0; 
 }
 
-.chart-container {
-    width: 100%;
-    max-width: 960px;
-    height: 480px;
-    /* 初始高度，可按需调整 */
-    margin: 0 auto;
-    background: #0b1020;
-    border: 1px solid #1f2937;
-    border-radius: 12px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-    position: relative;
+#parallel-chart-bottom-wrapper {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    width: 100%; 
+    gap: 30px;
 }
 
-.chart-container .placeholder {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    color: var(--muted);
+#parallel-chart-bottom-wrapper > .parallel-chart-box:last-child {
+  width: 45%; 
+  height: 500px; 
+  flex-shrink: 0;
 }
 
-/* D3 绘制的 SVG 充满容器 */
-.chart-container svg {
-    width: 100%;
-    height: 100%;
-    display: block;
+.parallel-chart-shared-viz-svg text {
+    font-family: var(--font-family);
+    fill: var(--text-main);
+}
+
+.parallel-chart-box {
+  background: transparent; 
+  border-radius: 12px; 
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  padding: 15px; box-sizing: border-box;
+  display: flex; flex-direction: column;
+  overflow: hidden; 
+}
+
+.parallel-chart-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px; height: 30px; flex-shrink: 0;
+}
+.parallel-chart-title { 
+  font-size: 14px; color: var(--text-main);
+  border-left: 4px solid var(--accent-color);
+  padding-left: 10px; font-weight: 600;
+}
+
+.parallel-chart-viz-box { flex: 1; position: relative; width: 100%; height: 100%; }
+
+.parallel-chart-tooltip {
+  position: absolute;
+  top: 0; left: 0;
+  z-index: 99999 !important;
+  pointer-events: none !important;
+  background: rgba(255, 255, 255, 0.95);
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  font-size: 13px;
+  line-height: 1.5;
+  min-width: 200px;
+  max-width: 320px;
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.parallel-chart-tag-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 2px;
+  border: 1px solid;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+#parallel-chart-tag-viz {
+  position: relative;
+  display: flex;
+  overflow: visible; 
 }
