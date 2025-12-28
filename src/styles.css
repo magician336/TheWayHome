@@ -1,6 +1,8 @@
 /* style.css */
 
 body {
+    /* 全局缩放：让浏览器 100% 显示为 50% 的视觉大小（Chromium/Edge 支持最好） */
+    zoom: 0.55;
     background-color: #f0f2f5; /* 稍微灰一点的背景，让multiply效果更好 */
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
@@ -8,11 +10,43 @@ body {
     align-items: center;
     padding: 20px;
     margin: 0;
+    overflow: hidden; /* 用滚轮做“下一步”触发器，避免页面本身滚动 */
 }
 
 h1 {
-    margin-bottom: 30px;
+    /* margin-bottom: 30px;  Removed to avoid conflict with fixed positioning */
     color: #333;
+}
+
+/* 标题动画相关 */
+#main-title {
+    position: fixed;
+    top: 30px; /* 最终位置 */
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    transition: all 1s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 2000;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* 最终展示后：标题回到正常文档流，随页面滚动 */
+#main-title.in-flow {
+    position: static;
+    top: auto;
+    left: auto;
+    transform: none;
+    margin: 30px 0 0;
+}
+
+/* 标题不再 fixed 时，画布不需要给它预留大间距 */
+#main-title.in-flow + .charts-container {
+    margin-top: 20px;
+}
+
+#main-title.initial {
+    top: 50%;
+    transform: translate(-50%, -50%) scale(3);
 }
 
 .charts-container {
@@ -21,6 +55,7 @@ h1 {
     justify-content: center;
     gap: 40px;
     max-width: 1200px;
+    margin-top: 70px; /* 给 fixed 标题留出空间 */
 }
 
 .flower-item {
