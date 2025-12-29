@@ -74,22 +74,16 @@ window.parallelChart_exitFocusMode = function() {
   ParallelCoordinates.exitFocusMode('parallel-chart-exitFocusBtn');
 };
 
-// 【修复 2】在这里：增强了重置按钮的逻辑
 window.parallelChart_resetFilters = () => { 
-    // 1. 清空输入框数据
     document.getElementById('parallel-chart-searchName').value = ''; 
     document.getElementById('parallel-chart-selectYear').value = ''; 
     
-    // 2. 检查是否处于观察模式 (通过“退出观察模式”按钮的显示状态判断)
     const exitBtn = document.getElementById('parallel-chart-exitFocusBtn');
     const isFocusing = exitBtn && exitBtn.style.display !== 'none';
 
     if (isFocusing) {
-        // 如果在观察模式，调用退出函数。
-        // exitFocusMode 内部会重置 selectedAxisIndex，消除文字高亮，并触发一次全量 redraw
         window.parallelChart_exitFocusMode();
     } else {
-        // 如果不在观察模式，仅执行常规的样式更新
         if (window.parallelChart_updateParallelChart) {
           window.parallelChart_updateParallelChart("", ""); 
         }

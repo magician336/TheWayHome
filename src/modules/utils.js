@@ -1,5 +1,3 @@
-// modules/utils.js
-
 function showTooltip(event, content) {
   // 1. 查找 Tooltip 元素
   let tooltip = d3.select("#parallel-chart-shared-tooltip");
@@ -11,8 +9,7 @@ function showTooltip(event, content) {
       .attr("class", "parallel-chart-tooltip");
   }
   
-  // 3. ★★★ 关键修复：无论它是新建的还是已存在的，都强制设置核心样式 ★★★
-  // 这能防止 CSS 文件没加载或被覆盖时导致 Tooltip 失效
+  // 强制设置核心样式，防止CSS文件未加载时导致Tooltip失效
   tooltip
     .style("position", "absolute")
     .style("z-index", "99999")

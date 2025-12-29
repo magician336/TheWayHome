@@ -44,7 +44,7 @@ async function loadData() {
           total_comments: d.total_comments || 0,
           discount_count: d.discount_count || 0,
           events_breakdown: strat.events_breakdown || {},
-          strategy_class: strat.strategy_class || "未知", 
+          strategy_class: strat.strategy_class || "未知",
           seasonal_ratio: strat.seasonal_ratio || 0
         };
       });

@@ -1,4 +1,3 @@
-// shared-config.js - 由你维护，分发给三个人
 const GlobalVizConfig = {
     // 统一调色板
     theme: {

@@ -37,9 +37,9 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
   });
 
   const cExtent = d3.extent(data, d => d[colorKey]);
-  let scaleDomain = [cExtent[1], cExtent[0]]; 
+  let scaleDomain = [cExtent[1], cExtent[0]];
   if (colorKey === 'favorable_rate') {
-      scaleDomain = [cExtent[0], cExtent[1]]; 
+      scaleDomain = [cExtent[0], cExtent[1]];
   }
   
   const cScale = d3.scaleSequential()
@@ -148,9 +148,7 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
     }
   });
 
-  // ============================================================
-  // Helper: 渲染观察模式下的高亮层
-  // ============================================================
+  // 渲染观察模式下的高亮层和关联度柱
   const renderFocusLayer = () => {
       if (!isFocusMode || parallelDimensions.length < 4) return;
 
@@ -175,27 +173,25 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
         .attr("class", "focus-segment")
         .attr("d", d => `M ${x(dimLeft)} ${y[dimLeft](d[dimLeft])} L ${x(dimRight)} ${y[dimRight](d[dimRight])}`)
         .style("stroke", d => cScale(d[colorKey]))
-        .style("stroke-opacity", 0) // 【关键】初始全透明
+        .style("stroke-opacity", 0)
         .style("stroke-width", 1.5)
         .style("fill", "none")
         .style("pointer-events", "none")
-        .transition().duration(600).ease(d3.easeCubicOut) // 【关键】缓慢淡入 (600ms)
+        .transition().duration(600).ease(d3.easeCubicOut)
         .style("stroke-opacity", 0.8);
 
       svg.selectAll(".correlation-viz").remove();
       drawCorrelationBar(svg, width, cScale, parallelDimensions, data);
   };
 
-  // ============================================================
-  // 交互：点击轴 (修复了索引混乱 + 优化了动画)
-  // ============================================================
+  // 轴点击交互：支持选中和交换轴位置
   axisG.style("cursor", "pointer").on("click", function(event, d) {
     const clickedIdx = parallelDimensions.indexOf(d);
     
     if (clickedIdx === 0) return;
     
     if (selectedAxisIndex === null) {
-      // --- 第一次点击：选中 ---
+      // 第一次点击：选中该轴
       selectedAxisIndex = clickedIdx;
       
       svg.selectAll("g.axis").each(function(axisName) {
@@ -220,7 +216,7 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
         }
       }
     } else {
-      // --- 第二次点击：交换 ---
+      // 第二次点击：与已选轴交换位置
       const targetIdx = selectedAxisIndex;
       
       if (targetIdx === clickedIdx) {
@@ -231,9 +227,7 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
           return;
       }
 
-      // 【重点逻辑】判断这次交换是否影响了观察窗口（Index 2 和 3）
-      // 如果交换的两个轴都在观察窗口之外（例如 0 和 1），或者都不涉及 2 和 3，
-      // 那么观察窗口的图像其实是不变的，不需要淡出淡入。
+      // 判断交换是否影响观察窗口（索引2和3），决定是否需要重绘观察层
       const focusIndices = [2, 3];
       const isTouchingFocus = focusIndices.includes(targetIdx) || focusIndices.includes(clickedIdx);
 
@@ -244,55 +238,35 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
       selectedAxisIndex = null;
       x.domain(parallelDimensions);
 
-      // --- 1. 处理观察层 (Fade Out) ---
-      if (isFocusMode) {
-          if (isTouchingFocus) {
-              // 只有当观察层受影响时，才执行"缓慢淡出"
-              // 给旧的加个标记类名以便稍后移除，防止冲突
-              svg.selectAll(".focus-group")
-                 .attr("class", "focus-group old-focus-group") 
-                 .transition().duration(400).ease(d3.easeLinear) // 缓慢淡出 (400ms)
-                 .style("opacity", 0)
-                 .remove(); // 动画结束后移除DOM
-
-              // 关联度也同理淡出
-              svg.selectAll(".correlation-viz")
-                 .transition().duration(400)
-                 .style("opacity", 0)
-                 .remove();
-          } else {
-              // 如果不涉及观察层，我们什么都不做！
-              // 让现有的 .focus-group 留在原地，稳如泰山。
-          }
+      // 如果观察层受影响，先淡出旧图层
+      if (isFocusMode && isTouchingFocus) {
+          svg.selectAll(".focus-group")
+             .attr("class", "focus-group old-focus-group") 
+             .transition().duration(400).ease(d3.easeLinear)
+             .style("opacity", 0)
+             .remove();
+          svg.selectAll(".correlation-viz")
+             .transition().duration(400)
+             .style("opacity", 0)
+             .remove();
       }
 
       const duration = 500;
       
-      // --- 2. 移动轴 ---
+      // 移动轴和路径
       svg.selectAll(".axis").transition().duration(duration)
          .attr("transform", d => `translate(${x(d)})`);
-      
-      // --- 3. 移动背景线 ---
       window.parallelPaths.transition().duration(duration)
          .attr("d", d => lineGenerator(parallelDimensions.map(p => [p, d[p]])));
-
-      // --- 4. 还原文字样式 ---
       svg.selectAll("text.axis-title").transition().duration(duration)
          .style("fill", "var(--text-main)").style("font-size", "12px")
          .on("end", function() { d3.select(this).classed("axis-selected", false); });
 
-      // --- 5. 重绘观察层 (Fade In) ---
-      if (isFocusMode) {
-          if (isTouchingFocus) {
-              // 只有当受影响时，才需要等待轴移动完，然后重新绘制并淡入
-              setTimeout(() => {
-                 renderFocusLayer(); 
-              }, duration + 50);
-          } else {
-              // 如果没受影响，图层还在那儿呢，不需要重绘，
-              // 但可能需要刷新一下关联度数值（如果非要严谨的话），
-              // 不过既然轴没变，关联度其实也没变。所以这里可以直接略过。
-          }
+      // 如果观察层受影响，重新绘制并淡入
+      if (isFocusMode && isTouchingFocus) {
+          setTimeout(() => {
+             renderFocusLayer(); 
+          }, duration + 50);
       }
     }
   });
@@ -301,7 +275,6 @@ function drawParallelPlot(data, parallelDimensions, nameMap, containerId, colorS
       renderFocusLayer();
   }
   
-  // update 函数保持不变
   window.parallelChart_updateParallelChart = function(s, y_val) {
     const sLower = s.toLowerCase();
     const isNowFiltered = s !== "" || y_val !== "";
@@ -390,7 +363,7 @@ function drawCorrelationBar(svg, chartWidth, cScale, parallelDimensions, data) {
   const barGroup = svg.append("g").attr("class", "correlation-viz")
     .attr("transform", `translate(${chartWidth - 220}, -85)`)
     .style("opacity", 0)
-    .transition().duration(600).style("opacity", 1); // 这里的淡入时间也匹配了 renderFocusLayer
+    .transition().duration(600).style("opacity", 1);
 
   const maxBarWidth = 100;
   const power = 0.5; 

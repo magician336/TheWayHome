@@ -31,11 +31,9 @@ function drawTagBubbleChart(tagData, containerId) {
   }
   const panelY = height * 0.15; 
   
-  // 连线终点 (下移至内容区)
-  const endX = panelX + 5; // 稍微调整让它贴紧卡片边缘
+  const endX = panelX + 5;
   const lineConnectY = panelY + 150; 
 
-  // --- DOM 结构 ---
   const detailPanel = document.createElement("div");
   detailPanel.className = "parallel-chart-tag-detail-panel";
   
@@ -159,7 +157,6 @@ function drawTagBubbleChart(tagData, containerId) {
     .style("left", 0)
     .style("z-index", 1); 
 
-  // --- 图层顺序 ---
   const drawingGroup = svg.append("g") 
     .attr("transform", `translate(${centerX},${centerY})`);
 
@@ -174,7 +171,7 @@ function drawTagBubbleChart(tagData, containerId) {
     .attr("class", "link-group")
     .style("pointer-events", "none"); 
 
-  // --- 数据处理 ---
+  // 处理标签数据并构建层级结构
   let processedChildren = [];
   if (tagData.children) {
     processedChildren = tagData.children.map(cat => {
@@ -237,9 +234,7 @@ function drawTagBubbleChart(tagData, containerId) {
   const leaves = root.leaves();
   const groups = root.children;
 
-  // ============================================
-  //  🎨 预渲染
-  // ============================================
+  // 预渲染标签单元和组边框
 
   const cellGroup = drawingGroup.selectAll("g.cell")
     .data(leaves)
@@ -284,9 +279,7 @@ function drawTagBubbleChart(tagData, containerId) {
       }
   });
 
-  // ============================================
-  //  🌺 启动花开动画
-  // ============================================
+  // 启动花开动画
   
   const wreathGroup = ornamentGroup.append("g")
       .attr("class", "floral-wreath")
@@ -338,7 +331,7 @@ function drawTagBubbleChart(tagData, containerId) {
           .style("opacity", 1);
   }
 
-  // --- 🌺 生成缠绕花环 ---
+  // 生成缠绕花环装饰
   function generateEntwinedWreath(container) {
       const ringRadius = radius + 12; 
       const segmentCount = 180; 
@@ -436,7 +429,7 @@ function drawTagBubbleChart(tagData, containerId) {
       }
   }
 
-  // --- 交互逻辑 ---
+  // 标签点击交互
   cellGroup.selectAll("path")
     .on("click", function(event, d) {
        event.stopPropagation();
@@ -468,7 +461,7 @@ function drawTagBubbleChart(tagData, containerId) {
 
        const vineDuration = 1200; 
        
-       // 【核心调用】绘制符合您要求的精确几何藤蔓
+       // 绘制连接线
        drawPreciseZoneVine(d, color, vineDuration);
        
        setTimeout(() => {
@@ -476,16 +469,16 @@ function drawTagBubbleChart(tagData, containerId) {
        }, vineDuration);
     });
 
-  // --- 【核心重构】区域判定 + 几何三段式/一段式 ---
+  // 根据标签位置绘制连接路径（右侧直接连接，左侧/中间绕行）
   function drawPreciseZoneVine(d, color, duration = 1200) {
       linkGroup.selectAll("*").remove(); 
 
       const polyCentroid = d3.polygonCentroid(d.polygon);
       const angle = Math.atan2(polyCentroid[1], polyCentroid[0]);
       
-      const gap = 15; // 小圆环半径 (Elbow)
-      const vineInnerR = radius + 12; // 起点半径
-      const vineOuterR = vineInnerR + gap; // 轨道半径
+      const gap = 15;
+      const vineInnerR = radius + 12;
+      const vineOuterR = vineInnerR + gap;
       
       const startX = centerX + vineInnerR * Math.cos(angle);
       const startY = centerY + vineInnerR * Math.sin(angle);
@@ -493,48 +486,34 @@ function drawTagBubbleChart(tagData, containerId) {
       const targetX = endX - 10; 
       const targetY = lineConnectY;
 
-      // 【核心设定】发射角度设定为 ±45度 (PI/4)
-      const launchLimit = Math.PI / 4; 
-
-      // 判定区域:
+      const launchLimit = Math.PI / 4;
       const isInsideRightZone = (Math.abs(angle) < launchLimit);
 
       let pathData = "";
 
       if (isInsideRightZone) {
-          // --- 情况B: 一笔画 (Direct) ---
           const cpX = (startX + targetX) / 2 + 30;
           const cpY = (startY + targetY) / 2 + 20;
           pathData = `M ${startX},${startY} Q ${cpX},${cpY} ${targetX},${targetY}`;
       } else {
-          // --- 情况A: 三段式 (Three-Stage) ---
-          
-          const goTop = (angle < 0); 
-          
-          // 1. 发射角度：固定在 +/- 45度
+          const goTop = (angle < 0);
           const launchAngle = goTop ? -launchLimit : launchLimit;
-          
-          // 2. Junction Angle: 第一段小圆环结束，接入大圆轨道的角度
-          const angleOffset = (gap / vineInnerR) * (goTop ? 1 : -1); 
-          const junctionAngle = angle + angleOffset; 
+          const angleOffset = (gap / vineInnerR) * (goTop ? 1 : -1);
+          const junctionAngle = angle + angleOffset;
           
           const junctionX = centerX + vineOuterR * Math.cos(junctionAngle);
           const junctionY = centerY + vineOuterR * Math.sin(junctionAngle);
-          
           const launchX = centerX + vineOuterR * Math.cos(launchAngle);
           const launchY = centerY + vineOuterR * Math.sin(launchAngle);
 
-          // === Segment 1: 小弯头 (1/4 Circle Arc) ===
           const sweep1 = goTop ? 1 : 0;
           pathData = `M ${startX},${startY} `;
           pathData += `A ${gap},${gap} 0 0,${sweep1} ${junctionX},${junctionY} `;
           
-          // === Segment 2: 大圆轨道 (Orbit to +/- 45deg) ===
           const sweep2 = goTop ? 1 : 0;
           const largeArc = Math.abs(junctionAngle - launchAngle) > Math.PI ? 1 : 0;
           pathData += `A ${vineOuterR},${vineOuterR} 0 ${largeArc},${sweep2} ${launchX},${launchY} `;
           
-          // === Segment 3: 贝塞尔飞出 (Flyout from 45deg) ===
           let tx, ty;
           if (goTop) {
               tx = 0.7; ty = 0.7;
@@ -542,7 +521,7 @@ function drawTagBubbleChart(tagData, containerId) {
               tx = 0.7; ty = -0.7;
           }
           
-          const force = 100; 
+          const force = 100;
           const cp1X = launchX + tx * force;
           const cp1Y = launchY + ty * force;
           const cp2X = targetX - 50;
@@ -551,7 +530,6 @@ function drawTagBubbleChart(tagData, containerId) {
           pathData += `C ${cp1X},${cp1Y} ${cp2X},${cp2Y} ${targetX},${targetY}`;
       }
 
-      // --- 绘制路径 ---
       const path = linkGroup.append("path")
           .attr("d", pathData)
           .style("stroke", color)
@@ -583,11 +561,11 @@ function drawTagBubbleChart(tagData, containerId) {
           .style("opacity", 0)
           .transition().duration(300).style("opacity", 1);
 
-      // 终点花苞 【修复】移除 +5 偏移，严格对齐
+      // 终点装饰
       drawOrnateEnd(targetX, targetY, color, duration);
   }
 
-  // --- 辅助：沿着路径长叶子 ---
+  // 沿路径绘制叶子装饰
   function drawLeavesOnPath(pathNode, color, totalDuration) {
       const totalLen = pathNode.getTotalLength();
       const step = 45; 
