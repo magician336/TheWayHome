@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分形树生成演示</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f0f0f0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+        }
+
+        #canvas-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #fff;
+        }
+
+        canvas {
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        #controls {
+            width: 300px;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            overflow-y: auto;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            color: #bdc3c7;
+        }
+
+        input[type=range] {
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .value-display {
+            float: right;
+            font-weight: bold;
+            color: #1abc9c;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #1abc9c;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #16a085;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="controls">
+        <h2>年份数据对比</h2>
+        <div class="control-group">
+            <label for="yearSelect">选择年份</label>
+            <select id="yearSelect"
+                style="width: 100%; padding: 8px; border-radius: 4px; background: #34495e; color: white; border: none;">
+            </select>
+        </div>
+
+        <hr style="border: 0; border-top: 1px solid #444; margin: 20px 0;">
+
+        <h2>实时参数微调</h2>
+        <div id="inputs"></div>
+
+        <button id="recordBtn" style="background-color: #e67e22; margin-top: 10px;">录制生长动图 (.gif)</button>
+        <script src="/public/gif.min.js"></script>
+
+        <button id="animateBtn" style="background-color: #3498db; margin-bottom: 10px;">播放生长动画</button>
+        <button id="downloadBtn">下载图片</button>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="treeCanvas" width="1000" height="600"></canvas>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>
