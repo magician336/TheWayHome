@@ -1,0 +1,376 @@
+/* revenue_style.css - 第二屏专属配置 (Video Scrolly 版) */
+
+/* =========================================
+   1. 过渡屏 (Transition Screen)
+   ========================================= */
+.transition-screen {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    /* 纯黑背景，强化文字冲击力 */
+    position: relative;
+    z-index: 10;
+}
+
+.big-transition-title {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.5rem;
+    text-transform: uppercase;
+    background: linear-gradient(120deg, #fff, #fdae6b, #ff69b4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(253, 174, 107, 0.3);
+}
+
+/* =========================================
+   2. 核心布局容器 (Scrolly Container)
+   ========================================= */
+
+/* 配置区域：定义局部变量 */
+#revenue-section {
+    /* 字体系统 */
+    --rev-font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --rev-font-serif: "KaiTi", "STKaiti", "Baskerville", serif;
+
+    /* 尺寸配置 */
+    --rev-title-size: 2.8rem;
+    --rev-desc-size: 1.1rem;
+
+    /* 配色系统 */
+    --rev-bg-color: transparent;
+    --rev-text-main: #e0e0e0;
+    --rev-text-muted: #aaaaaa;
+
+    /* 主题色：粉色(增长) & 橙色(收入) */
+    --rev-accent-pink: #ff69b4;
+    --rev-accent-orange: #fdae6b;
+    --rev-axis-color: #666666;
+    --rev-grid-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 滚动容器：
+   设置超高高度 (400vh)，让用户有足够的滚动行程来播放视频
+*/
+.revenue-scrolly-container {
+    height: 400vh;
+    position: relative;
+    background-color: transparent;
+    /* 防止外边距塌陷 */
+    overflow: visible;
+}
+
+/* 粘性舞台 (Sticky Stage)：
+   这是用户看到的实际画面，始终固定在屏幕窗口中
+*/
+.revenue-scrolly-container .sticky-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================
+   3. 左右分栏布局 (Split Layout)
+   ========================================= */
+.split-layout {
+    display: flex;
+    width: 100%;
+    max-width: 1600px;
+    /* 限制最大宽度，大屏更美观 */
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* --- 左侧面板：视频 + 文字 --- */
+.left-panel {
+    flex: 4;
+    /* 占约 40% 宽度 */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+    /* 分割线 */
+}
+
+/* 视频包装器：绝对定位铺满左侧 */
+.video-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+/* 视频本体 */
+#tree-video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* 保持比例，完整显示 */
+    /* 如果希望视频填满不留黑边，可改为 object-fit: cover; */
+}
+
+/* 文字覆盖层：浮在视频之上 */
+.text-overlay {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-top: 30vh;
+    /* 稍微下沉，避开树冠中心 */
+    background: rgba(0, 0, 0, 0.4);
+    /* 半透明背景提升文字可读性 */
+    padding: 20px 30px;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    /* 毛玻璃效果 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+.year-big-text {
+    font-size: 5rem;
+    font-weight: 800;
+    color: var(--rev-accent-orange);
+    margin: 0;
+    font-family: "Impact", sans-serif;
+    text-shadow: 0 0 20px rgba(253, 174, 107, 0.4);
+    line-height: 1;
+}
+
+.year-dynamic-desc {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    margin-top: 15px;
+    max-width: 400px;
+}
+
+/* --- 右侧面板：图表区域 --- */
+.right-panel {
+    flex: 6;
+    /* 占约 60% 宽度 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 40px;
+    padding-right: 20px;
+}
+
+/* 图表外框容器 */
+.chart-wrapper {
+    width: 100%;
+    height: 65vh;
+    /* 调整高度 */
+    min-height: 400px;
+    position: relative;
+
+    /* 容器样式：径向渐变背景 */
+    background: radial-gradient(circle at center,
+            rgba(40, 40, 50, 0.6) 0%,
+            rgba(10, 10, 15, 0.8) 100%);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 动态分析文字（位于图表下方） */
+.dynamic-analysis {
+    color: var(--rev-accent-orange);
+    font-family: var(--rev-font-serif);
+    font-size: 1.1em;
+    padding: 15px;
+    margin-top: 20px;
+    border-left: 3px solid var(--rev-accent-orange);
+    background: linear-gradient(90deg, rgba(253, 174, 107, 0.1), transparent);
+    border-radius: 0 4px 4px 0;
+}
+
+/* =========================================
+   4. 图表内部样式 (SVG Elements)
+   ========================================= */
+
+/* 标题样式 */
+#revenue-chart .chart-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    fill: var(--rev-text-main);
+    text-shadow: 0 0 8px rgba(244, 252, 7, 0.3);
+}
+
+/* 坐标轴通用样式 */
+#revenue-chart .axis text {
+    fill: var(--rev-text-muted);
+    font-size: 14px;
+    font-family: var(--rev-font-primary);
+}
+
+#revenue-chart .axis path,
+#revenue-chart .axis line {
+    stroke: var(--rev-axis-color);
+    shape-rendering: crispEdges;
+}
+
+/* 坐标轴标签 */
+#revenue-chart .axis-label {
+    fill: var(--rev-text-main);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* 柱子 */
+#revenue-chart .bar {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    opacity: 0.9;
+}
+
+#revenue-chart .bar:hover {
+    opacity: 1;
+    filter: brightness(1.2) drop-shadow(0 0 5px var(--rev-accent-orange));
+}
+
+/* 增长率折线 */
+#revenue-chart .growth-line {
+    fill: none;
+    stroke: var(--rev-accent-pink);
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 3px rgba(255, 105, 180, 0.5));
+}
+
+/* 增长率圆点 */
+#revenue-chart .growth-dot {
+    fill: #fff;
+    stroke: var(--rev-accent-pink);
+    stroke-width: 2px;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+#revenue-chart .growth-dot:hover {
+    transform: scale(1.5);
+    fill: var(--rev-accent-pink);
+    stroke: #fff;
+    cursor: pointer;
+}
+
+/* 图例文字 */
+#revenue-chart .legend-text {
+    fill: var(--rev-text-muted);
+    font-size: 12px;
+    font-weight: 400;
+    dominant-baseline: middle;
+}
+
+/* =========================================
+   5. Tooltip 样式
+   ========================================= */
+.revenue-dedicated-tooltip {
+    position: fixed;
+    /* 初始状态：隐藏 */
+    opacity: 0;
+    visibility: hidden;
+
+    background-color: rgba(20, 20, 20, 0.9);
+    color: #fff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: var(--rev-font-primary);
+    font-size: 13px;
+    line-height: 1.6;
+
+    pointer-events: none;
+    z-index: 9999;
+
+    /* 玻璃拟态 */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+    /* 出现动画 */
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateY(10px);
+}
+
+.revenue-dedicated-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.revenue-dedicated-tooltip strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 2px;
+}
+
+.revenue-dedicated-tooltip .val-money {
+    color: var(--rev-accent-orange);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+.revenue-dedicated-tooltip .val-rate {
+    color: var(--rev-accent-pink);
+    font-weight: 700;
+}
+
+/* =========================================
+   6. 移动端适配
+   ========================================= */
+@media (max-width: 1024px) {
+    .split-layout {
+        flex-direction: column;
+    }
+
+    .left-panel,
+    .right-panel {
+        flex: none;
+        width: 100%;
+    }
+
+    .left-panel {
+        height: 40%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .right-panel {
+        height: 60%;
+        padding: 20px 0;
+    }
+
+    .text-overlay {
+        margin-top: 0;
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    .big-transition-title {
+        font-size: 3rem;
+    }
+}
