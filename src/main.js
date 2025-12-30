@@ -110,93 +110,149 @@ function playGrowAnimation() {
 // 绑定事件
 animateBtn.addEventListener('click', playGrowAnimation);
 
+// main.js 中的 recordBtn 逻辑替换如下：
 recordBtn.addEventListener('click', async () => {
     recordBtn.disabled = true;
-    recordBtn.innerText = "准备环境中...";
+
+    // 映射逻辑（统一定义，方便复用）
+    const getTargetConfig = (d) => ({
+        scale: tree._mapRange(Math.sqrt(d.actual_revenue), Math.sqrt(1.3), Math.sqrt(105), 40, 115),
+        upAmount: tree._mapRange(Math.max(-30, Math.min(d.growth_rate, 150)), -30, 150, 0, 0.022),
+        branchiness: tree._mapRange(Math.log10(d.num_games), Math.log10(150), Math.log10(1800), 0.035, 0.095)
+    });
+
+    const lerp = (a, b, t) => a + (b - a) * (1 - Math.pow(1 - t, 3));
+
+    // 在 main.js 中找到 recordSegment 函数并修改如下部分：
+    const recordSegment = async (startData, endData) => {
+        return new Promise((resolve) => {
+            // 修改点 1：强制 30 FPS，确保录制器持续监听
+            const stream = canvas.captureStream(30);
+            const recorder = new MediaRecorder(stream, {
+                mimeType: 'video/webm; codecs=vp9'
+            });
+            const chunks = [];
+
+            const startConf = getTargetConfig(startData);
+            const endConf = getTargetConfig(endData);
+
+            recorder.ondataavailable = (e) => {
+                if (e.data.size > 0) chunks.push(e.data);
+            };
+
+            recorder.onstop = () => {
+                const blob = new Blob(chunks, { type: 'video/webm' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                const name = `tree_${startData.year.toString().slice(-2)}-${endData.year.toString().slice(-2)}`;
+                link.download = `${name}.webm`;
+                link.href = url;
+                link.click();
+                resolve();
+            };
+
+            recorder.start();
+
+            let progress = 0;
+            // 修改点 2：减小步长。0.01 表示 100 帧，在 30FPS 下约为 3.3 秒
+            const step = 0.01;
+
+            const renderFrame = () => {
+                if (progress <= 1) {
+                    tree.config.scale = lerp(startConf.scale, endConf.scale, progress);
+                    tree.config.upAmount = lerp(startConf.upAmount, endConf.upAmount, progress);
+                    tree.config.branchiness = lerp(startConf.branchiness, endConf.branchiness, progress);
+
+                    tree.draw();
+                    progress += step;
+                    // 使用 requestAnimationFrame 确保录制器能抓到每一帧
+                    requestAnimationFrame(renderFrame);
+                } else {
+                    // 停留 1 秒确保结尾完整
+                    setTimeout(() => {
+                        recorder.stop();
+                    }, 1000);
+                }
+            };
+
+            requestAnimationFrame(renderFrame);
+        });
+    };
 
     try {
-        // 1. 解决跨域 Worker 问题
-        const resp = await fetch('/public/gif.min.js');
-        const script = await resp.text();
-        const workerUrl = URL.createObjectURL(new Blob([script], { type: 'application/javascript' }));
-
-        // main.js 中的配置
-        const gif = new GIF({
-            workers: 4,
-            quality: 10,
-            width: canvas.width,
-            height: canvas.height,
-            // 路径指向 /gif.worker.js，Vite 会自动从 public 目录查找
-            workerScript: '/gif.worker.js',
-            background: '#ffffff'
-        });
-
-        // 2. 按年份顺序循环演化
-        for (let i = 0; i < marketData.length; i++) {
-            const currentYearData = marketData[i];
-
-            await new Promise(resolve => {
-                tree.transitionToMarketData(currentYearData, 1500, () => {
-                    const ctx = canvas.getContext('2d');
-
-                    // 1. 强制在最底层补充白色背景
-                    ctx.save();
-                    ctx.globalCompositeOperation = 'destination-over';
-                    ctx.fillStyle = '#FFFFFF';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    ctx.restore();
-
-                    // 2. 优化图例：白底深字
-                    ctx.save();
-                    // 绘制图例半透明背景块
-                    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
-                    ctx.fillRect(20, 20, 200, 100);
-
-                    // 年份
-                    ctx.fillStyle = "#2C3E50";
-                    ctx.font = "bold 28px Arial";
-                    ctx.fillText(`${currentYearData.year}`, 35, 55);
-
-                    // 销售额数据
-                    ctx.font = "16px Arial";
-                    ctx.fillStyle = "#34495E";
-                    ctx.fillText(`销售额: ${currentYearData.actual_revenue} 亿元`, 35, 85);
-
-                    // 增长率数据
-                    ctx.fillStyle = currentYearData.growth_rate >= 0 ? "#E74C3C" : "#2980B9";
-                    ctx.fillText(`增长率: ${currentYearData.growth_rate}%`, 35, 110);
-                    ctx.restore();
-
-                    gif.addFrame(canvas, { copy: true, delay: 33 });
-                });
-                setTimeout(resolve, 1600);
-            });
-
-            // 年度停留帧
-            for (let f = 0; f < 10; f++) gif.addFrame(canvas, { copy: true, delay: 100 });
+        for (let i = 0; i < marketData.length - 1; i++) {
+            recordBtn.innerText = `正在导出 ${marketData[i].year}-${marketData[i + 1].year}...`;
+            await recordSegment(marketData[i], marketData[i + 1]);
+            // 增加等待时间，防止浏览器因并发下载过多而崩溃
+            await new Promise(r => setTimeout(r, 1500));
         }
-
-        recordBtn.innerText = "正在合成 GIF (可能需要数十秒)...";
-
-        gif.on('finished', (blob) => {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `china-indie-game-market-history.gif`;
-            link.click();
-
-            recordBtn.disabled = false;
-            recordBtn.innerText = "录制 2017-2024 全纪录 (.gif)";
-            URL.revokeObjectURL(workerUrl);
-        });
-
-        gif.render();
-
+        recordBtn.innerText = "全部导出完成";
     } catch (err) {
-        console.error("录制失败:", err);
+        console.error(err);
+        recordBtn.innerText = "导出出错";
+    } finally {
         recordBtn.disabled = false;
-        recordBtn.innerText = "录制失败，请重试";
     }
 });
+
+const scrollVideo = document.getElementById('scrollVideo');
+const scrollSection = document.getElementById('scroll-display-section');
+
+// 1. 初始化视频状态
+scrollVideo.addEventListener('loadedmetadata', () => {
+    // 确保视频暂停，防止自动播放干扰
+    scrollVideo.pause();
+    // 初始化时间到 0
+    scrollVideo.currentTime = 0;
+    console.log("视频加载完成，时长:", scrollVideo.duration);
+});
+
+// 2. 滚动监听
+let isTicking = false;
+window.addEventListener('scroll', () => {
+    if (!isTicking) {
+        window.requestAnimationFrame(() => {
+            // 获取视频区域相对于视口的位置
+            const sectionRect = scrollSection.getBoundingClientRect();
+            // 计算该区域的总滚动行程 = 区域高度 - 视口高度
+            const scrollDistance = scrollSection.offsetHeight - window.innerHeight;
+
+            // 只有当视频区域进入视口时才计算
+            // sectionRect.top <= 0 表示区域顶部已经到达或滚过视口顶部
+            // sectionRect.bottom >= 0 表示区域底部还没滚出视口
+            if (sectionRect.top <= 0 && sectionRect.bottom >= 0) {
+
+                // 计算进度：已滚动的距离 / 总行程
+                // sectionRect.top 是负数，取反即为已滚过的距离
+                let progress = -sectionRect.top / scrollDistance;
+
+                // 限制在 0 到 1 之间
+                progress = Math.max(0, Math.min(1, progress));
+
+                // 如果视频元数据已加载，更新时间
+                if (scrollVideo.duration) {
+                    // 使用 toFixed(3) 避免过度精确导致微小的抖动
+                    const targetTime = progress * scrollVideo.duration;
+
+                    // 只有当时间变化超过 0.05秒时才更新，优化性能
+                    if (Math.abs(scrollVideo.currentTime - targetTime) > 0.05) {
+                        scrollVideo.currentTime = targetTime;
+                    }
+                }
+            } else if (sectionRect.top > 0) {
+                // 如果还在上面没滚下来，重置为 0
+                scrollVideo.currentTime = 0;
+            } else if (sectionRect.bottom < 0) {
+                // 如果已经滚过去了，定格在最后
+                scrollVideo.currentTime = scrollVideo.duration;
+            }
+
+            isTicking = false;
+        });
+        isTicking = true;
+    }
+});
+
 
 // 如果希望页面一加载就自动播放
 // window.addEventListener('load', playGrowAnimation);

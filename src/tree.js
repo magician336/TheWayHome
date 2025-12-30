@@ -126,11 +126,14 @@ export default class FractalTree {
     draw() {
         const { width, height } = this.canvas;
         this.ctx.clearRect(0, 0, width, height);
-        // 核心修复：绘制实心背景，防止透明导致的黑色
+
+        /* 添加背景
         this.ctx.save();
         this.ctx.fillStyle = "#FFFFFF";
         this.ctx.fillRect(0, 0, width, height);
         this.ctx.restore();
+        */
+
         this.rng.reset();
         let start_angle = -1 * (Math.PI / 2) + this.rng.gaussian(0, 0.5);
         this._drawBranch(width / 2, height, start_angle, 1);

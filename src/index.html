@@ -8,10 +8,53 @@
     <style>
         body {
             margin: 0;
-            overflow: hidden;
             background-color: #f0f0f0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        #main-app {
             display: flex;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+            background: #fff;
+            /* 确保有背景色 */
+        }
+
+        /* 滚动视频展示区 */
+        #scroll-display-section {
+            position: relative;
+            height: 200vh;
+            /* 滚动总高度 */
+            background: #1a1a1a;
+            z-index: 20;
+        }
+
+        #video-sticky-container {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #scrollVideo {
+            width: 80%;
+            max-height: 80vh;
+            /* 确保背景透明可见 */
+            filter: drop-shadow(0 0 20px rgba(0, 2, 0, 0.5));
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            color: white;
+            width: 100%;
+            text-align: center;
+            font-size: 1.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
         #canvas-container {
@@ -84,29 +127,32 @@
 </head>
 
 <body>
-    <div id="controls">
-        <h2>年份数据对比</h2>
-        <div class="control-group">
-            <label for="yearSelect">选择年份</label>
-            <select id="yearSelect"
-                style="width: 100%; padding: 8px; border-radius: 4px; background: #34495e; color: white; border: none;">
-            </select>
+    <div id="main-app">
+        <div id="controls">
+            <h2>年份数据对比</h2>
+            <div class="control-group">
+                <select id="yearSelect"></select>
+            </div>
+            <hr>
+            <h2>实时参数微调</h2>
+            <div id="inputs"></div>
+            <button id="recordBtn">导出分段 WebM (透明)</button>
+            <button id="animateBtn">播放生长动画</button>
+            <button id="downloadBtn">下载 PNG</button>
         </div>
 
-        <hr style="border: 0; border-top: 1px solid #444; margin: 20px 0;">
-
-        <h2>实时参数微调</h2>
-        <div id="inputs"></div>
-
-        <button id="recordBtn" style="background-color: #e67e22; margin-top: 10px;">录制生长动图 (.gif)</button>
-        <script src="/public/gif.min.js"></script>
-
-        <button id="animateBtn" style="background-color: #3498db; margin-bottom: 10px;">播放生长动画</button>
-        <button id="downloadBtn">下载图片</button>
+        <div id="canvas-container">
+            <canvas id="treeCanvas" width="1000" height="600"></canvas>
+        </div>
     </div>
 
-    <div id="canvas-container">
-        <canvas id="treeCanvas" width="1000" height="600"></canvas>
+    <div id="scroll-display-section">
+        <div id="video-sticky-container">
+            <div class="scroll-hint">向下滚动查看演化细节 ↓</div>
+            <video id="scrollVideo" muted playsinline preload="auto">
+                <source src="tree_17-18.webm" type="video/webm">
+            </video>
+        </div>
     </div>
 
     <script type="module" src="./main.js"></script>
