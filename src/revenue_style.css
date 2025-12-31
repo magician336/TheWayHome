@@ -294,13 +294,14 @@
 }
 
 /* 增长率折线 */
-#revenue-chart .growth-line {
-    fill: none;
-    stroke: var(--rev-accent-pink);
+.growth-line {
+    fill: none !important;
+    /* 必须为 none，否则会变成黑色色块 */
+    stroke: #ff69b4 !important;
+    /* 线条颜色 */
     stroke-width: 3px;
     stroke-linecap: round;
     stroke-linejoin: round;
-    filter: drop-shadow(0 0 3px rgba(255, 105, 180, 0.5));
 }
 
 /* 增长率圆点 */
@@ -333,57 +334,87 @@
    ========================================= */
 .revenue-dedicated-tooltip {
     position: fixed;
-    /* 初始状态：隐藏 */
     opacity: 0;
     visibility: hidden;
 
-    background-color: rgba(20, 20, 20, 0.9);
-    color: #fff;
-    padding: 12px 16px;
-    border-radius: 8px;
+    /* 更加深邃的背景与更高的对比度 */
+    background-color: rgba(10, 10, 15, 0.95);
+    color: #f0f0f0;
+    padding: 15px 20px;
+    border-radius: 12px;
     font-family: var(--rev-font-primary);
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.8;
 
     pointer-events: none;
     z-index: 9999;
 
-    /* 玻璃拟态 */
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    /* 极致毛玻璃效果 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    /* 细微的边框，模拟高亮边缘 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
 
-    /* 出现动画 */
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    transform: translateY(10px);
+    /* 动画：微小的缩放与位移 */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, 10px) scale(0.95);
 }
 
+/* 悬浮时的可见状态 */
 .revenue-dedicated-tooltip.visible {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translate(-50%, -10px) scale(1);
 }
 
+/* 头部年份样式 */
 .revenue-dedicated-tooltip strong {
     display: block;
-    margin-bottom: 4px;
-    font-size: 14px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    letter-spacing: 1px;
     color: #fff;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    padding-bottom: 2px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
 }
 
+/* 指标项布局 */
+.revenue-dedicated-tooltip .tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* 销售额标签：橙色 (对应 tree_XX.webm 图例) */
 .revenue-dedicated-tooltip .val-money {
-    color: var(--rev-accent-orange);
-    font-weight: 700;
-    font-size: 1.1em;
+    color: var(--rev-accent-orange, #fdae6b);
+    font-weight: 800;
 }
 
+/* 增长率标签：粉色 (对应 tree_XX.webm 图例) */
 .revenue-dedicated-tooltip .val-rate {
-    color: var(--rev-accent-pink);
-    font-weight: 700;
+    color: var(--rev-accent-pink, #ff69b4);
+    font-weight: 800;
+}
+
+/* 游戏发售量标签：青色 (对应 tree_XX.webm 图例) */
+.revenue-dedicated-tooltip .val-games {
+    color: #1abc9c;
+    font-weight: 800;
+}
+
+/* 提示小三角 (可选) */
+.revenue-dedicated-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: rgba(10, 10, 15, 0.95) transparent transparent transparent;
 }
 
 /* =========================================

@@ -130,17 +130,24 @@ function setupTagChartScrollTrigger() {
 
 function setupDistChartAnimation(controller) {
     if (!controller) return;
+
     const section = document.querySelector("#distribution-section");
+    // 核心修改：将事件监听器绑定到图表容器上
+    const chartContainer = document.querySelector("#distribution-section .chart-container");
+
     let currentMode = 'fixed';
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            // 滚动超过 70% 自动切换为排序模式
             if (entry.intersectionRatio > 0.7) {
                 if (currentMode !== 'ranked') {
                     currentMode = 'ranked';
                     controller.updateLayout('ranked');
                 }
-            } else if (entry.intersectionRatio < 0.2) {
+            }
+            // 滚出视口（低于 20%）重置为固定模式
+            else if (entry.intersectionRatio < 0.2) {
                 if (currentMode !== 'fixed') {
                     currentMode = 'fixed';
                     controller.updateLayout('fixed');
@@ -148,16 +155,22 @@ function setupDistChartAnimation(controller) {
             }
         });
     }, {
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        threshold: [0, 0.2, 0.7, 1.0]
     });
 
     if (section) {
         observer.observe(section);
-        section.addEventListener('click', (e) => {
+    }
+
+    // 核心修改：点击图表容器手动切换模式
+    if (chartContainer) {
+        chartContainer.style.cursor = "pointer"; // 添加手型光标提示可点击
+        chartContainer.addEventListener('click', (e) => {
             e.stopPropagation();
             const nextMode = (currentMode === 'fixed') ? 'ranked' : 'fixed';
             controller.updateLayout(nextMode);
             currentMode = nextMode;
+            console.log(`手动切换模式至: ${currentMode}`);
         });
     }
 }
@@ -257,56 +270,56 @@ function buildRevenueStorySteps(revenueData) {
         {
             videoIdx: 0,
             year: 2017,
-            titleOverride: '2017 · 萌芽',
+            titleOverride: '2017 · 破土',
             description: '第一批国产独立制作人闯入全球舞台，114% 的年增幅来自他们的试水与坚持。',
             macroText: macro(2017)
         },
         {
             videoIdx: 1,
             year: 2018,
-            titleOverride: '2018 · 品类扩张',
+            titleOverride: '2018 · 萌芽',
             description: '塔防、肉鸽、剧情等品类百花齐放，团队开始探索更成熟的商业化路径。',
             macroText: macro(2018)
         },
         {
             videoIdx: 2,
             year: 2019,
-            titleOverride: '2019· 破圈',
+            titleOverride: '2019· 扩张',
             description: '疫情红利叠加直播传播，玩家数与收入齐飞，27.9 亿的峰值诞生。',
             macroText: macro(2019)
         },
         {
             videoIdx: 3,
             year: 2020,
-            titleOverride: '2020 · 重构',
+            titleOverride: '2020 · 爆发前夜',
             description: '大盘增速放缓，团队回归内容打磨，寻找更健康的生命周期。',
             macroText: macro(2020)
         },
         {
             videoIdx: 4,
             year: 2021,
-            titleOverride: '2021 · 出海加速',
+            titleOverride: '2021 · 科幻与修仙',
             description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
             macroText: macro(2021)
         },
         {
             videoIdx: 5,
             year: 2022,
-            titleOverride: '2022 · 出海加速',
+            titleOverride: '2022 · 叙事的温度',
             description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
             macroText: macro(2022)
         },
         {
             videoIdx: 6,
             year: 2023,
-            titleOverride: '2023 · 出海加速',
+            titleOverride: '2023 · 创意涌现',
             description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
             macroText: macro(2023)
         },
         {
             videoIdx: 7,
             year: 2024,
-            titleOverride: '2024 · 出海加速',
+            titleOverride: '2024 · 得偿所愿',
             description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
             macroText: macro(2024)
         }
