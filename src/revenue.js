@@ -104,24 +104,14 @@ export const createRevenueChart = (data) => {
     // --- 5. 交互控制接口 (API) ---
     // 这个对象将被返回给外部调用者 (treeScrolly.js)
     const controller = {
-        // 外部调用此方法高亮特定年份
         highlight: (targetYear) => {
             const yearStr = String(targetYear);
+            // 这里的 bars 和 dots 必须是在 createRevenueChart 作用域内定义的 D3 选择器
+            bars.transition().duration(400)
+                .attr("opacity", d => String(d.year) === yearStr ? 1 : 0.2);
 
-            // 1. 柱子变淡/高亮
-            bars.transition().duration(200)
-                .attr("opacity", d => {
-                    // 如果没传年份，或者年份匹配，保持高亮；否则变淡
-                    if (!targetYear) return 0.9;
-                    return String(d.year) === yearStr ? 1 : 0.2;
-                })
-                .style("filter", d => String(d.year) === yearStr ? "brightness(1.2)" : "none");
-
-            // 2. 折线上的点放大
-            dots.transition().duration(200)
-                .attr("r", d => String(d.year) === yearStr ? 8 : 5)
-                .attr("fill", d => String(d.year) === yearStr ? "#fff" : "#ff69b4")
-                .attr("stroke-width", d => String(d.year) === yearStr ? 2 : 0);
+            dots.transition().duration(400)
+                .attr("r", d => String(d.year) === yearStr ? 8 : 4);
         }
     };
 

@@ -39,16 +39,17 @@ async function initHomePage() {
 
         // --- 核心逻辑修改区域 ---
 
-        // 1. 创建图表并获取控制器
         const revenueChartController = createRevenueChart(revenueData);
+        const revenueStorySteps = buildRevenueStorySteps(revenueData);
 
-        // 2. 初始化视频 Scrolly 模块
         if (revenueChartController) {
+            console.log("初始化视频 Scrolly...");
             new TreeVideoScrolly({
-                videoSelector: '#tree-video',       // 视频元素 ID
-                containerSelector: '#revenue-section', // 滚动容器 ID
+                videoSelector: '#tree-video',
+                containerSelector: '#revenue-section',
                 chartController: revenueChartController,
-                data: revenueData
+                data: revenueData,
+                storySteps: revenueStorySteps
             });
         }
         // -----------------------
@@ -162,14 +163,19 @@ function setupDistChartAnimation(controller) {
 }
 
 function initScrollInteractions() {
+    window.isPageInitialLoading = true;
+    setTimeout(() => { window.isPageInitialLoading = false; }, 1500);
     const sections = document.querySelectorAll('section');
     const reveals = document.querySelectorAll('.reveal');
 
     const bgObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && !window.isPageInitialLoading) {
                 const targetBgId = entry.target.getAttribute('data-bg');
-                if (targetBgId) switchBackground(targetBgId);
+                if (targetBgId) {
+                    const allLayers = document.querySelectorAll('.bg-layer');
+                    allLayers.forEach(l => l.classList.toggle('active', l.id === targetBgId));
+                }
             }
         });
     }, { threshold: 0.5 });
@@ -186,13 +192,15 @@ function initScrollInteractions() {
     sections.forEach(section => bgObserver.observe(section));
     reveals.forEach(reveal => revealObserver.observe(reveal));
 
-    function switchBackground(targetId) {
+    const switchBackground = (targetId) => {
+        // 同样加入保护
+        if (globalInitialLoad) return;
+
         const allLayers = document.querySelectorAll('.bg-layer');
         allLayers.forEach(layer => {
-            if (layer.id === targetId) layer.classList.add('active');
-            else layer.classList.remove('active');
+            layer.classList.toggle('active', layer.id === targetId);
         });
-    }
+    };
 }
 
 function renderQuickStats(games, revenue) {
@@ -233,6 +241,55 @@ function renderQuickStats(games, revenue) {
 
     const growth = revenue[revenue.length - 1].growth_rate;
     d3.select("#macro-dynamic-text").html(`<b>实时洞察：</b>最新数据显示，年增长率已达 <b>${growth}%</b>，国产独立游戏正处于黄金成长期。`);
+}
+
+function buildRevenueStorySteps(revenueData) {
+    const findRow = (year) => revenueData.find(d => +d.year === year);
+    const macro = (year) => {
+        const row = findRow(year);
+        if (!row) return null;
+        const revenue = (+row.actual_revenue).toFixed(1);
+        const growth = (+row.growth_rate).toFixed(1);
+        return `<b>实时洞察：</b>${year} 年收入约 <b>${revenue} 亿</b>，同比 <b>${growth}%</b>。`;
+    };
+
+    return [
+        {
+            videoIdx: 0,
+            year: 2017,
+            titleOverride: '2017-2018 · 萌芽',
+            description: '第一批国产独立制作人闯入全球舞台，114% 的年增幅来自他们的试水与坚持。',
+            macroText: macro(2017)
+        },
+        {
+            videoIdx: 1,
+            year: 2019,
+            titleOverride: '2019 · 品类扩张',
+            description: '塔防、肉鸽、剧情等品类百花齐放，团队开始探索更成熟的商业化路径。',
+            macroText: macro(2019)
+        },
+        {
+            videoIdx: 3,
+            year: 2021,
+            titleOverride: '2020-2021 · 破圈',
+            description: '疫情红利叠加直播传播，玩家数与收入齐飞，27.9 亿的峰值诞生。',
+            macroText: macro(2021)
+        },
+        {
+            videoIdx: 5,
+            year: 2023,
+            titleOverride: '2022-2023 · 重构',
+            description: '大盘增速放缓，团队回归内容打磨，寻找更健康的生命周期。',
+            macroText: macro(2023)
+        },
+        {
+            videoIdx: 6,
+            year: 2024,
+            titleOverride: '2024 · 出海加速',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
+            macroText: macro(2024)
+        }
+    ];
 }
 
 document.addEventListener('DOMContentLoaded', initHomePage);

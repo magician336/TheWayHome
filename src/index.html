@@ -22,10 +22,35 @@
         <div class="bg-layer active" id="bg-hero"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/Jason_and_Lucia_02_landscape.jpg');">
         </div>
-        <div class="bg-layer" id="bg-revenue-dynamic" style="background-color: #111;"></div>
-        <div class="bg-layer" id="bg-distribution"
-            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/Jason_and_Lucia_Motel_landscape.jpg');">
+        <div class="bg-layer" id="bg-revenue-hero"
+            style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('./background/bg-revenue-hero.svg');">
         </div>
+
+        <div class="bg-layer" id="bg-rev-2017"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2017.png');">
+        </div>
+        <div class="bg-layer" id="bg-rev-2018"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2018.png');">
+        </div>
+        <div class="bg-layer" id="bg-rev-2019"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2019.jpg');">
+        </div>
+        <div class="bg-layer" id="bg-rev-2020"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2020.jpg');">
+        </div>
+        <div class="bg-layer" id="bg-rev-2021"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2021.jpg');">
+        </div>
+        <div class="bg-layer" id="bg-rev-2022"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2022.png')">
+        </div>
+        <div class="bg-layer" id="bg-rev-2023"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2023.png');">
+        </div>
+        <div class="bg-layer" id="bg-rev-2024"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2024.png');">
+        </div>
+        <div class="bg-layer" id="bg-revenue" style="background-image: url('./background/bg-revenue.svg')"></div>
     </div>
 
     <main>
@@ -40,19 +65,18 @@
             </div>
         </section>
 
-        <section class="transition-screen" id="transition-screen">
+        <section class="transition-screen" id="transition-screen" data-bg="bg-revenue-hero">
             <h1 class="big-transition-title reveal">市场规模的飞跃</h1>
         </section>
 
-        <section class="revenue-scrolly-container" id="revenue-section" data-bg="bg-revenue-dynamic">
-
-            <div class="sticky-stage">
-                <div class="split-layout">
-                    <div class="left-panel">
-                        <div class="video-wrapper">
-                            <video id="tree-video" muted playsinline preload="auto">
-                                <source src="./tree/tree.webm" type="video/webm">
-                                您的浏览器不支持 Video 标签。
+        <section class="revenue-scrolly-container" id="revenue-section">
+            <div id="revenue-dashboard" class="scrolly-mode">
+                <div class="sticky-stage revenue-stage">
+                    <div class="tree-visual-container">
+                        <div class="tree-video-frame">
+                            <video id="tree-video" muted autoplay playsinline preload="auto"
+                                style="pointer-events: none;">
+                                <source src="./tree/tree_18.webm" type="video/webm">
                             </video>
                         </div>
                         <div class="text-overlay">
@@ -60,14 +84,75 @@
                             <p id="tree-year-desc" class="year-dynamic-desc">正在加载数据...</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="right-panel">
-                        <div class="chart-wrapper" id="revenue-chart"></div>
-                        <p id="macro-dynamic-text" class="dynamic-analysis" style="margin-top: 20px;"></p>
+                <div class="scrolly-story-container revenue-story">
+                    <div class="story-step" data-step="0" data-bg="bg-rev-2017">
+                        <div class="story-card">
+                            <h3>2017 · 破土</h3>
+                            <p>Steam 上的国产独立作品开始崭露头角，从小众实验走向成型产品。</p>
+                            <p>这一年，早期的先行者们开始在国际平台扎根。</p>
+                        </div>
                     </div>
+
+                    <div class="story-step" data-step="1" data-bg="bg-rev-2018">
+                        <div class="story-card">
+                            <h3>2018 · 萌芽</h3>
+                            <p>现象级作品频出，独立游戏开始进入大众视野，撑起了 114% 的年增幅。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="2" data-bg="bg-rev-2019">
+                        <div class="story-card">
+                            <h3>2019 · 扩张</h3>
+                            <p>塔防、Roguelike、剧情向等多品类爆发，市场结构更均衡。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="3" data-bg="bg-rev-2020">
+                        <div class="story-card">
+                            <h3>2020 · 爆发前夜</h3>
+                            <p>市场基数快速增长，更多高质量项目立项，为后续的爆发积蓄能量。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="4" data-bg="bg-rev-2021">
+                        <div class="story-card">
+                            <h3>2021 · 破圈</h3>
+                            <p>买断制迎来超级爆发，营收飙到 27.9 亿，巨量新玩家涌入。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="5" data-bg="bg-rev-2022">
+                        <div class="story-card">
+                            <h3>2022 · 挣扎</h3>
+                            <p>行业进入“去泡沫”阶段，开发者开始反思长期运营与内容质量。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="6" data-bg="bg-rev-2023">
+                        <div class="story-card">
+                            <h3>2023 · 重构</h3>
+                            <p>团队回归内容本身，行业在洗牌后展现出更加成熟的韧性。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="7" data-bg="bg-rev-2024">
+                        <div class="story-card">
+                            <h3>2024 · 冲向全球</h3>
+                            <p>国产独立搭乘 AI 与跨平台浪潮，营收再创新高，出海成主旋律。</p>
+                        </div>
+                    </div>
+
+                    <div style="height: 40vh;"></div>
                 </div>
             </div>
-
+        </section>
+        <section class="revenue-chart-extension" id="revenue-chart-extension" data-bg="bg-revenue">
+            <div class="revenue-chart-container">
+                <div class="chart-wrapper" id="revenue-chart"></div>
+                <p id="macro-dynamic-text" class="dynamic-analysis"></p>
+            </div>
         </section>
         <section class="distribution-section" id="distribution-section" data-bg="bg-distribution">
             <div class="content-wrapper reveal">

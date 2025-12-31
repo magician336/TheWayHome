@@ -8,8 +8,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000;
-    /* 纯黑背景，强化文字冲击力 */
     position: relative;
     z-index: 10;
 }
@@ -52,143 +50,161 @@
     --rev-grid-color: rgba(255, 255, 255, 0.1);
 }
 
-/* 滚动容器：
-   设置超高高度 (400vh)，让用户有足够的滚动行程来播放视频
+/* 滚动容器
 */
 .revenue-scrolly-container {
-    height: 400vh;
+    min-height: 600vh;
     position: relative;
-    background-color: transparent;
-    /* 防止外边距塌陷 */
-    overflow: visible;
+    display: block;
 }
 
-/* 粘性舞台 (Sticky Stage)：
-   这是用户看到的实际画面，始终固定在屏幕窗口中
-*/
-.revenue-scrolly-container .sticky-stage {
+#revenue-dashboard.scrolly-mode {
+    align-items: flex-start;
+    gap: 40px;
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    flex-direction: row-reverse;
+}
+
+#revenue-dashboard .sticky-stage {
     position: sticky;
     top: 0;
     height: 100vh;
-    width: 100%;
+    width: 65%;
+
+    /* 1. 核心修改：深色透明背景 */
+    background-color: rgba(15, 15, 20, 0.5) !important;
+    /* 使用半透明深色，!important 确保覆盖原有样式 */
+
+    /* 2. 毛玻璃效果：这是消除“廉价白框感”的关键 */
+    -webkit-backdrop-filter: blur(20px);
+
+    /* 3. 移除边框和阴影 */
+    border: none;
+    box-shadow: none;
+
+    /* 4. 解决滚动条问题 */
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
-/* =========================================
-   3. 左右分栏布局 (Split Layout)
-   ========================================= */
-.split-layout {
+    /* 布局保持不变 */
     display: flex;
-    width: 100%;
-    max-width: 1600px;
-    /* 限制最大宽度，大屏更美观 */
-    height: 100%;
-    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 40px;
     box-sizing: border-box;
+    gap: 30px;
 }
 
-/* --- 左侧面板：视频 + 文字 --- */
-.left-panel {
-    flex: 4;
-    /* 占约 40% 宽度 */
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-right: 1px solid rgba(255, 255, 255, 0.05);
-    /* 分割线 */
-}
-
-/* 视频包装器：绝对定位铺满左侧 */
-.video-wrapper {
+.revenue-stage {
     width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
 }
 
-/* 视频本体 */
-#tree-video {
+.revenue-story {
+    width: 45%;
+    padding-bottom: 20vh;
+}
+
+.revenue-story .story-card {
+    background: rgba(8, 8, 12, 0.8);
+    color: #f3f4f6;
+    border-left-color: var(--rev-accent-orange);
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.35);
+}
+
+.revenue-story .story-card h3 {
+    color: #fff;
+}
+
+.revenue-story .story-card p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.tree-visual-container {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
-    /* 保持比例，完整显示 */
-    /* 如果希望视频填满不留黑边，可改为 object-fit: cover; */
 }
 
-/* 文字覆盖层：浮在视频之上 */
-.text-overlay {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    margin-top: 30vh;
-    /* 稍微下沉，避开树冠中心 */
-    background: rgba(0, 0, 0, 0.4);
-    /* 半透明背景提升文字可读性 */
-    padding: 20px 30px;
-    border-radius: 12px;
-    backdrop-filter: blur(6px);
+.tree-video-frame {
+    width: 100%;
+    /* 保持你之前的比例设置 */
+    height: clamp(300px, 55vh, 600px);
+
+    /* --- 核心修改：深色透明背景 --- */
     /* 毛玻璃效果 */
+    -webkit-backdrop-filter: blur(20px);
+    /* 优化边框和圆角 */
     border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: opacity 0.3s ease;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
 }
 
-.year-big-text {
-    font-size: 5rem;
-    font-weight: 800;
-    color: var(--rev-accent-orange);
-    margin: 0;
-    font-family: "Impact", sans-serif;
-    text-shadow: 0 0 20px rgba(253, 174, 107, 0.4);
-    line-height: 1;
+.tree-video-frame video {
+    width: 100%;
+    height: 100%;
+    /* 如果你想让透明背景在视频边缘透出来，可以把 cover 改成 contain，
+       或者保持 cover 但通过 padding 留出边距 */
+    object-fit: cover;
+    display: block;
 }
 
-.year-dynamic-desc {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #e0e0e0;
-    margin-top: 15px;
-    max-width: 400px;
-}
-
-/* --- 右侧面板：图表区域 --- */
-.right-panel {
-    flex: 6;
-    /* 占约 60% 宽度 */
+.text-overlay {
+    padding: 12px 8px;
+    text-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding-left: 40px;
-    padding-right: 20px;
+    gap: 8px;
+}
+
+.tree-gallery {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.tree-gallery.single-tree {
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    background: rgba(12, 12, 18, 0.85);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.tree-single-video {
+    width: 100%;
+    height: 40vh;
+    min-height: 260px;
+    border-radius: 18px;
+    object-fit: cover;
+}
+
+.tree-single-caption {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 /* 图表外框容器 */
 .chart-wrapper {
     width: 100%;
     height: 65vh;
-    /* 调整高度 */
     min-height: 400px;
     position: relative;
-
-    /* 容器样式：径向渐变背景 */
-    background: radial-gradient(circle at center,
-            rgba(40, 40, 50, 0.6) 0%,
-            rgba(10, 10, 15, 0.8) 100%);
-
-    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
-    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
     padding: 20px;
     box-sizing: border-box;
+
+    /* 替换掉原来的 radial-gradient，改用统一的深色透明 */
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(12px);
+
+    /* 保留并优化边框 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* 增加外阴影提升深度 */
 }
 
 /* 动态分析文字（位于图表下方） */
@@ -344,33 +360,46 @@
    6. 移动端适配
    ========================================= */
 @media (max-width: 1024px) {
-    .split-layout {
+    #revenue-dashboard.scrolly-mode {
         flex-direction: column;
     }
 
-    .left-panel,
-    .right-panel {
-        flex: none;
+    #revenue-dashboard .sticky-stage {
+        position: relative;
         width: 100%;
+        height: auto;
+        top: 0;
+        overflow-y: hidden;
+        background-color: rgba(11, 11, 15, 0.4);
+        backdrop-filter: blur(5px);
+        padding: 40px;
+        /* 移除可能存在的硬性边框 */
+        border: none;
     }
 
-    .left-panel {
-        height: 40%;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .right-panel {
-        height: 60%;
-        padding: 20px 0;
+    .tree-video-frame {
+        height: 40vh;
     }
 
     .text-overlay {
-        margin-top: 0;
-        background: rgba(0, 0, 0, 0.6);
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 12px;
     }
 
     .big-transition-title {
         font-size: 3rem;
     }
+}
+
+.revenue-chart-extension {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+.revenue-chart-container {
+    width: 100%;
+    max-width: 1400px;
 }
