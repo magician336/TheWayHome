@@ -33,7 +33,7 @@ export const createLegend = ({
   rateSamples,
   commentLabelFormat
 }) => {
-  const legendHeight = 750;
+  const legendHeight = 680;
 
   const legendSvg = container
     .append("svg")
@@ -73,9 +73,9 @@ export const createLegend = ({
   const COMPACT_LEGEND_HEIGHT = 250;
   const FULL_TRANSFORMS = {
     group1: "translate(0, 20)",
-    group2: "translate(0, 160)",
+    group2: "translate(0, 540)",
     group3: "translate(0, 320)",
-    group4: "translate(0, 500)"
+    group4: "translate(0, 160)"
   };
 
   // 1. Platform Code (形状)
@@ -130,7 +130,7 @@ export const createLegend = ({
     .attr("x", width / 2)
     .attr("y", 20)
     .call(legendTitleStyle)
-    .text("2. 游戏分类 -> 光晕颜色");
+    .text("4. 游戏分类 -> 光晕颜色");
 
   const colorGroup = legendGroup2.append("g").attr("transform", `translate(${width / 2}, 60)`);
 
@@ -211,11 +211,11 @@ export const createLegend = ({
   legendGroup4
     .append("text")
     .attr("x", width / 2)
-    .attr("y", 90)
+    .attr("y", 20)
     .call(legendTitleStyle)
-    .text("4. 好评率 -> 花瓣数量");
+    .text("2. 好评率 -> 花瓣数量");
 
-  const sizeGroup = legendGroup4.append("g").attr("transform", `translate(${width / 2}, 150)`);
+  const sizeGroup = legendGroup4.append("g").attr("transform", `translate(${width / 2}, 80)`);
 
   const numWidth = 120;
   const totalNumWidth = rateSamples.length * numWidth;

@@ -31,7 +31,7 @@ export const createFlowerGrid = ({
     .attr("class", "flower")
     .attr("transform", (d, i) => {
       const x = (i % cols) * (width / cols) + width / cols / 2;
-      const yBase = Math.floor(i / cols) * (flowerSize + rowGap) + 100;
+      const yBase = Math.floor(i / cols) * (flowerSize + rowGap) + 85;
       const y = yBase + (isWukong(d) ? WUKONG_Y_SHIFT : 0);
       return `translate(${x}, ${y})`;
     })
