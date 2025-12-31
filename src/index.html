@@ -67,6 +67,9 @@
 
         canvas {
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            image-rendering: -webkit-optimize-contrast;
+            /* 增强对比度和清晰度 */
+            image-rendering: crisp-edges;
         }
 
         #controls {
@@ -123,6 +126,16 @@
         button:hover {
             background-color: #16a085;
         }
+
+        #treeCanvas {
+            max-width: 1000px;
+            /* 强制锁定显示宽度 */
+            max-height: 600px;
+            width: 100%;
+            /* 响应式适配 */
+            height: auto;
+            display: block;
+        }
     </style>
 </head>
 
@@ -139,6 +152,7 @@
             <button id="recordBtn">导出分段 WebM (透明)</button>
             <button id="animateBtn">播放生长动画</button>
             <button id="downloadBtn">下载 PNG</button>
+            <button id="recordGrowthBtn" style="background-color: #e67e22;">录制 0-2017 生长过程</button>
         </div>
 
         <div id="canvas-container">

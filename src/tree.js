@@ -124,19 +124,42 @@ export default class FractalTree {
     }
 
     draw() {
-        const { width, height } = this.canvas;
-        this.ctx.clearRect(0, 0, width, height);
+        // 1. 设定逻辑尺寸（参考尺寸）
+        const logicalWidth = 1000;
+        const logicalHeight = 600;
 
-        /* 添加背景
-        this.ctx.save();
-        this.ctx.fillStyle = "#FFFFFF";
-        this.ctx.fillRect(0, 0, width, height);
-        this.ctx.restore();
-        */
+        // 2. 提高分辨率倍率 (设置为 2 或更高，越高越清晰但越占内存)
+        // 直接设定为 2 可以获得 2000px 宽度的超清输出
+        const qualityMultiplier = 2;
+
+        const targetWidth = logicalWidth * qualityMultiplier;
+        const targetHeight = logicalHeight * qualityMultiplier;
+
+        // 修复无限放大：只有在尺寸不匹配时才调整一次
+        if (this.canvas.width !== targetWidth || this.canvas.height !== targetHeight) {
+            this.canvas.width = targetWidth;
+            this.canvas.height = targetHeight;
+
+            // 锁定 CSS 显示尺寸，防止页面被撑大
+            this.canvas.style.width = logicalWidth + 'px';
+            this.canvas.style.height = logicalHeight + 'px';
+
+            // 重置并缩放上下文，使绘图指令自动适配高分辨率
+            this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+            this.ctx.scale(qualityMultiplier, qualityMultiplier);
+        }
+
+        this.ctx.clearRect(0, 0, logicalWidth, logicalHeight);
 
         this.rng.reset();
         let start_angle = -1 * (Math.PI / 2) + this.rng.gaussian(0, 0.5);
-        this._drawBranch(width / 2, height, start_angle, 1);
+
+        // 位置上调
+        const yOffset = 50;
+        this.ctx.lineCap = 'round';
+        this.ctx.lineJoin = 'round';
+
+        this._drawBranch(logicalWidth / 2, logicalHeight - yOffset, start_angle, 1);
     }
 
     _drawBranch(x, y, angle, depth) {

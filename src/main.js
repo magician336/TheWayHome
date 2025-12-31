@@ -125,27 +125,38 @@ recordBtn.addEventListener('click', async () => {
 
     // 在 main.js 中找到 recordSegment 函数并修改如下部分：
     const recordSegment = async (startData, endData) => {
+        // 提前定义配置映射逻辑
+        const getConf = (d) => ({
+            scale: tree._mapRange(Math.sqrt(d.actual_revenue), Math.sqrt(1.3), Math.sqrt(105), 40, 115),
+            upAmount: tree._mapRange(Math.max(-30, Math.min(d.growth_rate, 150)), -30, 150, 0, 0.022),
+            branchiness: tree._mapRange(Math.log10(d.num_games), Math.log10(150), Math.log10(1800), 0.035, 0.095)
+        });
+
+        // 核心修复：定义 renderFrame 需要用到的变量
+        const startConf = getConf(startData);
+        const endConf = getConf(endData);
+
         return new Promise((resolve) => {
-            // 修改点 1：强制 30 FPS，确保录制器持续监听
-            const stream = canvas.captureStream(30);
+            // 提升分辨率：captureStream 的参数建议保持在 30 或 60
+            const stream = canvas.captureStream(60);
+
+            // 提升画质：指定高码率 (8Mbps) 和更清晰的编码格式
             const recorder = new MediaRecorder(stream, {
-                mimeType: 'video/webm; codecs=vp9'
+                mimeType: 'video/webm; codecs=vp9',
+                videoBitsPerSecond: 8000000
             });
+
             const chunks = [];
-
-            const startConf = getTargetConfig(startData);
-            const endConf = getTargetConfig(endData);
-
-            recorder.ondataavailable = (e) => {
-                if (e.data.size > 0) chunks.push(e.data);
-            };
-
+            recorder.ondataavailable = (e) => chunks.push(e.data);
             recorder.onstop = () => {
                 const blob = new Blob(chunks, { type: 'video/webm' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
-                const name = `tree_${startData.year.toString().slice(-2)}-${endData.year.toString().slice(-2)}`;
-                link.download = `${name}.webm`;
+
+                // 命名修改：tree_18, tree_19...
+                const yearShort = endData.year.toString().slice(-2);
+                link.download = `tree_${yearShort}.webm`;
+
                 link.href = url;
                 link.click();
                 resolve();
@@ -154,27 +165,24 @@ recordBtn.addEventListener('click', async () => {
             recorder.start();
 
             let progress = 0;
-            // 修改点 2：减小步长。0.01 表示 100 帧，在 30FPS 下约为 3.3 秒
             const step = 0.01;
 
             const renderFrame = () => {
                 if (progress <= 1) {
-                    tree.config.scale = lerp(startConf.scale, endConf.scale, progress);
-                    tree.config.upAmount = lerp(startConf.upAmount, endConf.upAmount, progress);
-                    tree.config.branchiness = lerp(startConf.branchiness, endConf.branchiness, progress);
+                    // 使用平滑的 Cubic Out 缓动
+                    const ease = 1 - Math.pow(1 - progress, 3);
+
+                    tree.config.scale = startConf.scale + (endConf.scale - startConf.scale) * ease;
+                    tree.config.upAmount = startConf.upAmount + (endConf.upAmount - startConf.upAmount) * ease;
+                    tree.config.branchiness = startConf.branchiness + (endConf.branchiness - startConf.branchiness) * ease;
 
                     tree.draw();
                     progress += step;
-                    // 使用 requestAnimationFrame 确保录制器能抓到每一帧
                     requestAnimationFrame(renderFrame);
                 } else {
-                    // 停留 1 秒确保结尾完整
-                    setTimeout(() => {
-                        recorder.stop();
-                    }, 1000);
+                    setTimeout(() => recorder.stop(), 1000);
                 }
             };
-
             requestAnimationFrame(renderFrame);
         });
     };
@@ -252,7 +260,64 @@ window.addEventListener('scroll', () => {
         isTicking = true;
     }
 });
+const recordGrowthBtn = document.getElementById('recordGrowthBtn');
 
+recordGrowthBtn.addEventListener('click', async () => {
+    recordGrowthBtn.disabled = true;
+    recordGrowthBtn.innerText = "正在录制生长...";
+
+    const data2017 = marketData.find(d => d.year === 2017);
+
+    // 获取 2017 年的目标配置
+    const targetConf = {
+        scale: tree._mapRange(Math.sqrt(data2017.actual_revenue), Math.sqrt(1.3), Math.sqrt(105), 40, 115),
+        upAmount: tree._mapRange(Math.max(-30, Math.min(data2017.growth_rate, 150)), -30, 150, 0, 0.022),
+        branchiness: tree._mapRange(Math.log10(data2017.num_games), Math.log10(150), Math.log10(1800), 0.035, 0.095),
+        maxDepth: 11
+    };
+
+    const stream = canvas.captureStream(30);
+    const recorder = new MediaRecorder(stream, { mimeType: 'video/webm; codecs=vp9' });
+    const chunks = [];
+
+    recorder.ondataavailable = e => chunks.push(e.data);
+    recorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'video/webm' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'growth_to_2017.webm';
+        link.href = url;
+        link.click();
+        recordGrowthBtn.disabled = false;
+        recordGrowthBtn.innerText = "录制 0-2017 生长过程";
+    };
+
+    recorder.start();
+
+    // 动画逻辑：深度从 0 增加到 11，比例从 0 增加到 targetConf.scale
+    let currentDepth = 0;
+    let currentScale = 0;
+
+    const animateGrowth = () => {
+        if (currentDepth <= targetConf.maxDepth) {
+            tree.updateConfig({
+                maxDepth: Math.floor(currentDepth),
+                scale: (currentDepth / targetConf.maxDepth) * targetConf.scale,
+                upAmount: targetConf.upAmount,
+                branchiness: targetConf.branchiness
+            });
+            tree.draw();
+
+            currentDepth += 0.15; // 控制生长速度
+            requestAnimationFrame(animateGrowth);
+        } else {
+            // 保持 1 秒静止结尾
+            setTimeout(() => recorder.stop(), 1000);
+        }
+    };
+
+    animateGrowth();
+});
 
 // 如果希望页面一加载就自动播放
 // window.addEventListener('load', playGrowAnimation);
