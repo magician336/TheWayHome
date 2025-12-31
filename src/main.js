@@ -125,22 +125,17 @@ recordBtn.addEventListener('click', async () => {
 
     // 在 main.js 中找到 recordSegment 函数并修改如下部分：
     const recordSegment = async (startData, endData) => {
-        // 提前定义配置映射逻辑
         const getConf = (d) => ({
             scale: tree._mapRange(Math.sqrt(d.actual_revenue), Math.sqrt(1.3), Math.sqrt(105), 40, 115),
             upAmount: tree._mapRange(Math.max(-30, Math.min(d.growth_rate, 150)), -30, 150, 0, 0.022),
             branchiness: tree._mapRange(Math.log10(d.num_games), Math.log10(150), Math.log10(1800), 0.035, 0.095)
         });
 
-        // 核心修复：定义 renderFrame 需要用到的变量
         const startConf = getConf(startData);
         const endConf = getConf(endData);
 
         return new Promise((resolve) => {
-            // 提升分辨率：captureStream 的参数建议保持在 30 或 60
             const stream = canvas.captureStream(60);
-
-            // 提升画质：指定高码率 (8Mbps) 和更清晰的编码格式
             const recorder = new MediaRecorder(stream, {
                 mimeType: 'video/webm; codecs=vp9',
                 videoBitsPerSecond: 8000000
@@ -152,11 +147,8 @@ recordBtn.addEventListener('click', async () => {
                 const blob = new Blob(chunks, { type: 'video/webm' });
                 const url = URL.createObjectURL(blob);
                 const link = document.createElement('a');
-
-                // 命名修改：tree_18, tree_19...
                 const yearShort = endData.year.toString().slice(-2);
                 link.download = `tree_${yearShort}.webm`;
-
                 link.href = url;
                 link.click();
                 resolve();
@@ -167,16 +159,60 @@ recordBtn.addEventListener('click', async () => {
             let progress = 0;
             const step = 0.01;
 
+            // main.js 中的 renderFrame 修复版
             const renderFrame = () => {
                 if (progress <= 1) {
-                    // 使用平滑的 Cubic Out 缓动
                     const ease = 1 - Math.pow(1 - progress, 3);
 
+                    // 1. 更新树的参数
                     tree.config.scale = startConf.scale + (endConf.scale - startConf.scale) * ease;
                     tree.config.upAmount = startConf.upAmount + (endConf.upAmount - startConf.upAmount) * ease;
                     tree.config.branchiness = startConf.branchiness + (endConf.branchiness - startConf.branchiness) * ease;
 
+                    // 2. 执行树的绘制（这会清空画布并根据 qualityMultiplier 缩放）
                     tree.draw();
+
+                    // 3. 获取上下文进行图例叠加
+                    const ctx = canvas.getContext('2d');
+
+                    // 计算当前插值数据
+                    const curRev = (startData.actual_revenue + (endData.actual_revenue - startData.actual_revenue) * ease).toFixed(2);
+                    const curGrowth = (startData.growth_rate + (endData.growth_rate - startData.growth_rate) * ease).toFixed(1);
+                    const curGames = Math.round(startData.num_games + (endData.num_games - startData.num_games) * ease);
+
+                    ctx.save();
+                    const boxW = 240; // 调宽以适应大字号
+                    const boxH = 100; // 调高
+                    const padding = 20;
+                    const startX = 1000 - boxW - padding;
+                    const startY = padding;
+
+                    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+                    if (ctx.roundRect) {
+                        ctx.beginPath();
+                        ctx.roundRect(startX, startY, boxW, boxH, 10);
+                        ctx.fill();
+                    } else {
+                        ctx.fillRect(startX, startY, boxW, boxH);
+                    }
+
+                    ctx.textAlign = "left";
+                    ctx.textBaseline = "top";
+                    const textX = startX + 18;
+
+                    // 核心修改：调大字号为 18px 并删除标题
+                    ctx.font = "bold 18px Arial";
+
+                    ctx.fillStyle = "#fdae6b";
+                    ctx.fillText(`销售额: ${curRev} 亿`, textX, startY + 15);
+
+                    ctx.fillStyle = "#ff69b4";
+                    ctx.fillText(`增长率: ${curGrowth}%`, textX, startY + 42);
+
+                    ctx.fillStyle = "#1abc9c";
+                    ctx.fillText(`游戏量: ${curGames}`, textX, startY + 69);
+
+                    ctx.restore();
                     progress += step;
                     requestAnimationFrame(renderFrame);
                 } else {
@@ -298,20 +334,59 @@ recordGrowthBtn.addEventListener('click', async () => {
     let currentDepth = 0;
     let currentScale = 0;
 
+    // main.js 中的 recordGrowthBtn 逻辑更新：使用固定实际值
     const animateGrowth = () => {
         if (currentDepth <= targetConf.maxDepth) {
+            // 1. 更新树的状态
+            const progress = currentDepth / targetConf.maxDepth;
             tree.updateConfig({
                 maxDepth: Math.floor(currentDepth),
-                scale: (currentDepth / targetConf.maxDepth) * targetConf.scale,
+                scale: progress * targetConf.scale,
                 upAmount: targetConf.upAmount,
                 branchiness: targetConf.branchiness
             });
+
+            // 2. 绘制树
             tree.draw();
 
-            currentDepth += 0.15; // 控制生长速度
+            const ctx = canvas.getContext('2d');
+            ctx.save();
+
+            const boxW = 240;
+            const boxH = 100;
+            const padding = 20;
+            const startX = 1000 - boxW - padding;
+            const startY = padding;
+
+            ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+            if (ctx.roundRect) {
+                ctx.beginPath();
+                ctx.roundRect(startX, startY, boxW, boxH, 10);
+                ctx.fill();
+            } else {
+                ctx.fillRect(startX, startY, boxW, boxH);
+            }
+
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top";
+            const textX = startX + 18;
+
+            // 核心修改：调大字号并使用 2017 年固定实际值
+            ctx.font = "bold 18px Arial";
+
+            ctx.fillStyle = "#fdae6b";
+            ctx.fillText(`销售额: ${data2017.actual_revenue.toFixed(2)} 亿`, textX, startY + 15);
+
+            ctx.fillStyle = "#ff69b4";
+            ctx.fillText(`增长率: ${data2017.growth_rate.toFixed(1)}%`, textX, startY + 42);
+
+            ctx.fillStyle = "#1abc9c";
+            ctx.fillText(`游戏量: ${data2017.num_games}`, textX, startY + 69);
+
+            ctx.restore();
+            currentDepth += 0.15;
             requestAnimationFrame(animateGrowth);
         } else {
-            // 保持 1 秒静止结尾
             setTimeout(() => recorder.stop(), 1000);
         }
     };
