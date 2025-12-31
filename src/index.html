@@ -27,6 +27,9 @@
         <div class="bg-layer" id="bg-distribution"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/Jason_and_Lucia_Motel_landscape.jpg');">
         </div>
+        <div class="bg-layer" id="bg-flower"
+            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/stacked-steps-haikei.png');">
+        </div>
     </div>
 
     <!-- 页面主体内容 -->
@@ -73,12 +76,40 @@
             </div>
         </section>
 
+        <!-- 第四屏：花瓣图 -->
+        <section class="flower-section" id="flower-section" data-bg="bg-flower">
+              <div class="content-wrapper reveal">
+                 <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html" title="花瓣图"></iframe>
+            </div>
+        </section>
+
         <!-- 更多屏可以按需添加 -->
     </main>
 
     <!-- 引入核心逻辑 -->
     <script type="module" src="main_index.js"></script>
     <script type="module" src="revenue.js"></script>
+
+    <script>
+        // 花瓣图 iframe：最终态后把滚动交还给父页面 + 按内容调整高度
+        window.addEventListener('message', (event) => {
+            // http(s) 下要求同源；file:// 下 origin 为 'null'
+            if (event.origin !== window.location.origin && event.origin !== 'null') return;
+            const data = event.data;
+            if (!data || typeof data !== 'object') return;
+
+            const iframe = document.getElementById('flowerchart-iframe');
+            if (!iframe) return;
+
+            if (data.type === 'flowerchart-resize') {
+                const height = Number(data.height);
+                if (!Number.isFinite(height) || height <= 0) return;
+                const nextHeight = Math.max(window.innerHeight, height);
+                iframe.style.height = `${nextHeight}px`;
+                return;
+            }
+        });
+    </script>
 </body>
 
 </html>

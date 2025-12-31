@@ -59,6 +59,27 @@ section {
     padding: 40px 20px;
 }
 
+/* 第四屏嵌入页：铺满整个视口 */
+#flower-section {
+    padding: 0;
+    align-items: stretch;
+    justify-content: stretch;
+}
+
+#flower-section .content-wrapper {
+    max-width: none;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 0;
+}
+
+#flower-section .fullscreen-iframe {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+}
+
 .content-wrapper {
     max-width: 1200px;
     width: 100%;
