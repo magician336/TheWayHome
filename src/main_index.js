@@ -257,33 +257,54 @@ function buildRevenueStorySteps(revenueData) {
         {
             videoIdx: 0,
             year: 2017,
-            titleOverride: '2017-2018 · 萌芽',
+            titleOverride: '2017 · 萌芽',
             description: '第一批国产独立制作人闯入全球舞台，114% 的年增幅来自他们的试水与坚持。',
             macroText: macro(2017)
         },
         {
             videoIdx: 1,
-            year: 2019,
-            titleOverride: '2019 · 品类扩张',
+            year: 2018,
+            titleOverride: '2018 · 品类扩张',
             description: '塔防、肉鸽、剧情等品类百花齐放，团队开始探索更成熟的商业化路径。',
+            macroText: macro(2018)
+        },
+        {
+            videoIdx: 2,
+            year: 2019,
+            titleOverride: '2019· 破圈',
+            description: '疫情红利叠加直播传播，玩家数与收入齐飞，27.9 亿的峰值诞生。',
             macroText: macro(2019)
         },
         {
             videoIdx: 3,
+            year: 2020,
+            titleOverride: '2020 · 重构',
+            description: '大盘增速放缓，团队回归内容打磨，寻找更健康的生命周期。',
+            macroText: macro(2020)
+        },
+        {
+            videoIdx: 4,
             year: 2021,
-            titleOverride: '2020-2021 · 破圈',
-            description: '疫情红利叠加直播传播，玩家数与收入齐飞，27.9 亿的峰值诞生。',
+            titleOverride: '2021 · 出海加速',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
             macroText: macro(2021)
         },
         {
             videoIdx: 5,
-            year: 2023,
-            titleOverride: '2022-2023 · 重构',
-            description: '大盘增速放缓，团队回归内容打磨，寻找更健康的生命周期。',
-            macroText: macro(2023)
+            year: 2022,
+            titleOverride: '2022 · 出海加速',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
+            macroText: macro(2022)
         },
         {
             videoIdx: 6,
+            year: 2023,
+            titleOverride: '2023 · 出海加速',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
+            macroText: macro(2023)
+        },
+        {
+            videoIdx: 7,
             year: 2024,
             titleOverride: '2024 · 出海加速',
             description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',

@@ -47,7 +47,7 @@ export class TreeVideoScrolly {
 
         // 视频路径：对应 src/tree/ 文件夹
         this.videoSources = [];
-        for (let i = 18; i <= 24; i++) {
+        for (let i = 17; i <= 24; i++) {
             this.videoSources.push(`./tree/tree_${i}.webm`);
         }
 
@@ -55,19 +55,49 @@ export class TreeVideoScrolly {
         this.currentVideoIdx = -1;
         this.isLocked = false; // 播放状态锁
 
+        this.isViewable = false;
+
         this.init();
     }
 
     init() {
-        if (!this.video || !this.container) {
-            console.error("TreeVideoScrolly: 找不到元素", { video: this.video, container: this.container });
-            return;
-        }
+        if (!this.video || !this.container) return;
 
-        // 必须静音才能由脚本触发切换
         this.video.muted = true;
+        this.video.removeAttribute('autoplay');
         this.video.setAttribute('muted', '');
         this.video.setAttribute('playsinline', '');
+
+        // 找到视频所在的固定舞台
+        const stickyStage = this.container.querySelector('.sticky-stage');
+
+        const playObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // 只要有一部分进入视口就判定为可见
+                this.isViewable = entry.isIntersecting;
+
+                if (this.isViewable) {
+                    console.log("TreeVideoScrolly: 进入视口，开始播放");
+                    this.video.play().catch(e => {
+                        if (e.name !== 'AbortError') console.warn("播放失败:", e);
+                    });
+                } else {
+                    // 增加判定保护：只有当完全离开视口时才暂停
+                    console.log("TreeVideoScrolly: 离开视口，暂停视频");
+                    this.video.pause();
+                }
+            });
+        }, {
+            threshold: [0, 0.1, 0.5], // 多个阈值点提升检测精度
+            rootMargin: "20% 0px 20% 0px" // 上下预留 20% 的空间，防止判定过于紧绷
+        });
+
+        // 观察 stickyStage 而不是整个庞大的 container
+        if (stickyStage) {
+            playObserver.observe(stickyStage);
+        } else {
+            playObserver.observe(this.container);
+        }
 
         this.storyStepElements = this.container ? this.container.querySelectorAll('.story-step') : [];
 
@@ -265,25 +295,20 @@ export class TreeVideoScrolly {
 
     switchVideo(src) {
         console.log(`切换视频源: ${src}`);
-
-        // 1. 停止当前
         this.video.pause();
-
-        // 2. 换源
         this.video.src = src;
-
-        // 3. 强制重载
         this.video.load();
 
-        // 4. 尝试播放
-        const playPromise = this.video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(error => {
-                // 忽略由于快速滚动导致的请求中断错误 (AbortError)
-                if (error.name !== 'AbortError') {
-                    console.warn("视频播放被拦截:", error);
-                }
-            });
+        // 只有在当前容器可见时，换源后才自动播放
+        if (this.isViewable) {
+            const playPromise = this.video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    if (error.name !== 'AbortError') {
+                        console.warn("视频播放被拦截:", error);
+                    }
+                });
+            }
         }
     }
 

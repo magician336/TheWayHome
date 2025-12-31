@@ -125,36 +125,66 @@
     width: 100%;
 }
 
+/* revenue_style.css */
+
 .tree-video-frame {
     width: 100%;
-    /* 保持你之前的比例设置 */
-    height: clamp(300px, 55vh, 600px);
+    /* 将最大高度锁定在 65vh，为下方文字留出 35% 的空间 */
+    height: 65vh;
+    min-height: 350px;
+    max-height: 550px;
 
-    /* --- 核心修改：深色透明背景 --- */
-    /* 毛玻璃效果 */
-    -webkit-backdrop-filter: blur(20px);
-    /* 优化边框和圆角 */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.15);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
     overflow: hidden;
     position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tree-video-frame video {
+    /* 保持 contain，确保树缩小的同时不被裁切 */
     width: 100%;
     height: 100%;
-    /* 如果你想让透明背景在视频边缘透出来，可以把 cover 改成 contain，
-       或者保持 cover 但通过 padding 留出边距 */
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
 .text-overlay {
-    padding: 12px 8px;
+    /* 移除之前的负边距 */
+    margin-top: 15px;
+    padding: 15px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 5px;
+
+    /* 玻璃感背景，增加文字可读性 */
+    background: rgba(15, 15, 20, 0.4);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+
+    position: relative;
+    z-index: 10;
+}
+
+.year-big-text {
+    /* 适当缩小年份字体 */
+    font-size: 2.8rem;
+    margin: 0;
+    color: var(--rev-accent-orange);
+    text-shadow: 0 0 15px rgba(253, 174, 107, 0.4);
+}
+
+.year-dynamic-desc {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 90%;
+    margin: 10 auto;
 }
 
 .tree-gallery {
