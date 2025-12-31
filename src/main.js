@@ -7,9 +7,9 @@ const marketData = [
     { year: 2019, num_games: 500, actual_revenue: 4.50, growth_rate: 7.1 },
     { year: 2020, num_games: 600, actual_revenue: 6.40, growth_rate: 42.2 },
     { year: 2021, num_games: 650, actual_revenue: 27.90, growth_rate: 335.9 },
-    { year: 2022, num_games: 800, actual_revenue: 47.50, growth_rate: 70.3 },
-    { year: 2023, num_games: 1200, actual_revenue: 75.80, growth_rate: 59.6 },
-    { year: 2024, num_games: 1600, actual_revenue: 102.20, growth_rate: 28.0 }
+    { year: 2022, num_games: 700, actual_revenue: 20.7, growth_rate: -25.8 },
+    { year: 2023, num_games: 1100, actual_revenue: 20.5, growth_rate: -1.0 },
+    { year: 2024, num_games: 1600, actual_revenue: 102.20, growth_rate: 398.5 }
 ];
 
 const canvas = document.getElementById('treeCanvas');
