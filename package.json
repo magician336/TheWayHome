@@ -4,7 +4,7 @@
   "description": "- 我们的main分支就是最后提交的作业\r - 每个人均创建一个或多个属于自己的分支，提交自己做好的内容(重点是别污染main分支)\r - feature/DataCollection中是我做的方便数据采集的脚本",
   "main": "index.js",
   "scripts": {
-    "dev": "http-server ./src -p 5173 -c-1",
+    "dev": "http-server . -p 5173 -c-1 -o /src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +23,7 @@
     "http-server": "^14.1.1"
   },
   "dependencies": {
+    "@magician336/assets": "^1.0.1",
     "d3": "^7.9.0"
   }
 }
