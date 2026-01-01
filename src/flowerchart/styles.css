@@ -15,7 +15,7 @@ body {
 
 h1 {
     /* margin-bottom: 30px;  Removed to avoid conflict with fixed positioning */
-    color: #333;
+    color: #ffffff;
 }
 
 /* 标题动画相关 */
@@ -28,6 +28,29 @@ h1 {
     z-index: 2000;
     margin: 0;
     white-space: nowrap;
+    font-size: clamp(2.4rem, 4.2vw, 4.6rem);
+    line-height: 1.1;
+    filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.35));
+}
+
+/* 标题渐变文字：与“归途”同款实现方式（background-clip:text），但配色更五彩缤纷 */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    #main-title {
+        background: linear-gradient(
+            135deg,
+            #ff3b3b 0%,
+            #ff6b35 18%,
+            #f8961e 36%,
+            #f9c74f 54%,
+            #ffd166 72%,
+            #ff4d6d 86%,
+            #f15bb5 100%
+        );
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-fill-color: transparent;
+    }
 }
 
 /* 最终展示后：标题回到正常文档流，随页面滚动 */
@@ -46,7 +69,7 @@ h1 {
 
 #main-title.initial {
     top: 50%;
-    transform: translate(-50%, -50%) scale(3);
+    transform: translate(-50%, -50%) scale(2.5);
 }
 
 .charts-container {

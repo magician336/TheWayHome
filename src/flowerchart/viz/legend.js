@@ -52,7 +52,7 @@ export const createLegend = ({
     selection
       .attr("text-anchor", "middle")
       .style("font-family", "sans-serif")
-      .style("font-size", "18px")
+      .style("font-size", "20px")
       .style("font-weight", "bold")
       .style("fill", "#333");
   };
@@ -60,7 +60,7 @@ export const createLegend = ({
     selection
       .attr("text-anchor", "middle")
       .style("font-family", "sans-serif")
-      .style("font-size", "13px")
+      .style("font-size", "18px")
       .style("fill", "#555");
   };
 
