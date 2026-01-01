@@ -124,6 +124,28 @@
         ],
         "platformCode": 2
     },
+   {
+            "name": "中国式家长",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "categories": [
+            "肉鸽挑战",
+            "角色扮演"
+            ],
+            "platforms": [
+            "PC",
+            "Console",
+            "Mobile"
+        ],
+        "platformCode": 1
+    },
     {
         "name": "隐形守护者",
         "appid": "998940",
@@ -270,7 +292,7 @@
         "platformCode": 2
     },
     {
-        "name": "《文字遊戲》",
+        "name": "文字遊戲",
         "appid": "1109570",
         "yearForSale": 2022,
         "price": 48.0,

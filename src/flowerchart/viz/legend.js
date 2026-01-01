@@ -33,7 +33,7 @@ export const createLegend = ({
   rateSamples,
   commentLabelFormat
 }) => {
-  const legendHeight = 680;
+  const legendHeight = 940;
 
   const legendSvg = container
     .append("svg")
@@ -73,9 +73,9 @@ export const createLegend = ({
   const COMPACT_LEGEND_HEIGHT = 250;
   const FULL_TRANSFORMS = {
     group1: "translate(0, 20)",
-    group2: "translate(0, 540)",
-    group3: "translate(0, 320)",
-    group4: "translate(0, 160)"
+    group4: "translate(0, 235)",
+    group3: "translate(0, 455)",
+    group2: "translate(0, 725)"
   };
 
   // 1. Platform Code (形状)
@@ -87,9 +87,9 @@ export const createLegend = ({
     .call(legendTitleStyle)
     .text("1. 平台 -> 花瓣形状");
 
-  const shapeGroup = legendGroup1.append("g").attr("transform", `translate(${width / 2}, 60)`);
+  const shapeGroup = legendGroup1.append("g").attr("transform", `translate(${width / 2}, 70)`);
 
-  const shapeWidth = 80;
+  const shapeWidth = 120;
   const shapeCount = petalPaths.length;
   const totalShapeWidth = shapeCount * shapeWidth;
 
@@ -104,11 +104,11 @@ export const createLegend = ({
       .attr("fill", "none")
       .attr("stroke", "#605b5bff")
       .attr("stroke-width", 5)
-      .attr("transform", "translate(0, 40) rotate(180) scale(0.4)");
+      .attr("transform", "translate(0, 55) rotate(180) scale(0.65)");
 
     g
       .append("text")
-      .attr("y", 60)
+      .attr("y", 88)
       .call(legendTextStyle)
       .text(`Type ${i}`);
 
@@ -116,9 +116,8 @@ export const createLegend = ({
     if (platforms) {
       g
         .append("text")
-        .attr("y", 78)
+        .attr("y", 110)
         .call(legendTextStyle)
-        .style("font-size", "11px")
         .text(platforms);
     }
   }
@@ -135,7 +134,7 @@ export const createLegend = ({
   const colorGroup = legendGroup2.append("g").attr("transform", `translate(${width / 2}, 60)`);
 
   const categoriesList = colorScale.domain();
-  const colorItemWidth = 100;
+  const colorItemWidth = 140;
   const itemsPerRow = 5;
 
   categoriesList.forEach((cat, i) => {
@@ -146,13 +145,13 @@ export const createLegend = ({
     const rowWidth = itemsInThisRow * colorItemWidth;
 
     const x = col * colorItemWidth - rowWidth / 2 + colorItemWidth / 2;
-    const y = row * 50;
+    const y = row * 70;
 
     const g = colorGroup.append("g").attr("transform", `translate(${x}, ${y})`);
 
     g
       .append("circle")
-      .attr("r", 15)
+      .attr("r", 22)
       .attr("fill", colorScale(cat))
       .style("mix-blend-mode", "multiply")
       .style("filter", "url(#motionFilter)")
@@ -160,7 +159,7 @@ export const createLegend = ({
 
     g
       .append("text")
-      .attr("y", 25)
+      .attr("y", 36)
       .call(legendTextStyle)
       .text(cat);
   });
@@ -215,9 +214,9 @@ export const createLegend = ({
     .call(legendTitleStyle)
     .text("2. 好评率 -> 花瓣数量");
 
-  const sizeGroup = legendGroup4.append("g").attr("transform", `translate(${width / 2}, 80)`);
+  const sizeGroup = legendGroup4.append("g").attr("transform", `translate(${width / 2}, 95)`);
 
-  const numWidth = 120;
+  const numWidth = 160;
   const totalNumWidth = rateSamples.length * numWidth;
 
   rateSamples.forEach((val, i) => {
@@ -234,13 +233,13 @@ export const createLegend = ({
         .attr("d", path)
         .attr("fill", "none")
         .attr("stroke", "#605b5bff")
-        .attr("stroke-width", 5)
-        .attr("transform", `rotate(${(360 / numPetals) * k}) scale(0.3)`);
+        .attr("stroke-width", 4)
+        .attr("transform", `rotate(${(360 / numPetals) * k}) scale(0.5)`);
     }
 
     g
       .append("text")
-      .attr("y", 60)
+      .attr("y", 92)
       .call(legendTextStyle)
       .text(`${val.toFixed(1)}%`);
   });
@@ -261,7 +260,7 @@ export const createLegend = ({
   const legendInner3 = wrapLegendGroup(legendGroup3);
   const legendInner4 = wrapLegendGroup(legendGroup4);
 
-  const COMPACT_SCALE = 1.45;
+  const COMPACT_SCALE = 1.10;
   const applyLegendInnerScale = (layout) => {
     if (layout === LEGEND_LAYOUT.COMPACT) {
       legendInner1.attr("transform", `translate(${width / 2}, 0) scale(${COMPACT_SCALE}) translate(${-width / 2}, 0)`);

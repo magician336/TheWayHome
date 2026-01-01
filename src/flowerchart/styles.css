@@ -2,7 +2,7 @@
 
 body {
     /* 全局缩放：让浏览器 100% 显示为 50% 的视觉大小（Chromium/Edge 支持最好） */
-    zoom: 0.50;
+    zoom: 0.60;
     background-color: transparent; /* 稍微灰一点的背景，让multiply效果更好 */
     font-family: 'Helvetica Neue', Arial, sans-serif;
     display: flex;
@@ -54,7 +54,7 @@ h1 {
     flex-wrap: wrap;
     justify-content: center;
     gap: 40px;
-    max-width: 1200px;
+    max-width: 1600px;
     margin-top: 70px; /* 给 fixed 标题留出空间 */
 }
 
@@ -72,14 +72,14 @@ h1 {
 }
 
 .flower-label {
-    margin-top: 15px;
+    margin-top: 20px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
     color: #2c3e50;
 }
 
 .flower-sub-label {
-    font-size: 12px;
+    font-size: 15px;
     color: #7f8c8d;
     margin-top: 5px;
     line-height: 1.5;

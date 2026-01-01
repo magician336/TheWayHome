@@ -12,21 +12,30 @@ d3.json("chosen_game_update.json")
   .then(async function (games) {
     // 动态获取容器宽度，如果获取失败则默认为 1200
     const containerNode = document.getElementById("canvas");
-    const width = containerNode && containerNode.clientWidth > 0 ? containerNode.clientWidth : 1200;
+    // 注意：页面用了 CSS zoom（见 styles.css），clientWidth 会跟着变小。
+    // 为了保持“每行 7 朵”但不挤，需要把用于布局计算的宽度按 zoom 反向补偿。
+    const zoom = Number.parseFloat(window.getComputedStyle(document.body).zoom) || 1;
+    const rawWidth = containerNode && containerNode.clientWidth > 0 ? containerNode.clientWidth : 1200;
+    const width = rawWidth / (zoom > 0 ? zoom : 1);
 
     const flowerSize = 150;
     // 行间距：需要给 3 行文字留出空间，避免被下一行花朵遮挡
-    const rowGap = 110;
-    const cols = 5;
+    const rowGap = 150;
+    const cols = 7;
+    // 同一行花与花的“横向额外间距”（单位：px）。
+    // 调大：同一行更松；调小：更紧。建议 0~200。
+    const colGap = -20;
     const rows = Math.ceil(games.length / cols);
-    const height = rows * (flowerSize + rowGap) + 50;
+    // 额外留白：避免首行/末行的大花瓣（如戴森球计划）被 SVG 裁切
+    const height = rows * (flowerSize + rowGap) + 140;
 
     const container = d3.select("#canvas");
     container.html("");
     container
       .style("position", "relative")
       .style("width", "100%")
-      .style("max-width", "1200px")
+      // 保持一行 7 朵但不挤：扩大画布可用宽度
+      .style("max-width", "1600px")
       .style("margin-left", "auto")
       .style("margin-right", "auto");
 
@@ -93,6 +102,7 @@ d3.json("chosen_game_update.json")
       cols,
       flowerSize,
       rowGap,
+      colGap,
       isWukong,
       WUKONG_Y_SHIFT,
       WUKONG_LABEL_Y_SHIFT

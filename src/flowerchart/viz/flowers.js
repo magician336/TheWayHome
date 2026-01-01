@@ -19,10 +19,17 @@ export const createFlowerGrid = ({
   cols,
   flowerSize,
   rowGap = 80,
+  colGap = 0,
   isWukong,
   WUKONG_Y_SHIFT,
   WUKONG_LABEL_Y_SHIFT
 }) => {
+  // 相邻花朵中心点的水平距离 = (width / cols) + colGap
+  // colGap 允许你在 main.js 里用“像素”精确控制同一行花与花的间距。
+  const colStep = width / cols + colGap;
+  // 为了保持整体居中：把整行向左右对称留白
+  const leftPad = (width - cols * colStep) / 2;
+
   const flowers = mainSvg
     .selectAll("g.flower")
     .data(games)
@@ -30,8 +37,10 @@ export const createFlowerGrid = ({
     .append("g")
     .attr("class", "flower")
     .attr("transform", (d, i) => {
-      const x = (i % cols) * (width / cols) + width / cols / 2;
-      const yBase = Math.floor(i / cols) * (flowerSize + rowGap) + 85;
+      const col = i % cols;
+      const x = leftPad + col * colStep + colStep / 2;
+      // 首行上边距加大：避免大花瓣（如戴森球计划）顶部被裁切
+      const yBase = Math.floor(i / cols) * (flowerSize + rowGap) + 120;
       const y = yBase + (isWukong(d) ? WUKONG_Y_SHIFT : 0);
       return `translate(${x}, ${y})`;
     })
@@ -43,20 +52,20 @@ export const createFlowerGrid = ({
 
   labelLayer
     .append("text")
-    .attr("y", (d) => 110 + (isWukong(d) ? WUKONG_LABEL_Y_SHIFT : 0))
+    .attr("y", (d) => 122 + (isWukong(d) ? WUKONG_LABEL_Y_SHIFT : 0))
     .attr("text-anchor", "middle")
     .style("font-family", "sans-serif")
-    .style("font-size", "16px")
+    .style("font-size", "18px")
     .style("font-weight", "bold")
     .style("fill", "#333")
     .text((d) => (d.name.length > 15 ? d.name.substring(0, 15) + "..." : d.name));
 
   labelLayer
     .append("text")
-    .attr("y", (d) => 130 + (isWukong(d) ? WUKONG_LABEL_Y_SHIFT : 0))
+    .attr("y", (d) => 142 + (isWukong(d) ? WUKONG_LABEL_Y_SHIFT : 0))
     .attr("text-anchor", "middle")
     .style("font-family", "sans-serif")
-    .style("font-size", "13px")
+    .style("font-size", "16px")
     .style("fill", "#666")
     .text((d) => {
       const comments = d3.format(",")(d.totalComments ?? 0);
@@ -65,7 +74,7 @@ export const createFlowerGrid = ({
 
   labelLayer
     .append("text")
-    .attr("y", (d) => 146+ (isWukong(d) ? WUKONG_LABEL_Y_SHIFT : 0))
+    .attr("y", (d) => 158+ (isWukong(d) ? WUKONG_LABEL_Y_SHIFT : 0))
     .attr("text-anchor", "middle")
     .style("font-family", "sans-serif")
     .style("font-size", "14px")
