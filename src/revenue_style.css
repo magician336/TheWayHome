@@ -1,0 +1,466 @@
+/* revenue_style.css - 第二屏专属配置 (Video Scrolly 版) */
+
+/* =========================================
+   1. 过渡屏 (Transition Screen)
+   ========================================= */
+.transition-screen {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.big-transition-title {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.5rem;
+    text-transform: uppercase;
+    background: linear-gradient(120deg, #fff, #fdae6b, #ff69b4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 30px rgba(253, 174, 107, 0.3);
+}
+
+/* =========================================
+   2. 核心布局容器 (Scrolly Container)
+   ========================================= */
+
+/* 配置区域：定义局部变量 */
+#revenue-section {
+    /* 字体系统 */
+    --rev-font-primary: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --rev-font-serif: "KaiTi", "STKaiti", "Baskerville", serif;
+
+    /* 尺寸配置 */
+    --rev-title-size: 2.8rem;
+    --rev-desc-size: 1.1rem;
+
+    /* 配色系统 */
+    --rev-bg-color: transparent;
+    --rev-text-main: #e0e0e0;
+    --rev-text-muted: #aaaaaa;
+
+    /* 主题色：粉色(增长) & 橙色(收入) */
+    --rev-accent-pink: #ff69b4;
+    --rev-accent-orange: #fdae6b;
+    --rev-axis-color: #666666;
+    --rev-grid-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 滚动容器
+*/
+.revenue-scrolly-container {
+    min-height: 600vh;
+    position: relative;
+    display: block;
+}
+
+#revenue-dashboard.scrolly-mode {
+    align-items: flex-start;
+    gap: 40px;
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    flex-direction: row-reverse;
+}
+
+#revenue-dashboard .sticky-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 65%;
+
+    /* 1. 核心修改：深色透明背景 */
+    background-color: rgba(15, 15, 20, 0.5) !important;
+    /* 使用半透明深色，!important 确保覆盖原有样式 */
+
+    /* 2. 毛玻璃效果：这是消除“廉价白框感”的关键 */
+    -webkit-backdrop-filter: blur(20px);
+
+    /* 3. 移除边框和阴影 */
+    border: none;
+    box-shadow: none;
+
+    /* 4. 解决滚动条问题 */
+    overflow: hidden;
+
+    /* 布局保持不变 */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 40px;
+    box-sizing: border-box;
+    gap: 30px;
+}
+
+.revenue-stage {
+    width: 100%;
+}
+
+.revenue-story {
+    width: 45%;
+    padding-bottom: 20vh;
+}
+
+.revenue-story .story-card {
+    background: rgba(8, 8, 12, 0.8);
+    color: #f3f4f6;
+    border-left-color: var(--rev-accent-orange);
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.35);
+}
+
+.revenue-story .story-card h3 {
+    color: #fff;
+}
+
+.revenue-story .story-card p {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.tree-visual-container {
+    width: 100%;
+}
+
+/* revenue_style.css */
+
+.tree-video-frame {
+    width: 100%;
+    /* 将最大高度锁定在 65vh，为下方文字留出 35% 的空间 */
+    height: 65vh;
+    min-height: 350px;
+    max-height: 550px;
+
+    background: rgba(0, 0, 0, 0.15);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tree-video-frame video {
+    /* 保持 contain，确保树缩小的同时不被裁切 */
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.text-overlay {
+    /* 移除之前的负边距 */
+    margin-top: 15px;
+    padding: 15px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    /* 玻璃感背景，增加文字可读性 */
+    background: rgba(15, 15, 20, 0.4);
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+
+    position: relative;
+    z-index: 10;
+}
+
+.year-big-text {
+    /* 适当缩小年份字体 */
+    font-size: 2.8rem;
+    margin: 0;
+    color: var(--rev-accent-orange);
+    text-shadow: 0 0 15px rgba(253, 174, 107, 0.4);
+}
+
+.year-dynamic-desc {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: 90%;
+    margin: 10 auto;
+}
+
+.tree-gallery {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.tree-gallery.single-tree {
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px;
+    background: rgba(12, 12, 18, 0.85);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.tree-single-video {
+    width: 100%;
+    height: 40vh;
+    min-height: 260px;
+    border-radius: 18px;
+    object-fit: cover;
+}
+
+.tree-single-caption {
+    font-size: 1rem;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* 图表外框容器 */
+.chart-wrapper {
+    width: 100%;
+    height: 65vh;
+    min-height: 400px;
+    position: relative;
+    border-radius: 16px;
+    padding: 20px;
+    box-sizing: border-box;
+
+    /* 替换掉原来的 radial-gradient，改用统一的深色透明 */
+    background: rgba(10, 10, 15, 0.7);
+    backdrop-filter: blur(12px);
+
+    /* 保留并优化边框 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* 增加外阴影提升深度 */
+}
+
+/* 动态分析文字（位于图表下方） */
+.dynamic-analysis {
+    color: var(--rev-accent-orange);
+    font-family: var(--rev-font-serif);
+    font-size: 1.1em;
+    padding: 15px;
+    margin-top: 20px;
+    border-left: 3px solid var(--rev-accent-orange);
+    background: linear-gradient(90deg, rgba(253, 174, 107, 0.1), transparent);
+    border-radius: 0 4px 4px 0;
+}
+
+/* =========================================
+   4. 图表内部样式 (SVG Elements)
+   ========================================= */
+
+/* 标题样式 */
+#revenue-chart .chart-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    fill: var(--rev-text-main);
+    text-shadow: 0 0 8px rgba(244, 252, 7, 0.3);
+}
+
+/* 坐标轴通用样式 */
+#revenue-chart .axis text {
+    fill: var(--rev-text-muted);
+    font-size: 14px;
+    font-family: var(--rev-font-primary);
+}
+
+#revenue-chart .axis path,
+#revenue-chart .axis line {
+    stroke: var(--rev-axis-color);
+    shape-rendering: crispEdges;
+}
+
+/* 坐标轴标签 */
+#revenue-chart .axis-label {
+    fill: var(--rev-text-main);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+/* 柱子 */
+#revenue-chart .bar {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    opacity: 0.9;
+}
+
+#revenue-chart .bar:hover {
+    opacity: 1;
+    filter: brightness(1.2) drop-shadow(0 0 5px var(--rev-accent-orange));
+}
+
+/* 增长率折线 */
+.growth-line {
+    fill: none !important;
+    /* 必须为 none，否则会变成黑色色块 */
+    stroke: #ff69b4 !important;
+    /* 线条颜色 */
+    stroke-width: 3px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* 增长率圆点 */
+#revenue-chart .growth-dot {
+    fill: #fff;
+    stroke: var(--rev-accent-pink);
+    stroke-width: 2px;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-box: fill-box;
+    transform-origin: center;
+}
+
+#revenue-chart .growth-dot:hover {
+    transform: scale(1.5);
+    fill: var(--rev-accent-pink);
+    stroke: #fff;
+    cursor: pointer;
+}
+
+/* 图例文字 */
+#revenue-chart .legend-text {
+    fill: var(--rev-text-muted);
+    font-size: 12px;
+    font-weight: 400;
+    dominant-baseline: middle;
+}
+
+/* =========================================
+   5. Tooltip 样式
+   ========================================= */
+.revenue-dedicated-tooltip {
+    position: fixed;
+    opacity: 0;
+    visibility: hidden;
+
+    /* 更加深邃的背景与更高的对比度 */
+    background-color: rgba(10, 10, 15, 0.95);
+    color: #f0f0f0;
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-family: var(--rev-font-primary);
+    font-size: 14px;
+    line-height: 1.8;
+
+    pointer-events: none;
+    z-index: 9999;
+
+    /* 极致毛玻璃效果 */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    /* 细微的边框，模拟高亮边缘 */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+
+    /* 动画：微小的缩放与位移 */
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translate(-50%, 10px) scale(0.95);
+}
+
+/* 悬浮时的可见状态 */
+.revenue-dedicated-tooltip.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -10px) scale(1);
+}
+
+/* 头部年份样式 */
+.revenue-dedicated-tooltip strong {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: #fff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 5px;
+}
+
+/* 指标项布局 */
+.revenue-dedicated-tooltip .tooltip-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* 销售额标签：橙色 (对应 tree_XX.webm 图例) */
+.revenue-dedicated-tooltip .val-money {
+    color: var(--rev-accent-orange, #fdae6b);
+    font-weight: 800;
+}
+
+/* 增长率标签：粉色 (对应 tree_XX.webm 图例) */
+.revenue-dedicated-tooltip .val-rate {
+    color: var(--rev-accent-pink, #ff69b4);
+    font-weight: 800;
+}
+
+/* 游戏发售量标签：青色 (对应 tree_XX.webm 图例) */
+.revenue-dedicated-tooltip .val-games {
+    color: #1abc9c;
+    font-weight: 800;
+}
+
+/* 提示小三角 (可选) */
+.revenue-dedicated-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px 6px 0 6px;
+    border-style: solid;
+    border-color: rgba(10, 10, 15, 0.95) transparent transparent transparent;
+}
+
+/* =========================================
+   6. 移动端适配
+   ========================================= */
+@media (max-width: 1024px) {
+    #revenue-dashboard.scrolly-mode {
+        flex-direction: column;
+    }
+
+    #revenue-dashboard .sticky-stage {
+        position: relative;
+        width: 100%;
+        height: auto;
+        top: 0;
+        overflow-y: hidden;
+        background-color: rgba(11, 11, 15, 0.4);
+        backdrop-filter: blur(5px);
+        padding: 40px;
+        /* 移除可能存在的硬性边框 */
+        border: none;
+    }
+
+    .tree-video-frame {
+        height: 40vh;
+    }
+
+    .text-overlay {
+        background: rgba(0, 0, 0, 0.4);
+        border-radius: 12px;
+    }
+
+    .big-transition-title {
+        font-size: 3rem;
+    }
+}
+
+.revenue-chart-extension {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+.revenue-chart-container {
+    width: 100%;
+    max-width: 1400px;
+}
