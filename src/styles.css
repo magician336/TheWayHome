@@ -148,3 +148,19 @@ section {
     margin-bottom: 1rem;
     font-weight: bold;
 }
+#intro-flower-section .section-title {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    /* 五彩缤纷但低饱和度的渐变色 */
+    background: linear-gradient(120deg, #ff0821, #f1a651, #f9f93e, #baffc9, #bae1ff, #ba3ef9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#intro-flower-section .description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    max-width: 800px;
+    color: #ffffff;
+}
+
