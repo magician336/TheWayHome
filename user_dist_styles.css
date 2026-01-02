@@ -1,0 +1,245 @@
+/* user_dist_styles.css - 第三屏：用户分布图表专属样式 (美化版) */
+
+/* --- 1. 全局配置变量 --- */
+#distribution-section {
+    /* 核心主题色：高亮薄荷绿 */
+    --dist-accent-color: #42b983;
+    /* 辅助色：略深一点的绿色，用于渐变 */
+    --dist-accent-dark: #2c9e6d;
+
+    /* 文字颜色 */
+    --dist-text-primary: #f1f5f9;
+    --dist-text-secondary: #94a3b8;
+
+    /* 背景体系：深邃蓝黑底色 + 玻璃质感 */
+    --dist-bg-glass: rgba(15, 23, 42, 0.65);
+    --dist-border-glass: rgba(66, 185, 131, 0.25);
+    --dist-shadow-glow: rgba(66, 185, 131, 0.15);
+
+    /* 字体大小 */
+    --dist-title-size: 2.8rem;
+}
+
+/* --- 2. 标题与文案排版 --- */
+
+/* 标题：增加渐变填充和发光效果 */
+#distribution-section .section-title {
+    font-size: var(--dist-title-size);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+
+    /* 文字渐变：从白到绿 */
+    background: linear-gradient(135deg, #ffffff 0%, var(--dist-accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* 微微的发光阴影 */
+    filter: drop-shadow(0 0 15px var(--dist-shadow-glow));
+
+    position: relative;
+    display: inline-block;
+}
+
+/* 标题下的装饰线 */
+#distribution-section .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--dist-accent-color);
+    border-radius: 2px;
+    opacity: 0.8;
+}
+
+/* 描述文字：增加行高，提升可读性 */
+#distribution-section .description {
+    font-size: 1.15rem;
+    line-height: 1.8;
+    color: var(--dist-text-secondary);
+    max-width: 700px;
+    margin: 0 auto 3rem;
+    font-weight: 300;
+}
+
+/* --- 3. 图表容器 (核心美化) --- */
+#distribution-section .chart-container {
+    width: 100%;
+    /* 确保容器有足够的空间，配合 JS 的自动高度 */
+    min-height: 560px;
+    min-width: 900px;
+    /* 保持宽屏体验 */
+
+    /* 玻璃拟态背景 */
+    background: linear-gradient(160deg,
+            rgba(30, 41, 59, 0.7) 0%,
+            rgba(15, 23, 42, 0.8) 100%);
+    backdrop-filter: blur(16px);
+    /* 强力磨砂 */
+    -webkit-backdrop-filter: blur(16px);
+
+    /* 精致的边框：顶部亮，底部暗，模拟光照 */
+    border: 1px solid;
+    border-image: linear-gradient(160deg,
+            rgba(255, 255, 255, 0.15),
+            rgba(66, 185, 131, 0.1)) 1;
+    /* 备用边框，兼容不支持 border-image 的情况 */
+    border-color: rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    /* 更圆润的角 */
+
+    /* 深邃的投影，让图表浮起来 */
+    box-shadow:
+        0 20px 50px -10px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+
+    position: relative;
+    padding: 30px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 鼠标悬停时，容器微微上浮 */
+#distribution-section .chart-container:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 30px 60px -15px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+/* 占位符样式 */
+#distribution-section .placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--dist-text-secondary);
+    font-style: italic;
+    opacity: 0.7;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+/* --- 4. D3 图表内部元素样式 --- */
+
+/* 坐标轴 */
+#distribution-section .axis text {
+    fill: var(--dist-text-primary);
+    font-size: 30px;
+    font-family: "JetBrains Mono", "Courier New", monospace;
+    /* 使用等宽字体显示年份 */
+    opacity: 0.8;
+}
+
+/* 图表内部大标题 */
+#distribution-section .chart-title {
+    fill: var(--dist-text-primary);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* 图例 (Legend) */
+#distribution-section .legend-item {
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+#distribution-section .legend-text {
+    fill: var(--dist-text-secondary);
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* 图例悬停效果 */
+#distribution-section .legend-item:hover .legend-text {
+    fill: #fff;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+#distribution-section .legend-item rect {
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 1px;
+    transition: transform 0.2s;
+}
+
+#distribution-section .legend-item:hover rect {
+    transform: scale(1.1);
+    /* 图例色块放大 */
+}
+
+/* --- 5. Tooltip (提示框) 高级样式 --- */
+.dist-tooltip {
+    position: fixed;
+    visibility: hidden;
+    z-index: 9999;
+
+    /* 更加轻薄的玻璃质感 */
+    background: rgba(10, 15, 30, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid var(--dist-border-glass);
+    border-left: 3px solid var(--dist-accent-color);
+    /* 左侧亮条指示 */
+
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 8px;
+
+    font-size: 13px;
+    line-height: 1.6;
+    font-family: "PingFang SC", sans-serif;
+
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+    /* 出现动画 */
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    transform: translateY(0);
+}
+
+.dist-tooltip strong {
+    color: var(--dist-accent-color);
+    font-size: 1.15em;
+    display: block;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dist-tooltip div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    color: var(--dist-text-secondary);
+}
+
+/* 如果需要针对小屏幕做简单适配 */
+@media (max-width: 768px) {
+    #distribution-section .chart-container {
+        min-width: 100%;
+        /* 移动端取消最小宽度限制，允许滚动 */
+        overflow-x: auto;
+        /* 允许横向滚动查看图表 */
+        padding: 10px;
+    }
+}

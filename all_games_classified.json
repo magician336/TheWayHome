@@ -1,0 +1,4311 @@
+{
+    "模拟建造": [
+        {
+            "name": "戴森球计划 (Dyson Sphere Program)",
+            "appid": "1366540",
+            "yearForSale": 2021,
+            "price": 70.0,
+            "favorableRate": 96.03,
+            "tags": "dataset\\2021\\tags_1366540.csv",
+            "discounts": "dataset\\2021\\discounts_1366540.csv",
+            "players": "dataset\\2021\\players_1366540.csv",
+            "totalComments": 88259,
+            "_heat_score": 60.52,
+            "_matched_tags": [
+                "Automation",
+                "Base Building",
+                "Simulation",
+                "Management",
+                "City Builder"
+            ]
+        },
+        {
+            "name": "完蛋！我被美女包围了！ (Love Is All Around)",
+            "appid": "2322560",
+            "yearForSale": 2023,
+            "price": 42.0,
+            "favorableRate": 91.63,
+            "tags": "dataset\\2023\\tags_2322560.csv",
+            "discounts": "dataset\\2023\\discounts_2322560.csv",
+            "players": "dataset\\2023\\players_2322560.csv",
+            "totalComments": 45787,
+            "_heat_score": 56.2,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "火山的女儿 (Volcano Princess)",
+            "appid": "1669980",
+            "yearForSale": 2023,
+            "price": 35.0,
+            "favorableRate": 95.93,
+            "tags": "dataset\\2023\\tags_1669980.csv",
+            "discounts": "dataset\\2023\\discounts_1669980.csv",
+            "players": "dataset\\2023\\players_1669980.csv",
+            "totalComments": 45796,
+            "_heat_score": 53.71,
+            "_matched_tags": [
+                "Life Sim",
+                "Simulation"
+            ]
+        },
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "Life Sim",
+                "Simulation"
+            ]
+        },
+        {
+            "name": "Soulmask",
+            "appid": "2646460",
+            "yearForSale": 2024,
+            "price": 108.0,
+            "favorableRate": 80.63,
+            "tags": "dataset\\2024\\tags_2646460.csv",
+            "discounts": "dataset\\2024\\discounts_2646460.csv",
+            "players": "dataset\\2024\\players_2646460.csv",
+            "totalComments": 16775,
+            "_heat_score": 49.93,
+            "_matched_tags": [
+                "Automation",
+                "Base Building"
+            ]
+        },
+        {
+            "name": "My Time at Portia",
+            "appid": "666140",
+            "yearForSale": 2018,
+            "price": 98.0,
+            "favorableRate": 91.59,
+            "tags": "dataset\\2018\\tags_666140.csv",
+            "discounts": "dataset\\2018\\discounts_666140.csv",
+            "players": "dataset\\2018\\players_666140.csv",
+            "totalComments": 43820,
+            "_heat_score": 49.82,
+            "_matched_tags": [
+                "Life Sim",
+                "Farming Sim",
+                "Simulation",
+                "Agriculture"
+            ]
+        },
+        {
+            "name": "My Time at Sandrock",
+            "appid": "1084600",
+            "yearForSale": 2022,
+            "price": 98.0,
+            "favorableRate": 88.14,
+            "tags": "dataset\\2022\\tags_1084600.csv",
+            "discounts": "dataset\\2022\\discounts_1084600.csv",
+            "players": "dataset\\2022\\players_1084600.csv",
+            "totalComments": 27664,
+            "_heat_score": 47.91,
+            "_matched_tags": [
+                "Life Sim",
+                "Farming Sim",
+                "Simulation"
+            ]
+        },
+        {
+            "name": "大侠立志传：碧血丹心 (Hero's Adventure: Road to Passion)",
+            "appid": "1948980",
+            "yearForSale": 2023,
+            "price": 69.0,
+            "favorableRate": 82.85,
+            "tags": "dataset\\2023\\tags_1948980.csv",
+            "discounts": "dataset\\2023\\discounts_1948980.csv",
+            "players": "dataset\\2023\\players_1948980.csv",
+            "totalComments": 23586,
+            "_heat_score": 47.41,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "鬼谷八荒 (Tale of Immortal)",
+            "appid": "1468810",
+            "yearForSale": 2021,
+            "price": 68.0,
+            "favorableRate": 54.05,
+            "tags": "dataset\\2021\\tags_1468810.csv",
+            "discounts": "dataset\\2021\\discounts_1468810.csv",
+            "players": "dataset\\2021\\players_1468810.csv",
+            "totalComments": 226599,
+            "_heat_score": 45.94,
+            "_matched_tags": [
+                "Management",
+                "Simulation"
+            ]
+        },
+        {
+            "name": "了不起的修仙模拟器",
+            "appid": "955900",
+            "yearForSale": 2019,
+            "price": 88.0,
+            "favorableRate": 83.95,
+            "tags": "dataset\\2019\\tags_955900.csv",
+            "discounts": "dataset\\2019\\discounts_955900.csv",
+            "players": "dataset\\2019\\players_955900.csv",
+            "totalComments": 23431,
+            "_heat_score": 45.3,
+            "_matched_tags": [
+                "Simulation",
+                "Colony Sim",
+                "Base Building",
+                "Management"
+            ]
+        },
+        {
+            "name": "疑案追声",
+            "appid": "942970",
+            "yearForSale": 2019,
+            "price": 38.0,
+            "favorableRate": 94.13,
+            "tags": "dataset\\2019\\tags_942970.csv",
+            "discounts": "dataset\\2019\\discounts_942970.csv",
+            "players": "dataset\\2019\\players_942970.csv",
+            "totalComments": 32238,
+            "_heat_score": 44.26,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "中国式网游",
+            "appid": "1416920",
+            "yearForSale": 2024,
+            "price": 32.0,
+            "favorableRate": 86.0,
+            "tags": "dataset\\2024\\tags_1416920.csv",
+            "discounts": "dataset\\2024\\discounts_1416920.csv",
+            "players": "dataset\\2024\\players_1416920.csv",
+            "totalComments": 10167,
+            "_heat_score": 43.41,
+            "_matched_tags": [
+                "Life Sim"
+            ]
+        },
+        {
+            "name": "俠之道(PathOfWuxia)",
+            "appid": "1189630",
+            "yearForSale": 2020,
+            "price": 98.0,
+            "favorableRate": 78.33,
+            "tags": "dataset\\2020\\tags_1189630.csv",
+            "discounts": "dataset\\2020\\discounts_1189630.csv",
+            "players": "dataset\\2020\\players_1189630.csv",
+            "totalComments": 30290,
+            "_heat_score": 41.64,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "Base Building"
+            ]
+        },
+        {
+            "name": "笼中窥梦 (Moncage)",
+            "appid": "1195290",
+            "yearForSale": 2021,
+            "price": 48.0,
+            "favorableRate": 89.3,
+            "tags": "dataset\\2021\\tags_1195290.csv",
+            "discounts": "dataset\\2021\\discounts_1195290.csv",
+            "players": "dataset\\2021\\players_1195290.csv",
+            "totalComments": 5436,
+            "_heat_score": 33.95,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "三色绘恋 (Tricolour Lovestory)",
+            "appid": "668630",
+            "yearForSale": 2017,
+            "price": 11.0,
+            "favorableRate": 80.1,
+            "tags": "dataset\\2017\\tags_668630.csv",
+            "discounts": "dataset\\2017\\discounts_668630.csv",
+            "players": "dataset\\2017\\players_668630.csv",
+            "totalComments": 27995,
+            "_heat_score": 33.13,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "Ho Tu Lo Shu ： The Books of Dragon",
+            "appid": "952860",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 81.83,
+            "tags": "dataset\\2018\\tags_952860.csv",
+            "discounts": "dataset\\2018\\discounts_952860.csv",
+            "players": "dataset\\2018\\players_952860.csv",
+            "totalComments": 10819,
+            "_heat_score": 32.88,
+            "_matched_tags": [
+                "Simulation"
+            ]
+        },
+        {
+            "name": "黑暗与光明 (Dark and Light)",
+            "appid": "529180",
+            "yearForSale": 2017,
+            "price": 52.0,
+            "favorableRate": 52.11,
+            "tags": "dataset\\2017\\tags_529180.csv",
+            "discounts": "dataset\\2017\\discounts_529180.csv",
+            "players": "dataset\\2017\\players_529180.csv",
+            "totalComments": 11778,
+            "_heat_score": 30.02,
+            "_matched_tags": [
+                "Simulation",
+                "Base Building"
+            ]
+        },
+        {
+            "name": "Feed The Cups",
+            "appid": "2336220",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 31.68,
+            "tags": "dataset\\2024\\tags_2336220.csv",
+            "discounts": "dataset\\2024\\discounts_2336220.csv",
+            "players": "dataset\\2024\\players_2336220.csv",
+            "totalComments": 13929,
+            "_heat_score": 27.44,
+            "_matched_tags": [
+                "Simulation",
+                "Management"
+            ]
+        }
+    ],
+    "多人竞技": [
+        {
+            "name": "永劫无间 (NARAKA: BLADEPOINT)",
+            "appid": "1203220",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 68.81,
+            "tags": "dataset\\2021\\tags_1203220.csv",
+            "discounts": "dataset\\2021\\discounts_1203220.csv",
+            "players": "dataset\\2021\\players_1203220.csv",
+            "totalComments": 336077,
+            "_heat_score": 63.54,
+            "_matched_tags": [
+                "Battle Royale",
+                "PvP",
+                "Massively Multiplayer"
+            ]
+        },
+        {
+            "name": "猛兽派对 (Party Animals)",
+            "appid": "1260320",
+            "yearForSale": 2023,
+            "price": 98.0,
+            "favorableRate": 78.55,
+            "tags": "dataset\\2023\\tags_1260320.csv",
+            "discounts": "dataset\\2023\\discounts_1260320.csv",
+            "players": "dataset\\2023\\players_1260320.csv",
+            "totalComments": 73171,
+            "_heat_score": 53.21,
+            "_matched_tags": [
+                "PvP",
+                "Team-Based"
+            ]
+        },
+        {
+            "name": "Soulmask",
+            "appid": "2646460",
+            "yearForSale": 2024,
+            "price": 108.0,
+            "favorableRate": 80.63,
+            "tags": "dataset\\2024\\tags_2646460.csv",
+            "discounts": "dataset\\2024\\discounts_2646460.csv",
+            "players": "dataset\\2024\\players_2646460.csv",
+            "totalComments": 16775,
+            "_heat_score": 49.93,
+            "_matched_tags": [
+                "PvP"
+            ]
+        },
+        {
+            "name": "探灵笔记",
+            "appid": "991780",
+            "yearForSale": 2019,
+            "price": 26.0,
+            "favorableRate": 75.89,
+            "tags": "dataset\\2019\\tags_991780.csv",
+            "discounts": "dataset\\2019\\discounts_991780.csv",
+            "players": "dataset\\2019\\players_991780.csv",
+            "totalComments": 20404,
+            "_heat_score": 43.18,
+            "_matched_tags": [
+                "Massively Multiplayer"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "Massively Multiplayer",
+                "PvP"
+            ]
+        },
+        {
+            "name": "古网海外版 (Swords of Legends Online)",
+            "appid": "1418100",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 65.4,
+            "tags": "dataset\\2021\\tags_1418100.csv",
+            "discounts": "dataset\\2021\\discounts_1418100.csv",
+            "players": "dataset\\2021\\players_1418100.csv",
+            "totalComments": 5819,
+            "_heat_score": 37.39,
+            "_matched_tags": [
+                "MMORPG",
+                "Massively Multiplayer"
+            ]
+        },
+        {
+            "name": "黑暗与光明 (Dark and Light)",
+            "appid": "529180",
+            "yearForSale": 2017,
+            "price": 52.0,
+            "favorableRate": 52.11,
+            "tags": "dataset\\2017\\tags_529180.csv",
+            "discounts": "dataset\\2017\\discounts_529180.csv",
+            "players": "dataset\\2017\\players_529180.csv",
+            "totalComments": 11778,
+            "_heat_score": 30.02,
+            "_matched_tags": [
+                "Massively Multiplayer",
+                "MMORPG",
+                "PvP"
+            ]
+        },
+        {
+            "name": "太荒初境",
+            "appid": "1504570",
+            "yearForSale": 2022,
+            "price": 68.0,
+            "favorableRate": 37.55,
+            "tags": "dataset\\2022\\tags_1504570.csv",
+            "discounts": "dataset\\2022\\discounts_1504570.csv",
+            "players": "dataset\\2022\\players_1504570.csv",
+            "totalComments": 13638,
+            "_heat_score": 27.92,
+            "_matched_tags": [
+                "Massively Multiplayer",
+                "PvP"
+            ]
+        },
+        {
+            "name": "武侠乂 The Swordsmen X",
+            "appid": "840140",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 47.24,
+            "tags": "dataset\\2018\\tags_840140.csv",
+            "discounts": "dataset\\2018\\discounts_840140.csv",
+            "players": "dataset\\2018\\players_840140.csv",
+            "totalComments": 3529,
+            "_heat_score": 21.24,
+            "_matched_tags": [
+                "Massively Multiplayer",
+                "Battle Royale",
+                "PvP"
+            ]
+        }
+    ],
+    "恐怖悬疑": [
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "Psychological Horror",
+                "Survival Horror",
+                "Horror"
+            ]
+        },
+        {
+            "name": "了不起的修仙模拟器",
+            "appid": "955900",
+            "yearForSale": 2019,
+            "price": 88.0,
+            "favorableRate": 83.95,
+            "tags": "dataset\\2019\\tags_955900.csv",
+            "discounts": "dataset\\2019\\discounts_955900.csv",
+            "players": "dataset\\2019\\players_955900.csv",
+            "totalComments": 23431,
+            "_heat_score": 45.3,
+            "_matched_tags": [
+                "Psychological Horror"
+            ]
+        },
+        {
+            "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty",
+            "appid": "2593370",
+            "yearForSale": 2024,
+            "price": 37.0,
+            "favorableRate": 94.93,
+            "tags": "dataset\\2024\\tags_2593370.csv",
+            "discounts": "dataset\\2024\\discounts_2593370.csv",
+            "players": "dataset\\2024\\players_2593370.csv",
+            "totalComments": 56660,
+            "_heat_score": 44.41,
+            "_matched_tags": [
+                "Psychological Horror"
+            ]
+        },
+        {
+            "name": "疑案追声",
+            "appid": "942970",
+            "yearForSale": 2019,
+            "price": 38.0,
+            "favorableRate": 94.13,
+            "tags": "dataset\\2019\\tags_942970.csv",
+            "discounts": "dataset\\2019\\discounts_942970.csv",
+            "players": "dataset\\2019\\players_942970.csv",
+            "totalComments": 32238,
+            "_heat_score": 44.26,
+            "_matched_tags": [
+                "Horror"
+            ]
+        },
+        {
+            "name": "探灵笔记",
+            "appid": "991780",
+            "yearForSale": 2019,
+            "price": 26.0,
+            "favorableRate": 75.89,
+            "tags": "dataset\\2019\\tags_991780.csv",
+            "discounts": "dataset\\2019\\discounts_991780.csv",
+            "players": "dataset\\2019\\players_991780.csv",
+            "totalComments": 20404,
+            "_heat_score": 43.18,
+            "_matched_tags": [
+                "Horror",
+                "Survival Horror"
+            ]
+        },
+        {
+            "name": "飞越13号房 (Breakout 13)",
+            "appid": "2095300",
+            "yearForSale": 2023,
+            "price": 32.0,
+            "favorableRate": 85.36,
+            "tags": "dataset\\2023\\tags_2095300.csv",
+            "discounts": "dataset\\2023\\discounts_2095300.csv",
+            "players": "dataset\\2023\\players_2095300.csv",
+            "totalComments": 7326,
+            "_heat_score": 42.86,
+            "_matched_tags": [
+                "Psychological Horror",
+                "Horror"
+            ]
+        },
+        {
+            "name": "艾希 (ICEY)",
+            "appid": "553640",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 88.07,
+            "tags": "dataset\\2017\\tags_553640.csv",
+            "discounts": "dataset\\2017\\discounts_553640.csv",
+            "players": "dataset\\2017\\players_553640.csv",
+            "totalComments": 27362,
+            "_heat_score": 36.15,
+            "_matched_tags": [
+                "Lovecraftian"
+            ]
+        },
+        {
+            "name": "港詭實錄ParanormalHK",
+            "appid": "1178490",
+            "yearForSale": 2020,
+            "price": 56.0,
+            "favorableRate": 89.68,
+            "tags": "dataset\\2020\\tags_1178490.csv",
+            "discounts": "dataset\\2020\\discounts_1178490.csv",
+            "players": "dataset\\2020\\players_1178490.csv",
+            "totalComments": 19629,
+            "_heat_score": 32.49,
+            "_matched_tags": [
+                "Horror",
+                "Psychological Horror",
+                "Thriller"
+            ]
+        },
+        {
+            "name": "返校 (Detention)",
+            "appid": "555220",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 80.42,
+            "tags": "dataset\\2017\\tags_555220.csv",
+            "discounts": "dataset\\2017\\discounts_555220.csv",
+            "players": "dataset\\2017\\players_555220.csv",
+            "totalComments": 14624,
+            "_heat_score": 30.91,
+            "_matched_tags": [
+                "Horror",
+                "Psychological Horror",
+                "Thriller",
+                "Survival Horror"
+            ]
+        },
+        {
+            "name": "无人生还 (No One Survived)",
+            "appid": "1963370",
+            "yearForSale": 2023,
+            "price": 68.0,
+            "favorableRate": 64.53,
+            "tags": "dataset\\2023\\tags_1963370.csv",
+            "discounts": "dataset\\2023\\discounts_1963370.csv",
+            "players": "dataset\\2023\\players_1963370.csv",
+            "totalComments": 7359,
+            "_heat_score": 29.38,
+            "_matched_tags": [
+                "Zombies",
+                "Survival Horror"
+            ]
+        }
+    ],
+    "角色扮演": [
+        {
+            "name": "Black Myth: Wukong",
+            "appid": "2358720",
+            "yearForSale": 2024,
+            "price": 268.0,
+            "favorableRate": 96.59,
+            "tags": "dataset\\2024\\tags_2358720.csv",
+            "discounts": "dataset\\2024\\discounts_2358720.csv",
+            "players": "dataset\\2024\\players_2358720.csv",
+            "totalComments": 1186287,
+            "_heat_score": 80.15,
+            "_matched_tags": [
+                "Action RPG",
+                "RPG"
+            ]
+        },
+        {
+            "name": "永劫无间 (NARAKA: BLADEPOINT)",
+            "appid": "1203220",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 68.81,
+            "tags": "dataset\\2021\\tags_1203220.csv",
+            "discounts": "dataset\\2021\\discounts_1203220.csv",
+            "players": "dataset\\2021\\players_1203220.csv",
+            "totalComments": 336077,
+            "_heat_score": 63.54,
+            "_matched_tags": [
+                "Character Customization"
+            ]
+        },
+        {
+            "name": "失落城堡 (Lost Castle)",
+            "appid": "434650",
+            "yearForSale": 2017,
+            "price": 33.0,
+            "favorableRate": 84.96,
+            "tags": "dataset\\2017\\tags_434650.csv",
+            "discounts": "dataset\\2017\\discounts_434650.csv",
+            "players": "dataset\\2017\\players_434650.csv",
+            "totalComments": 23687,
+            "_heat_score": 57.01,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "完蛋！我被美女包围了！ (Love Is All Around)",
+            "appid": "2322560",
+            "yearForSale": 2023,
+            "price": 42.0,
+            "favorableRate": 91.63,
+            "tags": "dataset\\2023\\tags_2322560.csv",
+            "discounts": "dataset\\2023\\discounts_2322560.csv",
+            "players": "dataset\\2023\\players_2322560.csv",
+            "totalComments": 45787,
+            "_heat_score": 56.2,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "Gunfire Reborn",
+            "appid": "1217060",
+            "yearForSale": 2020,
+            "price": 68.0,
+            "favorableRate": 93.27,
+            "tags": "dataset\\2020\\tags_1217060.csv",
+            "discounts": "dataset\\2020\\discounts_1217060.csv",
+            "players": "dataset\\2020\\players_1217060.csv",
+            "totalComments": 101753,
+            "_heat_score": 54.78,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "暖雪 Warm Snow",
+            "appid": "1296830",
+            "yearForSale": 2022,
+            "price": 58.0,
+            "favorableRate": 93.07,
+            "tags": "dataset\\2022\\tags_1296830.csv",
+            "discounts": "dataset\\2022\\discounts_1296830.csv",
+            "players": "dataset\\2022\\players_1296830.csv",
+            "totalComments": 38003,
+            "_heat_score": 54.69,
+            "_matched_tags": [
+                "RPG",
+                "Character Customization"
+            ]
+        },
+        {
+            "name": "隐形守护者",
+            "appid": "998940",
+            "yearForSale": 2019,
+            "price": 28.0,
+            "favorableRate": 85.46,
+            "tags": "dataset\\2019\\tags_998940.csv",
+            "discounts": "dataset\\2019\\discounts_998940.csv",
+            "players": "dataset\\2019\\players_998940.csv",
+            "totalComments": 51655,
+            "_heat_score": 54.42,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "火山的女儿 (Volcano Princess)",
+            "appid": "1669980",
+            "yearForSale": 2023,
+            "price": 35.0,
+            "favorableRate": 95.93,
+            "tags": "dataset\\2023\\tags_1669980.csv",
+            "discounts": "dataset\\2023\\discounts_1669980.csv",
+            "players": "dataset\\2023\\players_1669980.csv",
+            "totalComments": 45796,
+            "_heat_score": 53.71,
+            "_matched_tags": [
+                "RPG",
+                "JRPG",
+                "Turn-Based Combat"
+            ]
+        },
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "逸剑风云决 (Wandering Sword)",
+            "appid": "1876890",
+            "yearForSale": 2023,
+            "price": 78.0,
+            "favorableRate": 93.06,
+            "tags": "dataset\\2023\\tags_1876890.csv",
+            "discounts": "dataset\\2023\\discounts_1876890.csv",
+            "players": "dataset\\2023\\players_1876890.csv",
+            "totalComments": 38409,
+            "_heat_score": 50.99,
+            "_matched_tags": [
+                "RPG",
+                "Turn-Based",
+                "Turn-Based Combat",
+                "Action RPG"
+            ]
+        },
+        {
+            "name": "Soulmask",
+            "appid": "2646460",
+            "yearForSale": 2024,
+            "price": 108.0,
+            "favorableRate": 80.63,
+            "tags": "dataset\\2024\\tags_2646460.csv",
+            "discounts": "dataset\\2024\\discounts_2646460.csv",
+            "players": "dataset\\2024\\players_2646460.csv",
+            "totalComments": 16775,
+            "_heat_score": 49.93,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "My Time at Portia",
+            "appid": "666140",
+            "yearForSale": 2018,
+            "price": 98.0,
+            "favorableRate": 91.59,
+            "tags": "dataset\\2018\\tags_666140.csv",
+            "discounts": "dataset\\2018\\discounts_666140.csv",
+            "players": "dataset\\2018\\players_666140.csv",
+            "totalComments": 43820,
+            "_heat_score": 49.82,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "My Time at Sandrock",
+            "appid": "1084600",
+            "yearForSale": 2022,
+            "price": 98.0,
+            "favorableRate": 88.14,
+            "tags": "dataset\\2022\\tags_1084600.csv",
+            "discounts": "dataset\\2022\\discounts_1084600.csv",
+            "players": "dataset\\2022\\players_1084600.csv",
+            "totalComments": 27664,
+            "_heat_score": 47.91,
+            "_matched_tags": [
+                "RPG",
+                "Character Customization"
+            ]
+        },
+        {
+            "name": "大侠立志传：碧血丹心 (Hero's Adventure: Road to Passion)",
+            "appid": "1948980",
+            "yearForSale": 2023,
+            "price": 69.0,
+            "favorableRate": 82.85,
+            "tags": "dataset\\2023\\tags_1948980.csv",
+            "discounts": "dataset\\2023\\discounts_1948980.csv",
+            "players": "dataset\\2023\\players_1948980.csv",
+            "totalComments": 23586,
+            "_heat_score": 47.41,
+            "_matched_tags": [
+                "RPG",
+                "Turn-Based"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "RPG",
+                "Strategy RPG",
+                "CRPG"
+            ]
+        },
+        {
+            "name": "鬼谷八荒 (Tale of Immortal)",
+            "appid": "1468810",
+            "yearForSale": 2021,
+            "price": 68.0,
+            "favorableRate": 54.05,
+            "tags": "dataset\\2021\\tags_1468810.csv",
+            "discounts": "dataset\\2021\\discounts_1468810.csv",
+            "players": "dataset\\2021\\players_1468810.csv",
+            "totalComments": 226599,
+            "_heat_score": 45.94,
+            "_matched_tags": [
+                "RPG",
+                "Tactical RPG",
+                "Action RPG",
+                "Strategy RPG"
+            ]
+        },
+        {
+            "name": "了不起的修仙模拟器",
+            "appid": "955900",
+            "yearForSale": 2019,
+            "price": 88.0,
+            "favorableRate": 83.95,
+            "tags": "dataset\\2019\\tags_955900.csv",
+            "discounts": "dataset\\2019\\discounts_955900.csv",
+            "players": "dataset\\2019\\players_955900.csv",
+            "totalComments": 23431,
+            "_heat_score": 45.3,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "Sands of Salzaar",
+            "appid": "1094520",
+            "yearForSale": 2020,
+            "price": 48.0,
+            "favorableRate": 81.86,
+            "tags": "dataset\\2020\\tags_1094520.csv",
+            "discounts": "dataset\\2020\\discounts_1094520.csv",
+            "players": "dataset\\2020\\players_1094520.csv",
+            "totalComments": 22806,
+            "_heat_score": 44.94,
+            "_matched_tags": [
+                "RPG",
+                "Character Customization",
+                "Action RPG"
+            ]
+        },
+        {
+            "name": "Murders on the Yangtze River",
+            "appid": "1746030",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 97.21,
+            "tags": "dataset\\2024\\tags_1746030.csv",
+            "discounts": "dataset\\2024\\discounts_1746030.csv",
+            "players": "dataset\\2024\\players_1746030.csv",
+            "totalComments": 19715,
+            "_heat_score": 44.43,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty",
+            "appid": "2593370",
+            "yearForSale": 2024,
+            "price": 37.0,
+            "favorableRate": 94.93,
+            "tags": "dataset\\2024\\tags_2593370.csv",
+            "discounts": "dataset\\2024\\discounts_2593370.csv",
+            "players": "dataset\\2024\\players_2593370.csv",
+            "totalComments": 56660,
+            "_heat_score": 44.41,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "疑案追声",
+            "appid": "942970",
+            "yearForSale": 2019,
+            "price": 38.0,
+            "favorableRate": 94.13,
+            "tags": "dataset\\2019\\tags_942970.csv",
+            "discounts": "dataset\\2019\\discounts_942970.csv",
+            "players": "dataset\\2019\\players_942970.csv",
+            "totalComments": 32238,
+            "_heat_score": 44.26,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "Lost Castle 2",
+            "appid": "2445690",
+            "yearForSale": 2024,
+            "price": 53.0,
+            "favorableRate": 79.74,
+            "tags": "dataset\\2024\\tags_2445690.csv",
+            "discounts": "dataset\\2024\\discounts_2445690.csv",
+            "players": "dataset\\2024\\players_2445690.csv",
+            "totalComments": 10033,
+            "_heat_score": 43.86,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "中国式网游",
+            "appid": "1416920",
+            "yearForSale": 2024,
+            "price": 32.0,
+            "favorableRate": 86.0,
+            "tags": "dataset\\2024\\tags_1416920.csv",
+            "discounts": "dataset\\2024\\discounts_1416920.csv",
+            "players": "dataset\\2024\\players_1416920.csv",
+            "totalComments": 10167,
+            "_heat_score": 43.41,
+            "_matched_tags": [
+                "CRPG",
+                "Party-Based RPG",
+                "Action RPG",
+                "RPG",
+                "Character Customization"
+            ]
+        },
+        {
+            "name": "探灵笔记",
+            "appid": "991780",
+            "yearForSale": 2019,
+            "price": 26.0,
+            "favorableRate": 75.89,
+            "tags": "dataset\\2019\\tags_991780.csv",
+            "discounts": "dataset\\2019\\discounts_991780.csv",
+            "players": "dataset\\2019\\players_991780.csv",
+            "totalComments": 20404,
+            "_heat_score": 43.18,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "飞越13号房 (Breakout 13)",
+            "appid": "2095300",
+            "yearForSale": 2023,
+            "price": 32.0,
+            "favorableRate": 85.36,
+            "tags": "dataset\\2023\\tags_2095300.csv",
+            "discounts": "dataset\\2023\\discounts_2095300.csv",
+            "players": "dataset\\2023\\players_2095300.csv",
+            "totalComments": 7326,
+            "_heat_score": 42.86,
+            "_matched_tags": [
+                "RPG",
+                "Strategy RPG"
+            ]
+        },
+        {
+            "name": "Gujian3(古剑奇谭三)",
+            "appid": "994280",
+            "yearForSale": 2018,
+            "price": 99.0,
+            "favorableRate": 85.97,
+            "tags": "dataset\\2018\\tags_994280.csv",
+            "discounts": "dataset\\2018\\discounts_994280.csv",
+            "players": "dataset\\2018\\players_994280.csv",
+            "totalComments": 48555,
+            "_heat_score": 42.81,
+            "_matched_tags": [
+                "RPG",
+                "Action RPG",
+                "CRPG"
+            ]
+        },
+        {
+            "name": "风来之国 (Eastward)",
+            "appid": "977880",
+            "yearForSale": 2021,
+            "price": 80.0,
+            "favorableRate": 82.16,
+            "tags": "dataset\\2021\\tags_977880.csv",
+            "discounts": "dataset\\2021\\discounts_977880.csv",
+            "players": "dataset\\2021\\players_977880.csv",
+            "totalComments": 16202,
+            "_heat_score": 42.37,
+            "_matched_tags": [
+                "Action RPG",
+                "RPG",
+                "JRPG"
+            ]
+        },
+        {
+            "name": "俠之道(PathOfWuxia)",
+            "appid": "1189630",
+            "yearForSale": 2020,
+            "price": 98.0,
+            "favorableRate": 78.33,
+            "tags": "dataset\\2020\\tags_1189630.csv",
+            "discounts": "dataset\\2020\\discounts_1189630.csv",
+            "players": "dataset\\2020\\players_1189630.csv",
+            "totalComments": 30290,
+            "_heat_score": 41.64,
+            "_matched_tags": [
+                "RPG",
+                "Turn-Based",
+                "Turn-Based Combat",
+                "Character Customization"
+            ]
+        },
+        {
+            "name": "嗜血印",
+            "appid": "992300",
+            "yearForSale": 2019,
+            "price": 79.0,
+            "favorableRate": 87.88,
+            "tags": "dataset\\2019\\tags_992300.csv",
+            "discounts": "dataset\\2019\\discounts_992300.csv",
+            "players": "dataset\\2019\\players_992300.csv",
+            "totalComments": 38087,
+            "_heat_score": 41.12,
+            "_matched_tags": [
+                "Action RPG",
+                "RPG"
+            ]
+        },
+        {
+            "name": "《文字遊戲》",
+            "appid": "1109570",
+            "yearForSale": 2022,
+            "price": 48.0,
+            "favorableRate": 93.87,
+            "tags": "dataset\\2022\\tags_1109570.csv",
+            "discounts": "dataset\\2022\\discounts_1109570.csv",
+            "players": "dataset\\2022\\players_1109570.csv",
+            "totalComments": 6138,
+            "_heat_score": 40.45,
+            "_matched_tags": [
+                "RPG",
+                "JRPG"
+            ]
+        },
+        {
+            "name": "Neon Abyss",
+            "appid": "788100",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 86.05,
+            "tags": "dataset\\2020\\tags_788100.csv",
+            "discounts": "dataset\\2020\\discounts_788100.csv",
+            "players": "dataset\\2020\\players_788100.csv",
+            "totalComments": 23389,
+            "_heat_score": 39.85,
+            "_matched_tags": [
+                "RPG",
+                "Character Customization"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "仙剑奇侠传七 (Sword and Fairy 7)",
+            "appid": "1543030",
+            "yearForSale": 2021,
+            "price": 128.0,
+            "favorableRate": 71.14,
+            "tags": "dataset\\2021\\tags_1543030.csv",
+            "discounts": "dataset\\2021\\discounts_1543030.csv",
+            "players": "dataset\\2021\\players_1543030.csv",
+            "totalComments": 18800,
+            "_heat_score": 38.11,
+            "_matched_tags": [
+                "RPG",
+                "Action RPG",
+                "CRPG"
+            ]
+        },
+        {
+            "name": "古网海外版 (Swords of Legends Online)",
+            "appid": "1418100",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 65.4,
+            "tags": "dataset\\2021\\tags_1418100.csv",
+            "discounts": "dataset\\2021\\discounts_1418100.csv",
+            "players": "dataset\\2021\\players_1418100.csv",
+            "totalComments": 5819,
+            "_heat_score": 37.39,
+            "_matched_tags": [
+                "Character Customization",
+                "Action RPG",
+                "RPG"
+            ]
+        },
+        {
+            "name": "艾希 (ICEY)",
+            "appid": "553640",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 88.07,
+            "tags": "dataset\\2017\\tags_553640.csv",
+            "discounts": "dataset\\2017\\discounts_553640.csv",
+            "players": "dataset\\2017\\players_553640.csv",
+            "totalComments": 27362,
+            "_heat_score": 36.15,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "奇怪的RPG",
+            "appid": "1902710",
+            "yearForSale": 2022,
+            "price": 38.0,
+            "favorableRate": 92.43,
+            "tags": "dataset\\2022\\tags_1902710.csv",
+            "discounts": "dataset\\2022\\discounts_1902710.csv",
+            "players": "dataset\\2022\\players_1902710.csv",
+            "totalComments": 4095,
+            "_heat_score": 33.44,
+            "_matched_tags": [
+                "RPG",
+                "Action RPG"
+            ]
+        },
+        {
+            "name": "Ho Tu Lo Shu ： The Books of Dragon",
+            "appid": "952860",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 81.83,
+            "tags": "dataset\\2018\\tags_952860.csv",
+            "discounts": "dataset\\2018\\discounts_952860.csv",
+            "players": "dataset\\2018\\players_952860.csv",
+            "totalComments": 10819,
+            "_heat_score": 32.88,
+            "_matched_tags": [
+                "RPG",
+                "Turn-Based",
+                "Turn-Based Combat"
+            ]
+        },
+        {
+            "name": "ANNO:Mutationem",
+            "appid": "1368030",
+            "yearForSale": 2022,
+            "price": 78.0,
+            "favorableRate": 80.86,
+            "tags": "dataset\\2022\\tags_1368030.csv",
+            "discounts": "dataset\\2022\\discounts_1368030.csv",
+            "players": "dataset\\2022\\players_1368030.csv",
+            "totalComments": 6302,
+            "_heat_score": 32.39,
+            "_matched_tags": [
+                "RPG",
+                "Action RPG"
+            ]
+        },
+        {
+            "name": "黑暗与光明 (Dark and Light)",
+            "appid": "529180",
+            "yearForSale": 2017,
+            "price": 52.0,
+            "favorableRate": 52.11,
+            "tags": "dataset\\2017\\tags_529180.csv",
+            "discounts": "dataset\\2017\\discounts_529180.csv",
+            "players": "dataset\\2017\\players_529180.csv",
+            "totalComments": 11778,
+            "_heat_score": 30.02,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "无人生还 (No One Survived)",
+            "appid": "1963370",
+            "yearForSale": 2023,
+            "price": 68.0,
+            "favorableRate": 64.53,
+            "tags": "dataset\\2023\\tags_1963370.csv",
+            "discounts": "dataset\\2023\\discounts_1963370.csv",
+            "players": "dataset\\2023\\players_1963370.csv",
+            "totalComments": 7359,
+            "_heat_score": 29.38,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "古剑奇谭 (GuJian)",
+            "appid": "570780",
+            "yearForSale": 2017,
+            "price": 39.0,
+            "favorableRate": 77.8,
+            "tags": "dataset\\2017\\tags_570780.csv",
+            "discounts": "dataset\\2017\\discounts_570780.csv",
+            "players": "dataset\\2017\\players_570780.csv",
+            "totalComments": 5555,
+            "_heat_score": 28.54,
+            "_matched_tags": [
+                "RPG",
+                "JRPG",
+                "Turn-Based"
+            ]
+        },
+        {
+            "name": "太荒初境",
+            "appid": "1504570",
+            "yearForSale": 2022,
+            "price": 68.0,
+            "favorableRate": 37.55,
+            "tags": "dataset\\2022\\tags_1504570.csv",
+            "discounts": "dataset\\2022\\discounts_1504570.csv",
+            "players": "dataset\\2022\\players_1504570.csv",
+            "totalComments": 13638,
+            "_heat_score": 27.92,
+            "_matched_tags": [
+                "RPG",
+                "Action RPG"
+            ]
+        },
+        {
+            "name": "古剑奇谭二 (GuJian2)",
+            "appid": "570770",
+            "yearForSale": 2017,
+            "price": 49.0,
+            "favorableRate": 74.88,
+            "tags": "dataset\\2017\\tags_570770.csv",
+            "discounts": "dataset\\2017\\discounts_570770.csv",
+            "players": "dataset\\2017\\players_570770.csv",
+            "totalComments": 2941,
+            "_heat_score": 22.18,
+            "_matched_tags": [
+                "RPG",
+                "JRPG",
+                "Turn-Based"
+            ]
+        },
+        {
+            "name": "武侠乂 The Swordsmen X",
+            "appid": "840140",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 47.24,
+            "tags": "dataset\\2018\\tags_840140.csv",
+            "discounts": "dataset\\2018\\discounts_840140.csv",
+            "players": "dataset\\2018\\players_840140.csv",
+            "totalComments": 3529,
+            "_heat_score": 21.24,
+            "_matched_tags": [
+                "RPG"
+            ]
+        },
+        {
+            "name": "Pascal's Wager: Definitive Edition",
+            "appid": "1456650",
+            "yearForSale": 2020,
+            "price": 80.0,
+            "favorableRate": 70.45,
+            "tags": "dataset\\2020\\tags_1456650.csv",
+            "discounts": "dataset\\2020\\discounts_1456650.csv",
+            "players": "dataset\\2020\\players_1456650.csv",
+            "totalComments": 1330,
+            "_heat_score": 18.47,
+            "_matched_tags": [
+                "RPG",
+                "Action RPG"
+            ]
+        }
+    ],
+    "平台银河城": [
+        {
+            "name": "失落城堡 (Lost Castle)",
+            "appid": "434650",
+            "yearForSale": 2017,
+            "price": 33.0,
+            "favorableRate": 84.96,
+            "tags": "dataset\\2017\\tags_434650.csv",
+            "discounts": "dataset\\2017\\discounts_434650.csv",
+            "players": "dataset\\2017\\players_434650.csv",
+            "totalComments": 23687,
+            "_heat_score": 57.01,
+            "_matched_tags": [
+                "Side Scroller"
+            ]
+        },
+        {
+            "name": "中国式网游",
+            "appid": "1416920",
+            "yearForSale": 2024,
+            "price": 32.0,
+            "favorableRate": 86.0,
+            "tags": "dataset\\2024\\tags_1416920.csv",
+            "discounts": "dataset\\2024\\discounts_1416920.csv",
+            "players": "dataset\\2024\\players_1416920.csv",
+            "totalComments": 10167,
+            "_heat_score": 43.41,
+            "_matched_tags": [
+                "2D Platformer",
+                "3D Platformer"
+            ]
+        },
+        {
+            "name": "Neon Abyss",
+            "appid": "788100",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 86.05,
+            "tags": "dataset\\2020\\tags_788100.csv",
+            "discounts": "dataset\\2020\\discounts_788100.csv",
+            "players": "dataset\\2020\\players_788100.csv",
+            "totalComments": 23389,
+            "_heat_score": 39.85,
+            "_matched_tags": [
+                "Platformer",
+                "2D Platformer"
+            ]
+        },
+        {
+            "name": "艾希 (ICEY)",
+            "appid": "553640",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 88.07,
+            "tags": "dataset\\2017\\tags_553640.csv",
+            "discounts": "dataset\\2017\\discounts_553640.csv",
+            "players": "dataset\\2017\\players_553640.csv",
+            "totalComments": 27362,
+            "_heat_score": 36.15,
+            "_matched_tags": [
+                "Side Scroller",
+                "Metroidvania",
+                "Platformer"
+            ]
+        },
+        {
+            "name": "笼中窥梦 (Moncage)",
+            "appid": "1195290",
+            "yearForSale": 2021,
+            "price": 48.0,
+            "favorableRate": 89.3,
+            "tags": "dataset\\2021\\tags_1195290.csv",
+            "discounts": "dataset\\2021\\discounts_1195290.csv",
+            "players": "dataset\\2021\\players_1195290.csv",
+            "totalComments": 5436,
+            "_heat_score": 33.95,
+            "_matched_tags": [
+                "3D Platformer"
+            ]
+        },
+        {
+            "name": "ANNO:Mutationem",
+            "appid": "1368030",
+            "yearForSale": 2022,
+            "price": 78.0,
+            "favorableRate": 80.86,
+            "tags": "dataset\\2022\\tags_1368030.csv",
+            "discounts": "dataset\\2022\\discounts_1368030.csv",
+            "players": "dataset\\2022\\players_1368030.csv",
+            "totalComments": 6302,
+            "_heat_score": 32.39,
+            "_matched_tags": [
+                "2D Platformer"
+            ]
+        },
+        {
+            "name": "硬核机甲",
+            "appid": "746580",
+            "yearForSale": 2019,
+            "price": 80.0,
+            "favorableRate": 79.97,
+            "tags": "dataset\\2019\\tags_746580.csv",
+            "discounts": "dataset\\2019\\discounts_746580.csv",
+            "players": "dataset\\2019\\players_746580.csv",
+            "totalComments": 2649,
+            "_heat_score": 29.06,
+            "_matched_tags": [
+                "Platformer"
+            ]
+        },
+        {
+            "name": "太荒初境",
+            "appid": "1504570",
+            "yearForSale": 2022,
+            "price": 68.0,
+            "favorableRate": 37.55,
+            "tags": "dataset\\2022\\tags_1504570.csv",
+            "discounts": "dataset\\2022\\discounts_1504570.csv",
+            "players": "dataset\\2022\\players_1504570.csv",
+            "totalComments": 13638,
+            "_heat_score": 27.92,
+            "_matched_tags": [
+                "3D Platformer"
+            ]
+        }
+    ],
+    "卡牌构建": [
+        {
+            "name": "暖雪 Warm Snow",
+            "appid": "1296830",
+            "yearForSale": 2022,
+            "price": 58.0,
+            "favorableRate": 93.07,
+            "tags": "dataset\\2022\\tags_1296830.csv",
+            "discounts": "dataset\\2022\\discounts_1296830.csv",
+            "players": "dataset\\2022\\players_1296830.csv",
+            "totalComments": 38003,
+            "_heat_score": 54.69,
+            "_matched_tags": [
+                "Deckbuilding"
+            ]
+        }
+    ],
+    "科幻机甲": [
+        {
+            "name": "戴森球计划 (Dyson Sphere Program)",
+            "appid": "1366540",
+            "yearForSale": 2021,
+            "price": 70.0,
+            "favorableRate": 96.03,
+            "tags": "dataset\\2021\\tags_1366540.csv",
+            "discounts": "dataset\\2021\\discounts_1366540.csv",
+            "players": "dataset\\2021\\players_1366540.csv",
+            "totalComments": 88259,
+            "_heat_score": 60.52,
+            "_matched_tags": [
+                "Space",
+                "Sci-fi",
+                "Space Sim"
+            ]
+        },
+        {
+            "name": "Neon Abyss",
+            "appid": "788100",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 86.05,
+            "tags": "dataset\\2020\\tags_788100.csv",
+            "discounts": "dataset\\2020\\discounts_788100.csv",
+            "players": "dataset\\2020\\players_788100.csv",
+            "totalComments": 23389,
+            "_heat_score": 39.85,
+            "_matched_tags": [
+                "Cyberpunk"
+            ]
+        },
+        {
+            "name": "艾希 (ICEY)",
+            "appid": "553640",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 88.07,
+            "tags": "dataset\\2017\\tags_553640.csv",
+            "discounts": "dataset\\2017\\discounts_553640.csv",
+            "players": "dataset\\2017\\players_553640.csv",
+            "totalComments": 27362,
+            "_heat_score": 36.15,
+            "_matched_tags": [
+                "Cyberpunk",
+                "Sci-fi"
+            ]
+        },
+        {
+            "name": "光明记忆",
+            "appid": "955050",
+            "yearForSale": 2019,
+            "price": 29.0,
+            "favorableRate": 88.5,
+            "tags": "dataset\\2019\\tags_955050.csv",
+            "discounts": "dataset\\2019\\discounts_955050.csv",
+            "players": "dataset\\2019\\players_955050.csv",
+            "totalComments": 39283,
+            "_heat_score": 33.41,
+            "_matched_tags": [
+                "Sci-fi"
+            ]
+        },
+        {
+            "name": "ANNO:Mutationem",
+            "appid": "1368030",
+            "yearForSale": 2022,
+            "price": 78.0,
+            "favorableRate": 80.86,
+            "tags": "dataset\\2022\\tags_1368030.csv",
+            "discounts": "dataset\\2022\\discounts_1368030.csv",
+            "players": "dataset\\2022\\players_1368030.csv",
+            "totalComments": 6302,
+            "_heat_score": 32.39,
+            "_matched_tags": [
+                "Cyberpunk",
+                "Futuristic",
+                "Sci-fi"
+            ]
+        },
+        {
+            "name": "硬核机甲",
+            "appid": "746580",
+            "yearForSale": 2019,
+            "price": 80.0,
+            "favorableRate": 79.97,
+            "tags": "dataset\\2019\\tags_746580.csv",
+            "discounts": "dataset\\2019\\discounts_746580.csv",
+            "players": "dataset\\2019\\players_746580.csv",
+            "totalComments": 2649,
+            "_heat_score": 29.06,
+            "_matched_tags": [
+                "Mechs",
+                "Sci-fi"
+            ]
+        }
+    ],
+    "动作格斗": [
+        {
+            "name": "Black Myth: Wukong",
+            "appid": "2358720",
+            "yearForSale": 2024,
+            "price": 268.0,
+            "favorableRate": 96.59,
+            "tags": "dataset\\2024\\tags_2358720.csv",
+            "discounts": "dataset\\2024\\discounts_2358720.csv",
+            "players": "dataset\\2024\\players_2358720.csv",
+            "totalComments": 1186287,
+            "_heat_score": 80.15,
+            "_matched_tags": [
+                "Action",
+                "Souls-like",
+                "Combat",
+                "Hack and Slash"
+            ]
+        },
+        {
+            "name": "永劫无间 (NARAKA: BLADEPOINT)",
+            "appid": "1203220",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 68.81,
+            "tags": "dataset\\2021\\tags_1203220.csv",
+            "discounts": "dataset\\2021\\discounts_1203220.csv",
+            "players": "dataset\\2021\\players_1203220.csv",
+            "totalComments": 336077,
+            "_heat_score": 63.54,
+            "_matched_tags": [
+                "Martial Arts",
+                "Action",
+                "Fighting",
+                "Swordplay",
+                "Hack and Slash"
+            ]
+        },
+        {
+            "name": "失落城堡 (Lost Castle)",
+            "appid": "434650",
+            "yearForSale": 2017,
+            "price": 33.0,
+            "favorableRate": 84.96,
+            "tags": "dataset\\2017\\tags_434650.csv",
+            "discounts": "dataset\\2017\\discounts_434650.csv",
+            "players": "dataset\\2017\\players_434650.csv",
+            "totalComments": 23687,
+            "_heat_score": 57.01,
+            "_matched_tags": [
+                "Action",
+                "Beat 'em up"
+            ]
+        },
+        {
+            "name": "Gunfire Reborn",
+            "appid": "1217060",
+            "yearForSale": 2020,
+            "price": 68.0,
+            "favorableRate": 93.27,
+            "tags": "dataset\\2020\\tags_1217060.csv",
+            "discounts": "dataset\\2020\\discounts_1217060.csv",
+            "players": "dataset\\2020\\players_1217060.csv",
+            "totalComments": 101753,
+            "_heat_score": 54.78,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "暖雪 Warm Snow",
+            "appid": "1296830",
+            "yearForSale": 2022,
+            "price": 58.0,
+            "favorableRate": 93.07,
+            "tags": "dataset\\2022\\tags_1296830.csv",
+            "discounts": "dataset\\2022\\discounts_1296830.csv",
+            "players": "dataset\\2022\\players_1296830.csv",
+            "totalComments": 38003,
+            "_heat_score": 54.69,
+            "_matched_tags": [
+                "Martial Arts",
+                "Action"
+            ]
+        },
+        {
+            "name": "猛兽派对 (Party Animals)",
+            "appid": "1260320",
+            "yearForSale": 2023,
+            "price": 98.0,
+            "favorableRate": 78.55,
+            "tags": "dataset\\2023\\tags_1260320.csv",
+            "discounts": "dataset\\2023\\discounts_1260320.csv",
+            "players": "dataset\\2023\\players_1260320.csv",
+            "totalComments": 73171,
+            "_heat_score": 53.21,
+            "_matched_tags": [
+                "Fighting",
+                "Action"
+            ]
+        },
+        {
+            "name": "逸剑风云决 (Wandering Sword)",
+            "appid": "1876890",
+            "yearForSale": 2023,
+            "price": 78.0,
+            "favorableRate": 93.06,
+            "tags": "dataset\\2023\\tags_1876890.csv",
+            "discounts": "dataset\\2023\\discounts_1876890.csv",
+            "players": "dataset\\2023\\players_1876890.csv",
+            "totalComments": 38409,
+            "_heat_score": 50.99,
+            "_matched_tags": [
+                "Martial Arts",
+                "Swordplay"
+            ]
+        },
+        {
+            "name": "大侠立志传：碧血丹心 (Hero's Adventure: Road to Passion)",
+            "appid": "1948980",
+            "yearForSale": 2023,
+            "price": 69.0,
+            "favorableRate": 82.85,
+            "tags": "dataset\\2023\\tags_1948980.csv",
+            "discounts": "dataset\\2023\\discounts_1948980.csv",
+            "players": "dataset\\2023\\players_1948980.csv",
+            "totalComments": 23586,
+            "_heat_score": 47.41,
+            "_matched_tags": [
+                "Martial Arts"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Martial Arts"
+            ]
+        },
+        {
+            "name": "鬼谷八荒 (Tale of Immortal)",
+            "appid": "1468810",
+            "yearForSale": 2021,
+            "price": 68.0,
+            "favorableRate": 54.05,
+            "tags": "dataset\\2021\\tags_1468810.csv",
+            "discounts": "dataset\\2021\\discounts_1468810.csv",
+            "players": "dataset\\2021\\players_1468810.csv",
+            "totalComments": 226599,
+            "_heat_score": 45.94,
+            "_matched_tags": [
+                "Action",
+                "Hack and Slash"
+            ]
+        },
+        {
+            "name": "了不起的修仙模拟器",
+            "appid": "955900",
+            "yearForSale": 2019,
+            "price": 88.0,
+            "favorableRate": 83.95,
+            "tags": "dataset\\2019\\tags_955900.csv",
+            "discounts": "dataset\\2019\\discounts_955900.csv",
+            "players": "dataset\\2019\\players_955900.csv",
+            "totalComments": 23431,
+            "_heat_score": 45.3,
+            "_matched_tags": [
+                "Martial Arts"
+            ]
+        },
+        {
+            "name": "Sands of Salzaar",
+            "appid": "1094520",
+            "yearForSale": 2020,
+            "price": 48.0,
+            "favorableRate": 81.86,
+            "tags": "dataset\\2020\\tags_1094520.csv",
+            "discounts": "dataset\\2020\\discounts_1094520.csv",
+            "players": "dataset\\2020\\players_1094520.csv",
+            "totalComments": 22806,
+            "_heat_score": 44.94,
+            "_matched_tags": [
+                "Hack and Slash",
+                "Martial Arts",
+                "Action"
+            ]
+        },
+        {
+            "name": "Lost Castle 2",
+            "appid": "2445690",
+            "yearForSale": 2024,
+            "price": 53.0,
+            "favorableRate": 79.74,
+            "tags": "dataset\\2024\\tags_2445690.csv",
+            "discounts": "dataset\\2024\\discounts_2445690.csv",
+            "players": "dataset\\2024\\players_2445690.csv",
+            "totalComments": 10033,
+            "_heat_score": 43.86,
+            "_matched_tags": [
+                "Action",
+                "Combat"
+            ]
+        },
+        {
+            "name": "探灵笔记",
+            "appid": "991780",
+            "yearForSale": 2019,
+            "price": 26.0,
+            "favorableRate": 75.89,
+            "tags": "dataset\\2019\\tags_991780.csv",
+            "discounts": "dataset\\2019\\discounts_991780.csv",
+            "players": "dataset\\2019\\players_991780.csv",
+            "totalComments": 20404,
+            "_heat_score": 43.18,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "Gujian3(古剑奇谭三)",
+            "appid": "994280",
+            "yearForSale": 2018,
+            "price": 99.0,
+            "favorableRate": 85.97,
+            "tags": "dataset\\2018\\tags_994280.csv",
+            "discounts": "dataset\\2018\\discounts_994280.csv",
+            "players": "dataset\\2018\\players_994280.csv",
+            "totalComments": 48555,
+            "_heat_score": 42.81,
+            "_matched_tags": [
+                "Martial Arts",
+                "Action",
+                "Hack and Slash",
+                "Souls-like"
+            ]
+        },
+        {
+            "name": "风来之国 (Eastward)",
+            "appid": "977880",
+            "yearForSale": 2021,
+            "price": 80.0,
+            "favorableRate": 82.16,
+            "tags": "dataset\\2021\\tags_977880.csv",
+            "discounts": "dataset\\2021\\discounts_977880.csv",
+            "players": "dataset\\2021\\players_977880.csv",
+            "totalComments": 16202,
+            "_heat_score": 42.37,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "俠之道(PathOfWuxia)",
+            "appid": "1189630",
+            "yearForSale": 2020,
+            "price": 98.0,
+            "favorableRate": 78.33,
+            "tags": "dataset\\2020\\tags_1189630.csv",
+            "discounts": "dataset\\2020\\discounts_1189630.csv",
+            "players": "dataset\\2020\\players_1189630.csv",
+            "totalComments": 30290,
+            "_heat_score": 41.64,
+            "_matched_tags": [
+                "Martial Arts"
+            ]
+        },
+        {
+            "name": "嗜血印",
+            "appid": "992300",
+            "yearForSale": 2019,
+            "price": 79.0,
+            "favorableRate": 87.88,
+            "tags": "dataset\\2019\\tags_992300.csv",
+            "discounts": "dataset\\2019\\discounts_992300.csv",
+            "players": "dataset\\2019\\players_992300.csv",
+            "totalComments": 38087,
+            "_heat_score": 41.12,
+            "_matched_tags": [
+                "Hack and Slash",
+                "Action",
+                "Martial Arts"
+            ]
+        },
+        {
+            "name": "Neon Abyss",
+            "appid": "788100",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 86.05,
+            "tags": "dataset\\2020\\tags_788100.csv",
+            "discounts": "dataset\\2020\\discounts_788100.csv",
+            "players": "dataset\\2020\\players_788100.csv",
+            "totalComments": 23389,
+            "_heat_score": 39.85,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "仙剑奇侠传七 (Sword and Fairy 7)",
+            "appid": "1543030",
+            "yearForSale": 2021,
+            "price": 128.0,
+            "favorableRate": 71.14,
+            "tags": "dataset\\2021\\tags_1543030.csv",
+            "discounts": "dataset\\2021\\discounts_1543030.csv",
+            "players": "dataset\\2021\\players_1543030.csv",
+            "totalComments": 18800,
+            "_heat_score": 38.11,
+            "_matched_tags": [
+                "Martial Arts",
+                "Action",
+                "Hack and Slash"
+            ]
+        },
+        {
+            "name": "Biped",
+            "appid": "1071870",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 85.48,
+            "tags": "dataset\\2020\\tags_1071870.csv",
+            "discounts": "dataset\\2020\\discounts_1071870.csv",
+            "players": "dataset\\2020\\players_1071870.csv",
+            "totalComments": 10200,
+            "_heat_score": 37.96,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "古网海外版 (Swords of Legends Online)",
+            "appid": "1418100",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 65.4,
+            "tags": "dataset\\2021\\tags_1418100.csv",
+            "discounts": "dataset\\2021\\discounts_1418100.csv",
+            "players": "dataset\\2021\\players_1418100.csv",
+            "totalComments": 5819,
+            "_heat_score": 37.39,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "艾希 (ICEY)",
+            "appid": "553640",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 88.07,
+            "tags": "dataset\\2017\\tags_553640.csv",
+            "discounts": "dataset\\2017\\discounts_553640.csv",
+            "players": "dataset\\2017\\players_553640.csv",
+            "totalComments": 27362,
+            "_heat_score": 36.15,
+            "_matched_tags": [
+                "Action",
+                "Hack and Slash",
+                "Spectacle fighter"
+            ]
+        },
+        {
+            "name": "奇怪的RPG",
+            "appid": "1902710",
+            "yearForSale": 2022,
+            "price": 38.0,
+            "favorableRate": 92.43,
+            "tags": "dataset\\2022\\tags_1902710.csv",
+            "discounts": "dataset\\2022\\discounts_1902710.csv",
+            "players": "dataset\\2022\\players_1902710.csv",
+            "totalComments": 4095,
+            "_heat_score": 33.44,
+            "_matched_tags": [
+                "Action",
+                "Souls-like",
+                "Combat",
+                "Hack and Slash"
+            ]
+        },
+        {
+            "name": "光明记忆",
+            "appid": "955050",
+            "yearForSale": 2019,
+            "price": 29.0,
+            "favorableRate": 88.5,
+            "tags": "dataset\\2019\\tags_955050.csv",
+            "discounts": "dataset\\2019\\discounts_955050.csv",
+            "players": "dataset\\2019\\players_955050.csv",
+            "totalComments": 39283,
+            "_heat_score": 33.41,
+            "_matched_tags": [
+                "Hack and Slash",
+                "Action",
+                "Souls-like"
+            ]
+        },
+        {
+            "name": "Ho Tu Lo Shu ： The Books of Dragon",
+            "appid": "952860",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 81.83,
+            "tags": "dataset\\2018\\tags_952860.csv",
+            "discounts": "dataset\\2018\\discounts_952860.csv",
+            "players": "dataset\\2018\\players_952860.csv",
+            "totalComments": 10819,
+            "_heat_score": 32.88,
+            "_matched_tags": [
+                "Martial Arts"
+            ]
+        },
+        {
+            "name": "港詭實錄ParanormalHK",
+            "appid": "1178490",
+            "yearForSale": 2020,
+            "price": 56.0,
+            "favorableRate": 89.68,
+            "tags": "dataset\\2020\\tags_1178490.csv",
+            "discounts": "dataset\\2020\\discounts_1178490.csv",
+            "players": "dataset\\2020\\players_1178490.csv",
+            "totalComments": 19629,
+            "_heat_score": 32.49,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "ANNO:Mutationem",
+            "appid": "1368030",
+            "yearForSale": 2022,
+            "price": 78.0,
+            "favorableRate": 80.86,
+            "tags": "dataset\\2022\\tags_1368030.csv",
+            "discounts": "dataset\\2022\\discounts_1368030.csv",
+            "players": "dataset\\2022\\players_1368030.csv",
+            "totalComments": 6302,
+            "_heat_score": 32.39,
+            "_matched_tags": [
+                "Action",
+                "Spectacle fighter"
+            ]
+        },
+        {
+            "name": "黑暗与光明 (Dark and Light)",
+            "appid": "529180",
+            "yearForSale": 2017,
+            "price": 52.0,
+            "favorableRate": 52.11,
+            "tags": "dataset\\2017\\tags_529180.csv",
+            "discounts": "dataset\\2017\\discounts_529180.csv",
+            "players": "dataset\\2017\\players_529180.csv",
+            "totalComments": 11778,
+            "_heat_score": 30.02,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "硬核机甲",
+            "appid": "746580",
+            "yearForSale": 2019,
+            "price": 80.0,
+            "favorableRate": 79.97,
+            "tags": "dataset\\2019\\tags_746580.csv",
+            "discounts": "dataset\\2019\\discounts_746580.csv",
+            "players": "dataset\\2019\\players_746580.csv",
+            "totalComments": 2649,
+            "_heat_score": 29.06,
+            "_matched_tags": [
+                "Action",
+                "Fighting"
+            ]
+        },
+        {
+            "name": "古剑奇谭 (GuJian)",
+            "appid": "570780",
+            "yearForSale": 2017,
+            "price": 39.0,
+            "favorableRate": 77.8,
+            "tags": "dataset\\2017\\tags_570780.csv",
+            "discounts": "dataset\\2017\\discounts_570780.csv",
+            "players": "dataset\\2017\\players_570780.csv",
+            "totalComments": 5555,
+            "_heat_score": 28.54,
+            "_matched_tags": [
+                "Martial Arts",
+                "Action"
+            ]
+        },
+        {
+            "name": "太荒初境",
+            "appid": "1504570",
+            "yearForSale": 2022,
+            "price": 68.0,
+            "favorableRate": 37.55,
+            "tags": "dataset\\2022\\tags_1504570.csv",
+            "discounts": "dataset\\2022\\discounts_1504570.csv",
+            "players": "dataset\\2022\\players_1504570.csv",
+            "totalComments": 13638,
+            "_heat_score": 27.92,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "Feed The Cups",
+            "appid": "2336220",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 31.68,
+            "tags": "dataset\\2024\\tags_2336220.csv",
+            "discounts": "dataset\\2024\\discounts_2336220.csv",
+            "players": "dataset\\2024\\players_2336220.csv",
+            "totalComments": 13929,
+            "_heat_score": 27.44,
+            "_matched_tags": [
+                "Action"
+            ]
+        },
+        {
+            "name": "古剑奇谭二 (GuJian2)",
+            "appid": "570770",
+            "yearForSale": 2017,
+            "price": 49.0,
+            "favorableRate": 74.88,
+            "tags": "dataset\\2017\\tags_570770.csv",
+            "discounts": "dataset\\2017\\discounts_570770.csv",
+            "players": "dataset\\2017\\players_570770.csv",
+            "totalComments": 2941,
+            "_heat_score": 22.18,
+            "_matched_tags": [
+                "Martial Arts",
+                "Action"
+            ]
+        },
+        {
+            "name": "武侠乂 The Swordsmen X",
+            "appid": "840140",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 47.24,
+            "tags": "dataset\\2018\\tags_840140.csv",
+            "discounts": "dataset\\2018\\discounts_840140.csv",
+            "players": "dataset\\2018\\players_840140.csv",
+            "totalComments": 3529,
+            "_heat_score": 21.24,
+            "_matched_tags": [
+                "Action",
+                "Martial Arts"
+            ]
+        },
+        {
+            "name": "Pascal's Wager: Definitive Edition",
+            "appid": "1456650",
+            "yearForSale": 2020,
+            "price": 80.0,
+            "favorableRate": 70.45,
+            "tags": "dataset\\2020\\tags_1456650.csv",
+            "discounts": "dataset\\2020\\discounts_1456650.csv",
+            "players": "dataset\\2020\\players_1456650.csv",
+            "totalComments": 1330,
+            "_heat_score": 18.47,
+            "_matched_tags": [
+                "Souls-like",
+                "Action"
+            ]
+        }
+    ],
+    "奇幻神话": [
+        {
+            "name": "Black Myth: Wukong",
+            "appid": "2358720",
+            "yearForSale": 2024,
+            "price": 268.0,
+            "favorableRate": 96.59,
+            "tags": "dataset\\2024\\tags_2358720.csv",
+            "discounts": "dataset\\2024\\discounts_2358720.csv",
+            "players": "dataset\\2024\\players_2358720.csv",
+            "totalComments": 1186287,
+            "_heat_score": 80.15,
+            "_matched_tags": [
+                "Mythology",
+                "Dark Fantasy",
+                "Fantasy"
+            ]
+        },
+        {
+            "name": "暖雪 Warm Snow",
+            "appid": "1296830",
+            "yearForSale": 2022,
+            "price": 58.0,
+            "favorableRate": 93.07,
+            "tags": "dataset\\2022\\tags_1296830.csv",
+            "discounts": "dataset\\2022\\discounts_1296830.csv",
+            "players": "dataset\\2022\\players_1296830.csv",
+            "totalComments": 38003,
+            "_heat_score": 54.69,
+            "_matched_tags": [
+                "Mythology",
+                "Dark Fantasy"
+            ]
+        },
+        {
+            "name": "火山的女儿 (Volcano Princess)",
+            "appid": "1669980",
+            "yearForSale": 2023,
+            "price": 35.0,
+            "favorableRate": 95.93,
+            "tags": "dataset\\2023\\tags_1669980.csv",
+            "discounts": "dataset\\2023\\discounts_1669980.csv",
+            "players": "dataset\\2023\\players_1669980.csv",
+            "totalComments": 45796,
+            "_heat_score": 53.71,
+            "_matched_tags": [
+                "Medieval"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Mythology"
+            ]
+        },
+        {
+            "name": "鬼谷八荒 (Tale of Immortal)",
+            "appid": "1468810",
+            "yearForSale": 2021,
+            "price": 68.0,
+            "favorableRate": 54.05,
+            "tags": "dataset\\2021\\tags_1468810.csv",
+            "discounts": "dataset\\2021\\discounts_1468810.csv",
+            "players": "dataset\\2021\\players_1468810.csv",
+            "totalComments": 226599,
+            "_heat_score": 45.94,
+            "_matched_tags": [
+                "Mythology"
+            ]
+        },
+        {
+            "name": "了不起的修仙模拟器",
+            "appid": "955900",
+            "yearForSale": 2019,
+            "price": 88.0,
+            "favorableRate": 83.95,
+            "tags": "dataset\\2019\\tags_955900.csv",
+            "discounts": "dataset\\2019\\discounts_955900.csv",
+            "players": "dataset\\2019\\players_955900.csv",
+            "totalComments": 23431,
+            "_heat_score": 45.3,
+            "_matched_tags": [
+                "Mythology",
+                "Fantasy"
+            ]
+        },
+        {
+            "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty",
+            "appid": "2593370",
+            "yearForSale": 2024,
+            "price": 37.0,
+            "favorableRate": 94.93,
+            "tags": "dataset\\2024\\tags_2593370.csv",
+            "discounts": "dataset\\2024\\discounts_2593370.csv",
+            "players": "dataset\\2024\\players_2593370.csv",
+            "totalComments": 56660,
+            "_heat_score": 44.41,
+            "_matched_tags": [
+                "Medieval"
+            ]
+        },
+        {
+            "name": "Lost Castle 2",
+            "appid": "2445690",
+            "yearForSale": 2024,
+            "price": 53.0,
+            "favorableRate": 79.74,
+            "tags": "dataset\\2024\\tags_2445690.csv",
+            "discounts": "dataset\\2024\\discounts_2445690.csv",
+            "players": "dataset\\2024\\players_2445690.csv",
+            "totalComments": 10033,
+            "_heat_score": 43.86,
+            "_matched_tags": [
+                "Magic"
+            ]
+        },
+        {
+            "name": "Gujian3(古剑奇谭三)",
+            "appid": "994280",
+            "yearForSale": 2018,
+            "price": 99.0,
+            "favorableRate": 85.97,
+            "tags": "dataset\\2018\\tags_994280.csv",
+            "discounts": "dataset\\2018\\discounts_994280.csv",
+            "players": "dataset\\2018\\players_994280.csv",
+            "totalComments": 48555,
+            "_heat_score": 42.81,
+            "_matched_tags": [
+                "Fantasy",
+                "Mythology"
+            ]
+        },
+        {
+            "name": "《文字遊戲》",
+            "appid": "1109570",
+            "yearForSale": 2022,
+            "price": 48.0,
+            "favorableRate": 93.87,
+            "tags": "dataset\\2022\\tags_1109570.csv",
+            "discounts": "dataset\\2022\\discounts_1109570.csv",
+            "players": "dataset\\2022\\players_1109570.csv",
+            "totalComments": 6138,
+            "_heat_score": 40.45,
+            "_matched_tags": [
+                "Dragons",
+                "Magic"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "Magic"
+            ]
+        },
+        {
+            "name": "仙剑奇侠传七 (Sword and Fairy 7)",
+            "appid": "1543030",
+            "yearForSale": 2021,
+            "price": 128.0,
+            "favorableRate": 71.14,
+            "tags": "dataset\\2021\\tags_1543030.csv",
+            "discounts": "dataset\\2021\\discounts_1543030.csv",
+            "players": "dataset\\2021\\players_1543030.csv",
+            "totalComments": 18800,
+            "_heat_score": 38.11,
+            "_matched_tags": [
+                "Mythology",
+                "Fantasy"
+            ]
+        },
+        {
+            "name": "古网海外版 (Swords of Legends Online)",
+            "appid": "1418100",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 65.4,
+            "tags": "dataset\\2021\\tags_1418100.csv",
+            "discounts": "dataset\\2021\\discounts_1418100.csv",
+            "players": "dataset\\2021\\players_1418100.csv",
+            "totalComments": 5819,
+            "_heat_score": 37.39,
+            "_matched_tags": [
+                "Fantasy",
+                "Magic"
+            ]
+        },
+        {
+            "name": "奇怪的RPG",
+            "appid": "1902710",
+            "yearForSale": 2022,
+            "price": 38.0,
+            "favorableRate": 92.43,
+            "tags": "dataset\\2022\\tags_1902710.csv",
+            "discounts": "dataset\\2022\\discounts_1902710.csv",
+            "players": "dataset\\2022\\players_1902710.csv",
+            "totalComments": 4095,
+            "_heat_score": 33.44,
+            "_matched_tags": [
+                "Fantasy"
+            ]
+        },
+        {
+            "name": "黑暗与光明 (Dark and Light)",
+            "appid": "529180",
+            "yearForSale": 2017,
+            "price": 52.0,
+            "favorableRate": 52.11,
+            "tags": "dataset\\2017\\tags_529180.csv",
+            "discounts": "dataset\\2017\\discounts_529180.csv",
+            "players": "dataset\\2017\\players_529180.csv",
+            "totalComments": 11778,
+            "_heat_score": 30.02,
+            "_matched_tags": [
+                "Fantasy",
+                "Magic",
+                "Dragons",
+                "Medieval"
+            ]
+        },
+        {
+            "name": "古剑奇谭 (GuJian)",
+            "appid": "570780",
+            "yearForSale": 2017,
+            "price": 39.0,
+            "favorableRate": 77.8,
+            "tags": "dataset\\2017\\tags_570780.csv",
+            "discounts": "dataset\\2017\\discounts_570780.csv",
+            "players": "dataset\\2017\\players_570780.csv",
+            "totalComments": 5555,
+            "_heat_score": 28.54,
+            "_matched_tags": [
+                "Fantasy"
+            ]
+        },
+        {
+            "name": "古剑奇谭二 (GuJian2)",
+            "appid": "570770",
+            "yearForSale": 2017,
+            "price": 49.0,
+            "favorableRate": 74.88,
+            "tags": "dataset\\2017\\tags_570770.csv",
+            "discounts": "dataset\\2017\\discounts_570770.csv",
+            "players": "dataset\\2017\\players_570770.csv",
+            "totalComments": 2941,
+            "_heat_score": 22.18,
+            "_matched_tags": [
+                "Fantasy"
+            ]
+        },
+        {
+            "name": "Pascal's Wager: Definitive Edition",
+            "appid": "1456650",
+            "yearForSale": 2020,
+            "price": 80.0,
+            "favorableRate": 70.45,
+            "tags": "dataset\\2020\\tags_1456650.csv",
+            "discounts": "dataset\\2020\\discounts_1456650.csv",
+            "players": "dataset\\2020\\players_1456650.csv",
+            "totalComments": 1330,
+            "_heat_score": 18.47,
+            "_matched_tags": [
+                "Dark Fantasy"
+            ]
+        }
+    ],
+    "休闲治愈": [
+        {
+            "name": "Black Myth: Wukong",
+            "appid": "2358720",
+            "yearForSale": 2024,
+            "price": 268.0,
+            "favorableRate": 96.59,
+            "tags": "dataset\\2024\\tags_2358720.csv",
+            "discounts": "dataset\\2024\\discounts_2358720.csv",
+            "players": "dataset\\2024\\players_2358720.csv",
+            "totalComments": 1186287,
+            "_heat_score": 80.15,
+            "_matched_tags": [
+                "Music"
+            ]
+        },
+        {
+            "name": "戴森球计划 (Dyson Sphere Program)",
+            "appid": "1366540",
+            "yearForSale": 2021,
+            "price": 70.0,
+            "favorableRate": 96.03,
+            "tags": "dataset\\2021\\tags_1366540.csv",
+            "discounts": "dataset\\2021\\discounts_1366540.csv",
+            "players": "dataset\\2021\\players_1366540.csv",
+            "totalComments": 88259,
+            "_heat_score": 60.52,
+            "_matched_tags": [
+                "Casual"
+            ]
+        },
+        {
+            "name": "失落城堡 (Lost Castle)",
+            "appid": "434650",
+            "yearForSale": 2017,
+            "price": 33.0,
+            "favorableRate": 84.96,
+            "tags": "dataset\\2017\\tags_434650.csv",
+            "discounts": "dataset\\2017\\discounts_434650.csv",
+            "players": "dataset\\2017\\players_434650.csv",
+            "totalComments": 23687,
+            "_heat_score": 57.01,
+            "_matched_tags": [
+                "Cute"
+            ]
+        },
+        {
+            "name": "完蛋！我被美女包围了！ (Love Is All Around)",
+            "appid": "2322560",
+            "yearForSale": 2023,
+            "price": 42.0,
+            "favorableRate": 91.63,
+            "tags": "dataset\\2023\\tags_2322560.csv",
+            "discounts": "dataset\\2023\\discounts_2322560.csv",
+            "players": "dataset\\2023\\players_2322560.csv",
+            "totalComments": 45787,
+            "_heat_score": 56.2,
+            "_matched_tags": [
+                "Relaxing"
+            ]
+        },
+        {
+            "name": "火山的女儿 (Volcano Princess)",
+            "appid": "1669980",
+            "yearForSale": 2023,
+            "price": 35.0,
+            "favorableRate": 95.93,
+            "tags": "dataset\\2023\\tags_1669980.csv",
+            "discounts": "dataset\\2023\\discounts_1669980.csv",
+            "players": "dataset\\2023\\players_1669980.csv",
+            "totalComments": 45796,
+            "_heat_score": 53.71,
+            "_matched_tags": [
+                "Cute"
+            ]
+        },
+        {
+            "name": "猛兽派对 (Party Animals)",
+            "appid": "1260320",
+            "yearForSale": 2023,
+            "price": 98.0,
+            "favorableRate": 78.55,
+            "tags": "dataset\\2023\\tags_1260320.csv",
+            "discounts": "dataset\\2023\\discounts_1260320.csv",
+            "players": "dataset\\2023\\players_1260320.csv",
+            "totalComments": 73171,
+            "_heat_score": 53.21,
+            "_matched_tags": [
+                "Casual",
+                "Cute",
+                "Family Friendly"
+            ]
+        },
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "Casual",
+                "Cute"
+            ]
+        },
+        {
+            "name": "My Time at Portia",
+            "appid": "666140",
+            "yearForSale": 2018,
+            "price": 98.0,
+            "favorableRate": 91.59,
+            "tags": "dataset\\2018\\tags_666140.csv",
+            "discounts": "dataset\\2018\\discounts_666140.csv",
+            "players": "dataset\\2018\\players_666140.csv",
+            "totalComments": 43820,
+            "_heat_score": 49.82,
+            "_matched_tags": [
+                "Casual",
+                "Relaxing"
+            ]
+        },
+        {
+            "name": "My Time at Sandrock",
+            "appid": "1084600",
+            "yearForSale": 2022,
+            "price": 98.0,
+            "favorableRate": 88.14,
+            "tags": "dataset\\2022\\tags_1084600.csv",
+            "discounts": "dataset\\2022\\discounts_1084600.csv",
+            "players": "dataset\\2022\\players_1084600.csv",
+            "totalComments": 27664,
+            "_heat_score": 47.91,
+            "_matched_tags": [
+                "Casual"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Casual"
+            ]
+        },
+        {
+            "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty",
+            "appid": "2593370",
+            "yearForSale": 2024,
+            "price": 37.0,
+            "favorableRate": 94.93,
+            "tags": "dataset\\2024\\tags_2593370.csv",
+            "discounts": "dataset\\2024\\discounts_2593370.csv",
+            "players": "dataset\\2024\\players_2593370.csv",
+            "totalComments": 56660,
+            "_heat_score": 44.41,
+            "_matched_tags": [
+                "Cute",
+                "Casual"
+            ]
+        },
+        {
+            "name": "中国式网游",
+            "appid": "1416920",
+            "yearForSale": 2024,
+            "price": 32.0,
+            "favorableRate": 86.0,
+            "tags": "dataset\\2024\\tags_1416920.csv",
+            "discounts": "dataset\\2024\\discounts_1416920.csv",
+            "players": "dataset\\2024\\players_1416920.csv",
+            "totalComments": 10167,
+            "_heat_score": 43.41,
+            "_matched_tags": [
+                "Casual"
+            ]
+        },
+        {
+            "name": "探灵笔记",
+            "appid": "991780",
+            "yearForSale": 2019,
+            "price": 26.0,
+            "favorableRate": 75.89,
+            "tags": "dataset\\2019\\tags_991780.csv",
+            "discounts": "dataset\\2019\\discounts_991780.csv",
+            "players": "dataset\\2019\\players_991780.csv",
+            "totalComments": 20404,
+            "_heat_score": 43.18,
+            "_matched_tags": [
+                "Casual"
+            ]
+        },
+        {
+            "name": "飞越13号房 (Breakout 13)",
+            "appid": "2095300",
+            "yearForSale": 2023,
+            "price": 32.0,
+            "favorableRate": 85.36,
+            "tags": "dataset\\2023\\tags_2095300.csv",
+            "discounts": "dataset\\2023\\discounts_2095300.csv",
+            "players": "dataset\\2023\\players_2095300.csv",
+            "totalComments": 7326,
+            "_heat_score": 42.86,
+            "_matched_tags": [
+                "Casual"
+            ]
+        },
+        {
+            "name": "风来之国 (Eastward)",
+            "appid": "977880",
+            "yearForSale": 2021,
+            "price": 80.0,
+            "favorableRate": 82.16,
+            "tags": "dataset\\2021\\tags_977880.csv",
+            "discounts": "dataset\\2021\\discounts_977880.csv",
+            "players": "dataset\\2021\\players_977880.csv",
+            "totalComments": 16202,
+            "_heat_score": 42.37,
+            "_matched_tags": [
+                "Cute",
+                "Relaxing",
+                "Casual"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "Casual"
+            ]
+        },
+        {
+            "name": "Biped",
+            "appid": "1071870",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 85.48,
+            "tags": "dataset\\2020\\tags_1071870.csv",
+            "discounts": "dataset\\2020\\discounts_1071870.csv",
+            "players": "dataset\\2020\\players_1071870.csv",
+            "totalComments": 10200,
+            "_heat_score": 37.96,
+            "_matched_tags": [
+                "Family Friendly"
+            ]
+        },
+        {
+            "name": "笼中窥梦 (Moncage)",
+            "appid": "1195290",
+            "yearForSale": 2021,
+            "price": 48.0,
+            "favorableRate": 89.3,
+            "tags": "dataset\\2021\\tags_1195290.csv",
+            "discounts": "dataset\\2021\\discounts_1195290.csv",
+            "players": "dataset\\2021\\players_1195290.csv",
+            "totalComments": 5436,
+            "_heat_score": 33.95,
+            "_matched_tags": [
+                "Casual",
+                "Clicker"
+            ]
+        },
+        {
+            "name": "三色绘恋 (Tricolour Lovestory)",
+            "appid": "668630",
+            "yearForSale": 2017,
+            "price": 11.0,
+            "favorableRate": 80.1,
+            "tags": "dataset\\2017\\tags_668630.csv",
+            "discounts": "dataset\\2017\\discounts_668630.csv",
+            "players": "dataset\\2017\\players_668630.csv",
+            "totalComments": 27995,
+            "_heat_score": 33.13,
+            "_matched_tags": [
+                "Casual",
+                "Cute"
+            ]
+        },
+        {
+            "name": "Feed The Cups",
+            "appid": "2336220",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 31.68,
+            "tags": "dataset\\2024\\tags_2336220.csv",
+            "discounts": "dataset\\2024\\discounts_2336220.csv",
+            "players": "dataset\\2024\\players_2336220.csv",
+            "totalComments": 13929,
+            "_heat_score": 27.44,
+            "_matched_tags": [
+                "Cute"
+            ]
+        }
+    ],
+    "生存开放": [
+        {
+            "name": "永劫无间 (NARAKA: BLADEPOINT)",
+            "appid": "1203220",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 68.81,
+            "tags": "dataset\\2021\\tags_1203220.csv",
+            "discounts": "dataset\\2021\\discounts_1203220.csv",
+            "players": "dataset\\2021\\players_1203220.csv",
+            "totalComments": 336077,
+            "_heat_score": 63.54,
+            "_matched_tags": [
+                "Survival"
+            ]
+        },
+        {
+            "name": "戴森球计划 (Dyson Sphere Program)",
+            "appid": "1366540",
+            "yearForSale": 2021,
+            "price": 70.0,
+            "favorableRate": 96.03,
+            "tags": "dataset\\2021\\tags_1366540.csv",
+            "discounts": "dataset\\2021\\discounts_1366540.csv",
+            "players": "dataset\\2021\\players_1366540.csv",
+            "totalComments": 88259,
+            "_heat_score": 60.52,
+            "_matched_tags": [
+                "Open World",
+                "Sandbox"
+            ]
+        },
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "Survival"
+            ]
+        },
+        {
+            "name": "逸剑风云决 (Wandering Sword)",
+            "appid": "1876890",
+            "yearForSale": 2023,
+            "price": 78.0,
+            "favorableRate": 93.06,
+            "tags": "dataset\\2023\\tags_1876890.csv",
+            "discounts": "dataset\\2023\\discounts_1876890.csv",
+            "players": "dataset\\2023\\players_1876890.csv",
+            "totalComments": 38409,
+            "_heat_score": 50.99,
+            "_matched_tags": [
+                "Open World"
+            ]
+        },
+        {
+            "name": "Soulmask",
+            "appid": "2646460",
+            "yearForSale": 2024,
+            "price": 108.0,
+            "favorableRate": 80.63,
+            "tags": "dataset\\2024\\tags_2646460.csv",
+            "discounts": "dataset\\2024\\discounts_2646460.csv",
+            "players": "dataset\\2024\\players_2646460.csv",
+            "totalComments": 16775,
+            "_heat_score": 49.93,
+            "_matched_tags": [
+                "Survival",
+                "Open World Survival Craft",
+                "Sandbox",
+                "Open World",
+                "Crafting"
+            ]
+        },
+        {
+            "name": "My Time at Portia",
+            "appid": "666140",
+            "yearForSale": 2018,
+            "price": 98.0,
+            "favorableRate": 91.59,
+            "tags": "dataset\\2018\\tags_666140.csv",
+            "discounts": "dataset\\2018\\discounts_666140.csv",
+            "players": "dataset\\2018\\players_666140.csv",
+            "totalComments": 43820,
+            "_heat_score": 49.82,
+            "_matched_tags": [
+                "Open World",
+                "Crafting",
+                "Sandbox",
+                "Survival"
+            ]
+        },
+        {
+            "name": "My Time at Sandrock",
+            "appid": "1084600",
+            "yearForSale": 2022,
+            "price": 98.0,
+            "favorableRate": 88.14,
+            "tags": "dataset\\2022\\tags_1084600.csv",
+            "discounts": "dataset\\2022\\discounts_1084600.csv",
+            "players": "dataset\\2022\\players_1084600.csv",
+            "totalComments": 27664,
+            "_heat_score": 47.91,
+            "_matched_tags": [
+                "Sandbox",
+                "Crafting",
+                "Open World"
+            ]
+        },
+        {
+            "name": "大侠立志传：碧血丹心 (Hero's Adventure: Road to Passion)",
+            "appid": "1948980",
+            "yearForSale": 2023,
+            "price": 69.0,
+            "favorableRate": 82.85,
+            "tags": "dataset\\2023\\tags_1948980.csv",
+            "discounts": "dataset\\2023\\discounts_1948980.csv",
+            "players": "dataset\\2023\\players_1948980.csv",
+            "totalComments": 23586,
+            "_heat_score": 47.41,
+            "_matched_tags": [
+                "Open World"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Sandbox",
+                "Open World"
+            ]
+        },
+        {
+            "name": "鬼谷八荒 (Tale of Immortal)",
+            "appid": "1468810",
+            "yearForSale": 2021,
+            "price": 68.0,
+            "favorableRate": 54.05,
+            "tags": "dataset\\2021\\tags_1468810.csv",
+            "discounts": "dataset\\2021\\discounts_1468810.csv",
+            "players": "dataset\\2021\\players_1468810.csv",
+            "totalComments": 226599,
+            "_heat_score": 45.94,
+            "_matched_tags": [
+                "Sandbox"
+            ]
+        },
+        {
+            "name": "了不起的修仙模拟器",
+            "appid": "955900",
+            "yearForSale": 2019,
+            "price": 88.0,
+            "favorableRate": 83.95,
+            "tags": "dataset\\2019\\tags_955900.csv",
+            "discounts": "dataset\\2019\\discounts_955900.csv",
+            "players": "dataset\\2019\\players_955900.csv",
+            "totalComments": 23431,
+            "_heat_score": 45.3,
+            "_matched_tags": [
+                "Sandbox",
+                "Survival",
+                "Open World"
+            ]
+        },
+        {
+            "name": "Sands of Salzaar",
+            "appid": "1094520",
+            "yearForSale": 2020,
+            "price": 48.0,
+            "favorableRate": 81.86,
+            "tags": "dataset\\2020\\tags_1094520.csv",
+            "discounts": "dataset\\2020\\discounts_1094520.csv",
+            "players": "dataset\\2020\\players_1094520.csv",
+            "totalComments": 22806,
+            "_heat_score": 44.94,
+            "_matched_tags": [
+                "Open World",
+                "Sandbox"
+            ]
+        },
+        {
+            "name": "Gujian3(古剑奇谭三)",
+            "appid": "994280",
+            "yearForSale": 2018,
+            "price": 99.0,
+            "favorableRate": 85.97,
+            "tags": "dataset\\2018\\tags_994280.csv",
+            "discounts": "dataset\\2018\\discounts_994280.csv",
+            "players": "dataset\\2018\\players_994280.csv",
+            "totalComments": 48555,
+            "_heat_score": 42.81,
+            "_matched_tags": [
+                "Open World"
+            ]
+        },
+        {
+            "name": "嗜血印",
+            "appid": "992300",
+            "yearForSale": 2019,
+            "price": 79.0,
+            "favorableRate": 87.88,
+            "tags": "dataset\\2019\\tags_992300.csv",
+            "discounts": "dataset\\2019\\discounts_992300.csv",
+            "players": "dataset\\2019\\players_992300.csv",
+            "totalComments": 38087,
+            "_heat_score": 41.12,
+            "_matched_tags": [
+                "Open World"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "Survival",
+                "Open World",
+                "Sandbox",
+                "Crafting"
+            ]
+        },
+        {
+            "name": "仙剑奇侠传七 (Sword and Fairy 7)",
+            "appid": "1543030",
+            "yearForSale": 2021,
+            "price": 128.0,
+            "favorableRate": 71.14,
+            "tags": "dataset\\2021\\tags_1543030.csv",
+            "discounts": "dataset\\2021\\discounts_1543030.csv",
+            "players": "dataset\\2021\\players_1543030.csv",
+            "totalComments": 18800,
+            "_heat_score": 38.11,
+            "_matched_tags": [
+                "Open World"
+            ]
+        },
+        {
+            "name": "Biped",
+            "appid": "1071870",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 85.48,
+            "tags": "dataset\\2020\\tags_1071870.csv",
+            "discounts": "dataset\\2020\\discounts_1071870.csv",
+            "players": "dataset\\2020\\players_1071870.csv",
+            "totalComments": 10200,
+            "_heat_score": 37.96,
+            "_matched_tags": [
+                "Open World"
+            ]
+        },
+        {
+            "name": "古网海外版 (Swords of Legends Online)",
+            "appid": "1418100",
+            "yearForSale": 2021,
+            "price": 0.0,
+            "favorableRate": 65.4,
+            "tags": "dataset\\2021\\tags_1418100.csv",
+            "discounts": "dataset\\2021\\discounts_1418100.csv",
+            "players": "dataset\\2021\\players_1418100.csv",
+            "totalComments": 5819,
+            "_heat_score": 37.39,
+            "_matched_tags": [
+                "Open World",
+                "Sandbox"
+            ]
+        },
+        {
+            "name": "笼中窥梦 (Moncage)",
+            "appid": "1195290",
+            "yearForSale": 2021,
+            "price": 48.0,
+            "favorableRate": 89.3,
+            "tags": "dataset\\2021\\tags_1195290.csv",
+            "discounts": "dataset\\2021\\discounts_1195290.csv",
+            "players": "dataset\\2021\\players_1195290.csv",
+            "totalComments": 5436,
+            "_heat_score": 33.95,
+            "_matched_tags": [
+                "Sandbox"
+            ]
+        },
+        {
+            "name": "光明记忆",
+            "appid": "955050",
+            "yearForSale": 2019,
+            "price": 29.0,
+            "favorableRate": 88.5,
+            "tags": "dataset\\2019\\tags_955050.csv",
+            "discounts": "dataset\\2019\\discounts_955050.csv",
+            "players": "dataset\\2019\\players_955050.csv",
+            "totalComments": 39283,
+            "_heat_score": 33.41,
+            "_matched_tags": [
+                "Open World"
+            ]
+        },
+        {
+            "name": "Ho Tu Lo Shu ： The Books of Dragon",
+            "appid": "952860",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 81.83,
+            "tags": "dataset\\2018\\tags_952860.csv",
+            "discounts": "dataset\\2018\\discounts_952860.csv",
+            "players": "dataset\\2018\\players_952860.csv",
+            "totalComments": 10819,
+            "_heat_score": 32.88,
+            "_matched_tags": [
+                "Open World",
+                "Sandbox"
+            ]
+        },
+        {
+            "name": "黑暗与光明 (Dark and Light)",
+            "appid": "529180",
+            "yearForSale": 2017,
+            "price": 52.0,
+            "favorableRate": 52.11,
+            "tags": "dataset\\2017\\tags_529180.csv",
+            "discounts": "dataset\\2017\\discounts_529180.csv",
+            "players": "dataset\\2017\\players_529180.csv",
+            "totalComments": 11778,
+            "_heat_score": 30.02,
+            "_matched_tags": [
+                "Open World",
+                "Survival",
+                "Sandbox",
+                "Open World Survival Craft",
+                "Crafting"
+            ]
+        },
+        {
+            "name": "无人生还 (No One Survived)",
+            "appid": "1963370",
+            "yearForSale": 2023,
+            "price": 68.0,
+            "favorableRate": 64.53,
+            "tags": "dataset\\2023\\tags_1963370.csv",
+            "discounts": "dataset\\2023\\discounts_1963370.csv",
+            "players": "dataset\\2023\\players_1963370.csv",
+            "totalComments": 7359,
+            "_heat_score": 29.38,
+            "_matched_tags": [
+                "Survival",
+                "Open World",
+                "Crafting",
+                "Sandbox"
+            ]
+        },
+        {
+            "name": "太荒初境",
+            "appid": "1504570",
+            "yearForSale": 2022,
+            "price": 68.0,
+            "favorableRate": 37.55,
+            "tags": "dataset\\2022\\tags_1504570.csv",
+            "discounts": "dataset\\2022\\discounts_1504570.csv",
+            "players": "dataset\\2022\\players_1504570.csv",
+            "totalComments": 13638,
+            "_heat_score": 27.92,
+            "_matched_tags": [
+                "Sandbox",
+                "Survival",
+                "Open World Survival Craft",
+                "Open World"
+            ]
+        },
+        {
+            "name": "Feed The Cups",
+            "appid": "2336220",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 31.68,
+            "tags": "dataset\\2024\\tags_2336220.csv",
+            "discounts": "dataset\\2024\\discounts_2336220.csv",
+            "players": "dataset\\2024\\players_2336220.csv",
+            "totalComments": 13929,
+            "_heat_score": 27.44,
+            "_matched_tags": [
+                "Crafting"
+            ]
+        },
+        {
+            "name": "武侠乂 The Swordsmen X",
+            "appid": "840140",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 47.24,
+            "tags": "dataset\\2018\\tags_840140.csv",
+            "discounts": "dataset\\2018\\discounts_840140.csv",
+            "players": "dataset\\2018\\players_840140.csv",
+            "totalComments": 3529,
+            "_heat_score": 21.24,
+            "_matched_tags": [
+                "Open World",
+                "Survival"
+            ]
+        }
+    ],
+    "射击弹幕": [
+        {
+            "name": "Gunfire Reborn",
+            "appid": "1217060",
+            "yearForSale": 2020,
+            "price": 68.0,
+            "favorableRate": 93.27,
+            "tags": "dataset\\2020\\tags_1217060.csv",
+            "discounts": "dataset\\2020\\discounts_1217060.csv",
+            "players": "dataset\\2020\\players_1217060.csv",
+            "totalComments": 101753,
+            "_heat_score": 54.78,
+            "_matched_tags": [
+                "FPS",
+                "Looter Shooter",
+                "Shooter"
+            ]
+        },
+        {
+            "name": "Neon Abyss",
+            "appid": "788100",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 86.05,
+            "tags": "dataset\\2020\\tags_788100.csv",
+            "discounts": "dataset\\2020\\discounts_788100.csv",
+            "players": "dataset\\2020\\players_788100.csv",
+            "totalComments": 23389,
+            "_heat_score": 39.85,
+            "_matched_tags": [
+                "Shooter",
+                "Bullet Hell"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "FPS"
+            ]
+        },
+        {
+            "name": "光明记忆",
+            "appid": "955050",
+            "yearForSale": 2019,
+            "price": 29.0,
+            "favorableRate": 88.5,
+            "tags": "dataset\\2019\\tags_955050.csv",
+            "discounts": "dataset\\2019\\discounts_955050.csv",
+            "players": "dataset\\2019\\players_955050.csv",
+            "totalComments": 39283,
+            "_heat_score": 33.41,
+            "_matched_tags": [
+                "FPS",
+                "Shooter"
+            ]
+        },
+        {
+            "name": "三色绘恋 (Tricolour Lovestory)",
+            "appid": "668630",
+            "yearForSale": 2017,
+            "price": 11.0,
+            "favorableRate": 80.1,
+            "tags": "dataset\\2017\\tags_668630.csv",
+            "discounts": "dataset\\2017\\discounts_668630.csv",
+            "players": "dataset\\2017\\players_668630.csv",
+            "totalComments": 27995,
+            "_heat_score": 33.13,
+            "_matched_tags": [
+                "FPS"
+            ]
+        },
+        {
+            "name": "港詭實錄ParanormalHK",
+            "appid": "1178490",
+            "yearForSale": 2020,
+            "price": 56.0,
+            "favorableRate": 89.68,
+            "tags": "dataset\\2020\\tags_1178490.csv",
+            "discounts": "dataset\\2020\\discounts_1178490.csv",
+            "players": "dataset\\2020\\players_1178490.csv",
+            "totalComments": 19629,
+            "_heat_score": 32.49,
+            "_matched_tags": [
+                "FPS"
+            ]
+        },
+        {
+            "name": "硬核机甲",
+            "appid": "746580",
+            "yearForSale": 2019,
+            "price": 80.0,
+            "favorableRate": 79.97,
+            "tags": "dataset\\2019\\tags_746580.csv",
+            "discounts": "dataset\\2019\\discounts_746580.csv",
+            "players": "dataset\\2019\\players_746580.csv",
+            "totalComments": 2649,
+            "_heat_score": 29.06,
+            "_matched_tags": [
+                "Shooter"
+            ]
+        }
+    ],
+    "解谜探案": [
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "Puzzle"
+            ]
+        },
+        {
+            "name": "Murders on the Yangtze River",
+            "appid": "1746030",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 97.21,
+            "tags": "dataset\\2024\\tags_1746030.csv",
+            "discounts": "dataset\\2024\\discounts_1746030.csv",
+            "players": "dataset\\2024\\players_1746030.csv",
+            "totalComments": 19715,
+            "_heat_score": 44.43,
+            "_matched_tags": [
+                "Detective",
+                "Puzzle",
+                "Mystery",
+                "Puzzle Platformer",
+                "Investigation",
+                "Logic"
+            ]
+        },
+        {
+            "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty",
+            "appid": "2593370",
+            "yearForSale": 2024,
+            "price": 37.0,
+            "favorableRate": 94.93,
+            "tags": "dataset\\2024\\tags_2593370.csv",
+            "discounts": "dataset\\2024\\discounts_2593370.csv",
+            "players": "dataset\\2024\\players_2593370.csv",
+            "totalComments": 56660,
+            "_heat_score": 44.41,
+            "_matched_tags": [
+                "Mystery"
+            ]
+        },
+        {
+            "name": "疑案追声",
+            "appid": "942970",
+            "yearForSale": 2019,
+            "price": 38.0,
+            "favorableRate": 94.13,
+            "tags": "dataset\\2019\\tags_942970.csv",
+            "discounts": "dataset\\2019\\discounts_942970.csv",
+            "players": "dataset\\2019\\players_942970.csv",
+            "totalComments": 32238,
+            "_heat_score": 44.26,
+            "_matched_tags": [
+                "Detective",
+                "Puzzle",
+                "Mystery",
+                "Investigation",
+                "Point & Click"
+            ]
+        },
+        {
+            "name": "飞越13号房 (Breakout 13)",
+            "appid": "2095300",
+            "yearForSale": 2023,
+            "price": 32.0,
+            "favorableRate": 85.36,
+            "tags": "dataset\\2023\\tags_2095300.csv",
+            "discounts": "dataset\\2023\\discounts_2095300.csv",
+            "players": "dataset\\2023\\players_2095300.csv",
+            "totalComments": 7326,
+            "_heat_score": 42.86,
+            "_matched_tags": [
+                "Puzzle",
+                "Detective",
+                "Point & Click"
+            ]
+        },
+        {
+            "name": "《文字遊戲》",
+            "appid": "1109570",
+            "yearForSale": 2022,
+            "price": 48.0,
+            "favorableRate": 93.87,
+            "tags": "dataset\\2022\\tags_1109570.csv",
+            "discounts": "dataset\\2022\\discounts_1109570.csv",
+            "players": "dataset\\2022\\players_1109570.csv",
+            "totalComments": 6138,
+            "_heat_score": 40.45,
+            "_matched_tags": [
+                "Puzzle",
+                "Logic"
+            ]
+        },
+        {
+            "name": "Biped",
+            "appid": "1071870",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 85.48,
+            "tags": "dataset\\2020\\tags_1071870.csv",
+            "discounts": "dataset\\2020\\discounts_1071870.csv",
+            "players": "dataset\\2020\\players_1071870.csv",
+            "totalComments": 10200,
+            "_heat_score": 37.96,
+            "_matched_tags": [
+                "Puzzle",
+                "Puzzle Platformer"
+            ]
+        },
+        {
+            "name": "笼中窥梦 (Moncage)",
+            "appid": "1195290",
+            "yearForSale": 2021,
+            "price": 48.0,
+            "favorableRate": 89.3,
+            "tags": "dataset\\2021\\tags_1195290.csv",
+            "discounts": "dataset\\2021\\discounts_1195290.csv",
+            "players": "dataset\\2021\\players_1195290.csv",
+            "totalComments": 5436,
+            "_heat_score": 33.95,
+            "_matched_tags": [
+                "Puzzle",
+                "Puzzle Platformer"
+            ]
+        },
+        {
+            "name": "港詭實錄ParanormalHK",
+            "appid": "1178490",
+            "yearForSale": 2020,
+            "price": 56.0,
+            "favorableRate": 89.68,
+            "tags": "dataset\\2020\\tags_1178490.csv",
+            "discounts": "dataset\\2020\\discounts_1178490.csv",
+            "players": "dataset\\2020\\players_1178490.csv",
+            "totalComments": 19629,
+            "_heat_score": 32.49,
+            "_matched_tags": [
+                "Puzzle"
+            ]
+        },
+        {
+            "name": "返校 (Detention)",
+            "appid": "555220",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 80.42,
+            "tags": "dataset\\2017\\tags_555220.csv",
+            "discounts": "dataset\\2017\\discounts_555220.csv",
+            "players": "dataset\\2017\\players_555220.csv",
+            "totalComments": 14624,
+            "_heat_score": 30.91,
+            "_matched_tags": [
+                "Point & Click"
+            ]
+        }
+    ],
+    "剧情叙事": [
+        {
+            "name": "Black Myth: Wukong",
+            "appid": "2358720",
+            "yearForSale": 2024,
+            "price": 268.0,
+            "favorableRate": 96.59,
+            "tags": "dataset\\2024\\tags_2358720.csv",
+            "discounts": "dataset\\2024\\discounts_2358720.csv",
+            "players": "dataset\\2024\\players_2358720.csv",
+            "totalComments": 1186287,
+            "_heat_score": 80.15,
+            "_matched_tags": [
+                "Drama"
+            ]
+        },
+        {
+            "name": "完蛋！我被美女包围了！ (Love Is All Around)",
+            "appid": "2322560",
+            "yearForSale": 2023,
+            "price": 42.0,
+            "favorableRate": 91.63,
+            "tags": "dataset\\2023\\tags_2322560.csv",
+            "discounts": "dataset\\2023\\discounts_2322560.csv",
+            "players": "dataset\\2023\\players_2322560.csv",
+            "totalComments": 45787,
+            "_heat_score": 56.2,
+            "_matched_tags": [
+                "Dating Sim",
+                "FMV",
+                "Visual Novel",
+                "Romance",
+                "Multiple Endings",
+                "Choices Matter",
+                "Interactive Fiction",
+                "Choose Your Own Adventure",
+                "Drama"
+            ]
+        },
+        {
+            "name": "暖雪 Warm Snow",
+            "appid": "1296830",
+            "yearForSale": 2022,
+            "price": 58.0,
+            "favorableRate": 93.07,
+            "tags": "dataset\\2022\\tags_1296830.csv",
+            "discounts": "dataset\\2022\\discounts_1296830.csv",
+            "players": "dataset\\2022\\players_1296830.csv",
+            "totalComments": 38003,
+            "_heat_score": 54.69,
+            "_matched_tags": [
+                "Multiple Endings"
+            ]
+        },
+        {
+            "name": "隐形守护者",
+            "appid": "998940",
+            "yearForSale": 2019,
+            "price": 28.0,
+            "favorableRate": 85.46,
+            "tags": "dataset\\2019\\tags_998940.csv",
+            "discounts": "dataset\\2019\\discounts_998940.csv",
+            "players": "dataset\\2019\\players_998940.csv",
+            "totalComments": 51655,
+            "_heat_score": 54.42,
+            "_matched_tags": [
+                "Choices Matter",
+                "FMV",
+                "Visual Novel",
+                "Multiple Endings",
+                "Drama",
+                "Interactive Fiction",
+                "Dating Sim"
+            ]
+        },
+        {
+            "name": "火山的女儿 (Volcano Princess)",
+            "appid": "1669980",
+            "yearForSale": 2023,
+            "price": 35.0,
+            "favorableRate": 95.93,
+            "tags": "dataset\\2023\\tags_1669980.csv",
+            "discounts": "dataset\\2023\\discounts_1669980.csv",
+            "players": "dataset\\2023\\players_1669980.csv",
+            "totalComments": 45796,
+            "_heat_score": 53.71,
+            "_matched_tags": [
+                "Multiple Endings",
+                "Choices Matter",
+                "Dating Sim",
+                "Visual Novel",
+                "Drama"
+            ]
+        },
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "Dating Sim"
+            ]
+        },
+        {
+            "name": "逸剑风云决 (Wandering Sword)",
+            "appid": "1876890",
+            "yearForSale": 2023,
+            "price": 78.0,
+            "favorableRate": 93.06,
+            "tags": "dataset\\2023\\tags_1876890.csv",
+            "discounts": "dataset\\2023\\discounts_1876890.csv",
+            "players": "dataset\\2023\\players_1876890.csv",
+            "totalComments": 38409,
+            "_heat_score": 50.99,
+            "_matched_tags": [
+                "Drama"
+            ]
+        },
+        {
+            "name": "My Time at Sandrock",
+            "appid": "1084600",
+            "yearForSale": 2022,
+            "price": 98.0,
+            "favorableRate": 88.14,
+            "tags": "dataset\\2022\\tags_1084600.csv",
+            "discounts": "dataset\\2022\\discounts_1084600.csv",
+            "players": "dataset\\2022\\players_1084600.csv",
+            "totalComments": 27664,
+            "_heat_score": 47.91,
+            "_matched_tags": [
+                "Dating Sim"
+            ]
+        },
+        {
+            "name": "大侠立志传：碧血丹心 (Hero's Adventure: Road to Passion)",
+            "appid": "1948980",
+            "yearForSale": 2023,
+            "price": 69.0,
+            "favorableRate": 82.85,
+            "tags": "dataset\\2023\\tags_1948980.csv",
+            "discounts": "dataset\\2023\\discounts_1948980.csv",
+            "players": "dataset\\2023\\players_1948980.csv",
+            "totalComments": 23586,
+            "_heat_score": 47.41,
+            "_matched_tags": [
+                "Multiple Endings",
+                "Choose Your Own Adventure",
+                "Drama"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Dating Sim"
+            ]
+        },
+        {
+            "name": "鬼谷八荒 (Tale of Immortal)",
+            "appid": "1468810",
+            "yearForSale": 2021,
+            "price": 68.0,
+            "favorableRate": 54.05,
+            "tags": "dataset\\2021\\tags_1468810.csv",
+            "discounts": "dataset\\2021\\discounts_1468810.csv",
+            "players": "dataset\\2021\\players_1468810.csv",
+            "totalComments": 226599,
+            "_heat_score": 45.94,
+            "_matched_tags": [
+                "Dating Sim",
+                "Choose Your Own Adventure"
+            ]
+        },
+        {
+            "name": "Murders on the Yangtze River",
+            "appid": "1746030",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 97.21,
+            "tags": "dataset\\2024\\tags_1746030.csv",
+            "discounts": "dataset\\2024\\discounts_1746030.csv",
+            "players": "dataset\\2024\\players_1746030.csv",
+            "totalComments": 19715,
+            "_heat_score": 44.43,
+            "_matched_tags": [
+                "Drama",
+                "Text-Based"
+            ]
+        },
+        {
+            "name": "The Hungry Lamb: Traveling in the Late Ming Dynasty",
+            "appid": "2593370",
+            "yearForSale": 2024,
+            "price": 37.0,
+            "favorableRate": 94.93,
+            "tags": "dataset\\2024\\tags_2593370.csv",
+            "discounts": "dataset\\2024\\discounts_2593370.csv",
+            "players": "dataset\\2024\\players_2593370.csv",
+            "totalComments": 56660,
+            "_heat_score": 44.41,
+            "_matched_tags": [
+                "Visual Novel",
+                "Multiple Endings",
+                "Interactive Fiction",
+                "Dating Sim",
+                "Drama",
+                "Romance"
+            ]
+        },
+        {
+            "name": "中国式网游",
+            "appid": "1416920",
+            "yearForSale": 2024,
+            "price": 32.0,
+            "favorableRate": 86.0,
+            "tags": "dataset\\2024\\tags_1416920.csv",
+            "discounts": "dataset\\2024\\discounts_1416920.csv",
+            "players": "dataset\\2024\\players_1416920.csv",
+            "totalComments": 10167,
+            "_heat_score": 43.41,
+            "_matched_tags": [
+                "Multiple Endings"
+            ]
+        },
+        {
+            "name": "飞越13号房 (Breakout 13)",
+            "appid": "2095300",
+            "yearForSale": 2023,
+            "price": 32.0,
+            "favorableRate": 85.36,
+            "tags": "dataset\\2023\\tags_2095300.csv",
+            "discounts": "dataset\\2023\\discounts_2095300.csv",
+            "players": "dataset\\2023\\players_2095300.csv",
+            "totalComments": 7326,
+            "_heat_score": 42.86,
+            "_matched_tags": [
+                "FMV",
+                "Interactive Fiction",
+                "Choose Your Own Adventure",
+                "Choices Matter",
+                "Multiple Endings"
+            ]
+        },
+        {
+            "name": "Gujian3(古剑奇谭三)",
+            "appid": "994280",
+            "yearForSale": 2018,
+            "price": 99.0,
+            "favorableRate": 85.97,
+            "tags": "dataset\\2018\\tags_994280.csv",
+            "discounts": "dataset\\2018\\discounts_994280.csv",
+            "players": "dataset\\2018\\players_994280.csv",
+            "totalComments": 48555,
+            "_heat_score": 42.81,
+            "_matched_tags": [
+                "Drama"
+            ]
+        },
+        {
+            "name": "俠之道(PathOfWuxia)",
+            "appid": "1189630",
+            "yearForSale": 2020,
+            "price": 98.0,
+            "favorableRate": 78.33,
+            "tags": "dataset\\2020\\tags_1189630.csv",
+            "discounts": "dataset\\2020\\discounts_1189630.csv",
+            "players": "dataset\\2020\\players_1189630.csv",
+            "totalComments": 30290,
+            "_heat_score": 41.64,
+            "_matched_tags": [
+                "Choices Matter",
+                "Dating Sim"
+            ]
+        },
+        {
+            "name": "《文字遊戲》",
+            "appid": "1109570",
+            "yearForSale": 2022,
+            "price": 48.0,
+            "favorableRate": 93.87,
+            "tags": "dataset\\2022\\tags_1109570.csv",
+            "discounts": "dataset\\2022\\discounts_1109570.csv",
+            "players": "dataset\\2022\\players_1109570.csv",
+            "totalComments": 6138,
+            "_heat_score": 40.45,
+            "_matched_tags": [
+                "Choose Your Own Adventure",
+                "Multiple Endings"
+            ]
+        },
+        {
+            "name": "仙剑奇侠传七 (Sword and Fairy 7)",
+            "appid": "1543030",
+            "yearForSale": 2021,
+            "price": 128.0,
+            "favorableRate": 71.14,
+            "tags": "dataset\\2021\\tags_1543030.csv",
+            "discounts": "dataset\\2021\\discounts_1543030.csv",
+            "players": "dataset\\2021\\players_1543030.csv",
+            "totalComments": 18800,
+            "_heat_score": 38.11,
+            "_matched_tags": [
+                "Romance"
+            ]
+        },
+        {
+            "name": "笼中窥梦 (Moncage)",
+            "appid": "1195290",
+            "yearForSale": 2021,
+            "price": 48.0,
+            "favorableRate": 89.3,
+            "tags": "dataset\\2021\\tags_1195290.csv",
+            "discounts": "dataset\\2021\\discounts_1195290.csv",
+            "players": "dataset\\2021\\players_1195290.csv",
+            "totalComments": 5436,
+            "_heat_score": 33.95,
+            "_matched_tags": [
+                "Drama"
+            ]
+        },
+        {
+            "name": "三色绘恋 (Tricolour Lovestory)",
+            "appid": "668630",
+            "yearForSale": 2017,
+            "price": 11.0,
+            "favorableRate": 80.1,
+            "tags": "dataset\\2017\\tags_668630.csv",
+            "discounts": "dataset\\2017\\discounts_668630.csv",
+            "players": "dataset\\2017\\players_668630.csv",
+            "totalComments": 27995,
+            "_heat_score": 33.13,
+            "_matched_tags": [
+                "Visual Novel",
+                "Dating Sim",
+                "Romance",
+                "Drama"
+            ]
+        },
+        {
+            "name": "Ho Tu Lo Shu ： The Books of Dragon",
+            "appid": "952860",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 81.83,
+            "tags": "dataset\\2018\\tags_952860.csv",
+            "discounts": "dataset\\2018\\discounts_952860.csv",
+            "players": "dataset\\2018\\players_952860.csv",
+            "totalComments": 10819,
+            "_heat_score": 32.88,
+            "_matched_tags": [
+                "Multiple Endings",
+                "Dating Sim"
+            ]
+        },
+        {
+            "name": "港詭實錄ParanormalHK",
+            "appid": "1178490",
+            "yearForSale": 2020,
+            "price": 56.0,
+            "favorableRate": 89.68,
+            "tags": "dataset\\2020\\tags_1178490.csv",
+            "discounts": "dataset\\2020\\discounts_1178490.csv",
+            "players": "dataset\\2020\\players_1178490.csv",
+            "totalComments": 19629,
+            "_heat_score": 32.49,
+            "_matched_tags": [
+                "Dating Sim",
+                "Drama"
+            ]
+        },
+        {
+            "name": "返校 (Detention)",
+            "appid": "555220",
+            "yearForSale": 2017,
+            "price": 38.0,
+            "favorableRate": 80.42,
+            "tags": "dataset\\2017\\tags_555220.csv",
+            "discounts": "dataset\\2017\\discounts_555220.csv",
+            "players": "dataset\\2017\\players_555220.csv",
+            "totalComments": 14624,
+            "_heat_score": 30.91,
+            "_matched_tags": [
+                "Drama",
+                "Visual Novel"
+            ]
+        },
+        {
+            "name": "古剑奇谭二 (GuJian2)",
+            "appid": "570770",
+            "yearForSale": 2017,
+            "price": 49.0,
+            "favorableRate": 74.88,
+            "tags": "dataset\\2017\\tags_570770.csv",
+            "discounts": "dataset\\2017\\discounts_570770.csv",
+            "players": "dataset\\2017\\players_570770.csv",
+            "totalComments": 2941,
+            "_heat_score": 22.18,
+            "_matched_tags": [
+                "Romance",
+                "Drama"
+            ]
+        }
+    ],
+    "策略战棋": [
+        {
+            "name": "戴森球计划 (Dyson Sphere Program)",
+            "appid": "1366540",
+            "yearForSale": 2021,
+            "price": 70.0,
+            "favorableRate": 96.03,
+            "tags": "dataset\\2021\\tags_1366540.csv",
+            "discounts": "dataset\\2021\\discounts_1366540.csv",
+            "players": "dataset\\2021\\players_1366540.csv",
+            "totalComments": 88259,
+            "_heat_score": 60.52,
+            "_matched_tags": [
+                "Strategy",
+                "RTS"
+            ]
+        },
+        {
+            "name": "火山的女儿 (Volcano Princess)",
+            "appid": "1669980",
+            "yearForSale": 2023,
+            "price": 35.0,
+            "favorableRate": 95.93,
+            "tags": "dataset\\2023\\tags_1669980.csv",
+            "discounts": "dataset\\2023\\discounts_1669980.csv",
+            "players": "dataset\\2023\\players_1669980.csv",
+            "totalComments": 45796,
+            "_heat_score": 53.71,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "Chinese Parents",
+            "appid": "736190",
+            "yearForSale": 2018,
+            "price": 36.0,
+            "favorableRate": 91.42,
+            "tags": "dataset\\2018\\tags_736190.csv",
+            "discounts": "dataset\\2018\\discounts_736190.csv",
+            "players": "dataset\\2018\\players_736190.csv",
+            "totalComments": 26306,
+            "_heat_score": 52.04,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "逸剑风云决 (Wandering Sword)",
+            "appid": "1876890",
+            "yearForSale": 2023,
+            "price": 78.0,
+            "favorableRate": 93.06,
+            "tags": "dataset\\2023\\tags_1876890.csv",
+            "discounts": "dataset\\2023\\discounts_1876890.csv",
+            "players": "dataset\\2023\\players_1876890.csv",
+            "totalComments": 38409,
+            "_heat_score": 50.99,
+            "_matched_tags": [
+                "Strategy",
+                "Tactical",
+                "Turn-Based Strategy"
+            ]
+        },
+        {
+            "name": "大侠立志传：碧血丹心 (Hero's Adventure: Road to Passion)",
+            "appid": "1948980",
+            "yearForSale": 2023,
+            "price": 69.0,
+            "favorableRate": 82.85,
+            "tags": "dataset\\2023\\tags_1948980.csv",
+            "discounts": "dataset\\2023\\discounts_1948980.csv",
+            "players": "dataset\\2023\\players_1948980.csv",
+            "totalComments": 23586,
+            "_heat_score": 47.41,
+            "_matched_tags": [
+                "Strategy",
+                "Turn-Based Strategy"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "了不起的修仙模拟器",
+            "appid": "955900",
+            "yearForSale": 2019,
+            "price": 88.0,
+            "favorableRate": 83.95,
+            "tags": "dataset\\2019\\tags_955900.csv",
+            "discounts": "dataset\\2019\\discounts_955900.csv",
+            "players": "dataset\\2019\\players_955900.csv",
+            "totalComments": 23431,
+            "_heat_score": 45.3,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "Sands of Salzaar",
+            "appid": "1094520",
+            "yearForSale": 2020,
+            "price": 48.0,
+            "favorableRate": 81.86,
+            "tags": "dataset\\2020\\tags_1094520.csv",
+            "discounts": "dataset\\2020\\discounts_1094520.csv",
+            "players": "dataset\\2020\\players_1094520.csv",
+            "totalComments": 22806,
+            "_heat_score": 44.94,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "探灵笔记",
+            "appid": "991780",
+            "yearForSale": 2019,
+            "price": 26.0,
+            "favorableRate": 75.89,
+            "tags": "dataset\\2019\\tags_991780.csv",
+            "discounts": "dataset\\2019\\discounts_991780.csv",
+            "players": "dataset\\2019\\players_991780.csv",
+            "totalComments": 20404,
+            "_heat_score": 43.18,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "飞越13号房 (Breakout 13)",
+            "appid": "2095300",
+            "yearForSale": 2023,
+            "price": 32.0,
+            "favorableRate": 85.36,
+            "tags": "dataset\\2023\\tags_2095300.csv",
+            "discounts": "dataset\\2023\\discounts_2095300.csv",
+            "players": "dataset\\2023\\players_2095300.csv",
+            "totalComments": 7326,
+            "_heat_score": 42.86,
+            "_matched_tags": [
+                "RTS"
+            ]
+        },
+        {
+            "name": "《文字遊戲》",
+            "appid": "1109570",
+            "yearForSale": 2022,
+            "price": 48.0,
+            "favorableRate": 93.87,
+            "tags": "dataset\\2022\\tags_1109570.csv",
+            "discounts": "dataset\\2022\\discounts_1109570.csv",
+            "players": "dataset\\2022\\players_1109570.csv",
+            "totalComments": 6138,
+            "_heat_score": 40.45,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "PixARK",
+            "appid": "593600",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 72.96,
+            "tags": "dataset\\2018\\tags_593600.csv",
+            "discounts": "dataset\\2018\\discounts_593600.csv",
+            "players": "dataset\\2018\\players_593600.csv",
+            "totalComments": 12835,
+            "_heat_score": 38.82,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "奇怪的RPG",
+            "appid": "1902710",
+            "yearForSale": 2022,
+            "price": 38.0,
+            "favorableRate": 92.43,
+            "tags": "dataset\\2022\\tags_1902710.csv",
+            "discounts": "dataset\\2022\\discounts_1902710.csv",
+            "players": "dataset\\2022\\players_1902710.csv",
+            "totalComments": 4095,
+            "_heat_score": 33.44,
+            "_matched_tags": [
+                "Real Time Tactics"
+            ]
+        },
+        {
+            "name": "Ho Tu Lo Shu ： The Books of Dragon",
+            "appid": "952860",
+            "yearForSale": 2018,
+            "price": 88.0,
+            "favorableRate": 81.83,
+            "tags": "dataset\\2018\\tags_952860.csv",
+            "discounts": "dataset\\2018\\discounts_952860.csv",
+            "players": "dataset\\2018\\players_952860.csv",
+            "totalComments": 10819,
+            "_heat_score": 32.88,
+            "_matched_tags": [
+                "Strategy"
+            ]
+        },
+        {
+            "name": "太荒初境",
+            "appid": "1504570",
+            "yearForSale": 2022,
+            "price": 68.0,
+            "favorableRate": 37.55,
+            "tags": "dataset\\2022\\tags_1504570.csv",
+            "discounts": "dataset\\2022\\discounts_1504570.csv",
+            "players": "dataset\\2022\\players_1504570.csv",
+            "totalComments": 13638,
+            "_heat_score": 27.92,
+            "_matched_tags": [
+                "Strategy",
+                "Tower Defense"
+            ]
+        }
+    ],
+    "肉鸽挑战": [
+        {
+            "name": "失落城堡 (Lost Castle)",
+            "appid": "434650",
+            "yearForSale": 2017,
+            "price": 33.0,
+            "favorableRate": 84.96,
+            "tags": "dataset\\2017\\tags_434650.csv",
+            "discounts": "dataset\\2017\\discounts_434650.csv",
+            "players": "dataset\\2017\\players_434650.csv",
+            "totalComments": 23687,
+            "_heat_score": 57.01,
+            "_matched_tags": [
+                "Dungeon Crawler"
+            ]
+        },
+        {
+            "name": "Gunfire Reborn",
+            "appid": "1217060",
+            "yearForSale": 2020,
+            "price": 68.0,
+            "favorableRate": 93.27,
+            "tags": "dataset\\2020\\tags_1217060.csv",
+            "discounts": "dataset\\2020\\discounts_1217060.csv",
+            "players": "dataset\\2020\\players_1217060.csv",
+            "totalComments": 101753,
+            "_heat_score": 54.78,
+            "_matched_tags": [
+                "Roguelite",
+                "Roguelike",
+                "Action Roguelike",
+                "Dungeon Crawler"
+            ]
+        },
+        {
+            "name": "暖雪 Warm Snow",
+            "appid": "1296830",
+            "yearForSale": 2022,
+            "price": 58.0,
+            "favorableRate": 93.07,
+            "tags": "dataset\\2022\\tags_1296830.csv",
+            "discounts": "dataset\\2022\\discounts_1296830.csv",
+            "players": "dataset\\2022\\players_1296830.csv",
+            "totalComments": 38003,
+            "_heat_score": 54.69,
+            "_matched_tags": [
+                "Action Roguelike",
+                "Roguelite",
+                "Roguelike"
+            ]
+        },
+        {
+            "name": "The Scroll Of Taiwu",
+            "appid": "838350",
+            "yearForSale": 2018,
+            "price": 68.0,
+            "favorableRate": 69.43,
+            "tags": "dataset\\2018\\tags_838350.csv",
+            "discounts": "dataset\\2018\\discounts_838350.csv",
+            "players": "dataset\\2018\\players_838350.csv",
+            "totalComments": 61589,
+            "_heat_score": 46.87,
+            "_matched_tags": [
+                "Roguelite",
+                "Roguelike"
+            ]
+        },
+        {
+            "name": "Lost Castle 2",
+            "appid": "2445690",
+            "yearForSale": 2024,
+            "price": 53.0,
+            "favorableRate": 79.74,
+            "tags": "dataset\\2024\\tags_2445690.csv",
+            "discounts": "dataset\\2024\\discounts_2445690.csv",
+            "players": "dataset\\2024\\players_2445690.csv",
+            "totalComments": 10033,
+            "_heat_score": 43.86,
+            "_matched_tags": [
+                "Roguelike",
+                "Roguelite",
+                "Action Roguelike"
+            ]
+        },
+        {
+            "name": "中国式网游",
+            "appid": "1416920",
+            "yearForSale": 2024,
+            "price": 32.0,
+            "favorableRate": 86.0,
+            "tags": "dataset\\2024\\tags_1416920.csv",
+            "discounts": "dataset\\2024\\discounts_1416920.csv",
+            "players": "dataset\\2024\\players_1416920.csv",
+            "totalComments": 10167,
+            "_heat_score": 43.41,
+            "_matched_tags": [
+                "Action Roguelike",
+                "Roguelite",
+                "Roguelike"
+            ]
+        },
+        {
+            "name": "嗜血印",
+            "appid": "992300",
+            "yearForSale": 2019,
+            "price": 79.0,
+            "favorableRate": 87.88,
+            "tags": "dataset\\2019\\tags_992300.csv",
+            "discounts": "dataset\\2019\\discounts_992300.csv",
+            "players": "dataset\\2019\\players_992300.csv",
+            "totalComments": 38087,
+            "_heat_score": 41.12,
+            "_matched_tags": [
+                "Roguelike",
+                "Roguelite"
+            ]
+        },
+        {
+            "name": "Neon Abyss",
+            "appid": "788100",
+            "yearForSale": 2020,
+            "price": 58.0,
+            "favorableRate": 86.05,
+            "tags": "dataset\\2020\\tags_788100.csv",
+            "discounts": "dataset\\2020\\discounts_788100.csv",
+            "players": "dataset\\2020\\players_788100.csv",
+            "totalComments": 23389,
+            "_heat_score": 39.85,
+            "_matched_tags": [
+                "Roguelike",
+                "Roguelite",
+                "Dungeon Crawler",
+                "Action Roguelike"
+            ]
+        },
+        {
+            "name": "笼中窥梦 (Moncage)",
+            "appid": "1195290",
+            "yearForSale": 2021,
+            "price": 48.0,
+            "favorableRate": 89.3,
+            "tags": "dataset\\2021\\tags_1195290.csv",
+            "discounts": "dataset\\2021\\discounts_1195290.csv",
+            "players": "dataset\\2021\\players_1195290.csv",
+            "totalComments": 5436,
+            "_heat_score": 33.95,
+            "_matched_tags": [
+                "Dungeon Crawler"
+            ]
+        },
+        {
+            "name": "太荒初境",
+            "appid": "1504570",
+            "yearForSale": 2022,
+            "price": 68.0,
+            "favorableRate": 37.55,
+            "tags": "dataset\\2022\\tags_1504570.csv",
+            "discounts": "dataset\\2022\\discounts_1504570.csv",
+            "players": "dataset\\2022\\players_1504570.csv",
+            "totalComments": 13638,
+            "_heat_score": 27.92,
+            "_matched_tags": [
+                "Action Roguelike"
+            ]
+        },
+        {
+            "name": "Feed The Cups",
+            "appid": "2336220",
+            "yearForSale": 2024,
+            "price": 58.0,
+            "favorableRate": 31.68,
+            "tags": "dataset\\2024\\tags_2336220.csv",
+            "discounts": "dataset\\2024\\discounts_2336220.csv",
+            "players": "dataset\\2024\\players_2336220.csv",
+            "totalComments": 13929,
+            "_heat_score": 27.44,
+            "_matched_tags": [
+                "Roguelite",
+                "Action Roguelike",
+                "Roguelike"
+            ]
+        }
+    ]
+}
