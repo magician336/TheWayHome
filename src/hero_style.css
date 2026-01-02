@@ -1,6 +1,5 @@
 /* hero_style.css - 第一屏专属配置 (高阶优化版) */
 
-/* --- 【配置区域】 --- */
 #hero-section {
     /* 字体配置：增加备选字体，确保各平台显示优雅 */
     --hero-title-font: "Inter", "Helvetica Neue", "PingFang SC", "Microsoft YaHei", sans-serif;
