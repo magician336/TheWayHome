@@ -133,7 +133,6 @@ section {
 
 #intro-flower-section {
     min-height: 40vh;
-    /* 或者使用像素值，如 300px */
     padding: 60px 20px;
     /* 适当调整上下内边距 */
 }
@@ -184,7 +183,7 @@ section {
        100vh 用于滚动切入并触顶
        200vh 用于在平齐状态下“原地”滚完花瓣图长网页内容
        100vh 用于滚出 */
-    height: 300vh;
+    height: 400vh;
     padding: 0;
     margin: 0;
     display: block;
