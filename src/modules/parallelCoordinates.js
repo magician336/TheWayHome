@@ -355,7 +355,6 @@ function renderFocusLayer() {
     drawCorrelationBar(dim1, dim2);
 }
 
-// 【修复】柱状图位置与样式还原
 function drawCorrelationBar(dim1, dim2) {
     const width = _xScale.range()[1];
     
@@ -369,45 +368,38 @@ function drawCorrelationBar(dim1, dim2) {
     }
     const r = num / Math.sqrt(dX * dY) || 0;
 
-    // 1. 创建 Group
+    // 1. 创建 Group - y 坐标从 -85 调整到 -65，实现下移
     const barGroup = _svg.append("g")
         .attr("class", "correlation-viz")
-        .attr("transform", `translate(${width - 220}, -85)`); // 严格还原坐标
+        .attr("transform", `translate(${width - 220}, -65)`); 
         
-    // 2. 过渡动画
-    barGroup
-        .style("opacity", 0)
-        .transition().duration(600)
-        .style("opacity", 1);
+    barGroup.style("opacity", 0).transition().duration(600).style("opacity", 1);
 
     const maxBarWidth = 100;
-    const power = 0.5; 
     const centerX = 100; 
-    const currentVisualLen = Math.pow(Math.abs(r), power) * maxBarWidth;
+    const currentVisualLen = Math.pow(Math.abs(r), 0.5) * maxBarWidth;
     const endX = r < 0 ? centerX - currentVisualLen : centerX;
-    const endWidth = Math.max(2, currentVisualLen);
     const endColor = r > 0 ? "#ff4d4d" : "#00d4ff";
 
-    // 3. 绘制内容 (使用 barGroup，而不是 svg.select)
-    barGroup.append("line").attr("x1", 0).attr("y1", 8).attr("x2", 200).attr("y2", 8).style("stroke", "#ddd").style("stroke-width", 1);
-    barGroup.append("line").attr("x1", centerX).attr("y1", 5).attr("x2", centerX).attr("y2", 11).style("stroke", "#999").style("stroke-width", 1);
+    // 2. 绘制轴线和矩形
+    barGroup.append("line").attr("x1", 0).attr("y1", 20).attr("x2", 200).attr("y2", 20).style("stroke", "rgba(255,255,255,0.2)");
+    barGroup.append("line").attr("x1", centerX).attr("y1", 15).attr("x2", centerX).attr("y2", 25).style("stroke", "#fff");
     
     barGroup.append("rect")
-        .attr("y", 2).attr("height", 12).attr("rx", 2)
+        .attr("y", 14).attr("height", 12).attr("rx", 2)
         .attr("x", centerX).attr("width", 0).attr("fill", endColor)
-        .style("cursor", "pointer")
-        .on("mouseover", function(event) {
-            if (typeof Utils !== 'undefined' && Utils.showTooltip) {
-                Utils.showTooltip(event, `<div class="tooltip-title">关联度</div><div class="tooltip-row"><span>皮尔逊系数:</span> <b>${r.toFixed(4)}</b></div>`);
-            }
-        })
-        .on("mouseout", function() { if (window.Utils) d3.select("#parallel-chart-shared-tooltip").style("opacity", 0); })
-        .transition().duration(750).ease(d3.easeCubicOut)
-        .attr("x", endX).attr("width", endWidth);
+        .transition().duration(750)
+        .attr("x", endX).attr("width", Math.max(2, currentVisualLen));
         
-    // 4. 文字 (对齐修正：x=0, text-anchor=start 意味着靠左对齐到 200px 宽的区域左侧)
-    barGroup.append("text").attr("x", 0).attr("y", -5).attr("text-anchor", "start")
-        .style("font-size", "11px").style("fill", "var(--text-main)").text(`关联度: ${r.toFixed(3)}`);
+    // 3. 文字优化：居中、加大、颜色高亮
+    barGroup.append("text")
+        .attr("x", 100) // 200px 宽度的一半
+        .attr("y", 5)   // 向上微调，拉开与 Bar 的距离
+        .attr("text-anchor", "middle") // 居中对齐
+        .style("font-size", "14px")    // 字体加大 (原 11px)
+        .style("font-weight", "bold")
+        .style("fill", "var(--accent-color)") // 使用亮蓝色
+        .text(`关联度: ${r.toFixed(3)}`);
 }
 
 function deselectAxis() {

@@ -232,13 +232,21 @@ export const createDistributionChart = (data) => {
     if (tooltip.empty()) tooltip = d3.select("body").append("div").attr("class", "dist-tooltip");
     function showTooltip(event, d) {
         const val = isPercentageData ? d.value : d.value * 100;
-        tooltip.style("visibility", "visible").html(`
-            <strong>${d.year}年 - ${languageLabels[d.lang]}</strong>
-            <div>占比: ${val.toFixed(2)}%</div>
-            <div>排名: 第 ${d.rank} 名</div>
-        `);
-        // 简单定位
-        tooltip.style("left", (event.clientX + 15) + "px").style("top", (event.clientY - 20) + "px");
+
+        // 构建基础内容：年份与语言名称
+        let tooltipHtml = `<strong>${d.year}年 - ${languageLabels[d.lang]}</strong>
+                       <div>占比: ${val.toFixed(2)}%</div>`;
+
+        // 核心修改：仅当不是 'others' 时才添加排名显示
+        if (d.lang !== 'others') {
+            tooltipHtml += `<div>排名: 第 ${d.rank} 名</div>`;
+        }
+
+        tooltip.style("visibility", "visible").html(tooltipHtml);
+
+        // 定位逻辑保持不变
+        tooltip.style("left", (event.clientX + 15) + "px")
+            .style("top", (event.clientY - 20) + "px");
     }
     function hideTooltip() { tooltip.style("visibility", "hidden"); }
 

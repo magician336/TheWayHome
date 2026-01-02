@@ -1,27 +1,12 @@
-// modules/tagsDistribution.js
-
 let _container = null;
 let _svg = null;
 let _width = 0, _height = 0;
 let _data = null;
 
 // 缓存关键元素
-let _groups = {
-    drawing: null,
-    ornament: null,
-    text: null,
-    link: null
-};
-let _elements = {
-    cells: null,
-    borders: null,
-    texts: null,
-    wreath: null
-};
-let _funcs = {
-    playBloom: null
-};
-
+let _groups = { drawing: null, ornament: null, text: null, link: null };
+let _elements = { cells: null, borders: null, texts: null, wreath: null };
+let _funcs = { playBloom: null };
 let _isBloomPlayed = false;
 
 const TagBubble = {
@@ -48,85 +33,48 @@ function initChart(tagData, containerId) {
     
     if (_height < 500) { _height = 750; container.style.height = "750px"; }
 
-    // --- 布局常数 ---
     const centerX = _width * 0.33; 
     const centerY = _height / 2;
     const margin = 80;
     const maxRadiusByWidth = (_width * 0.55) / 2; 
     const radius = Math.min(maxRadiusByWidth, _height / 2 - margin);
 
-    // --- 注入面板与样式 ---
     const panelWidth = 280;
     let panelX = centerX + radius + 150; 
-    if (panelX + panelWidth > _width) {
-        panelX = _width - panelWidth - 20;
-    }
+    if (panelX + panelWidth > _width) panelX = _width - panelWidth - 20;
     const panelY = _height * 0.10; 
-    const endX = panelX + 5;
-    const lineConnectY = panelY + 150; 
 
-    const detailPanel = document.createElement("div");
-    detailPanel.className = "parallel-chart-tag-detail-panel";
-    
-    // 注入必要的样式 (配合 chart-tag.css)
+    // 注入面板样式
     const style = document.createElement("style");
     style.innerHTML = `
-        /* 默认状态：透明度为 0 (隐藏) */
         .parallel-chart-tag-detail-panel {
             position: absolute; left: ${panelX}px; top: ${panelY}px;  
-            width: ${panelWidth}px; height: 60%; z-index: 30;
-            pointer-events: none; 
-            opacity: 0; /* 默认隐藏 */
-            transition: opacity 0.4s ease;
+            width: ${panelWidth}px; z-index: 30;
+            pointer-events: none; opacity: 0;
+            transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s ease;
+            transform: translateY(10px);
         }
-        
-        /* 激活状态：透明度为 1 (显示) */
         .parallel-chart-tag-detail-panel.active { 
-            pointer-events: auto; 
-            opacity: 1 !important; /* 加 !important 防止外部样式干扰 */
+            pointer-events: auto; opacity: 1 !important; transform: translateY(0);
         }
-        
-        .detail-content-container {
-            position: relative; z-index: 1; opacity: 0; 
-            animation: contentFadeIn 0.8s ease-out forwards; 
-        }
-        @keyframes contentFadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .detail-stats-grid {
-            display: grid; grid-template-columns: 1fr 1fr; 
-            gap: 15px 10px; margin-bottom: 20px; margin-top: 10px;
-        }
-        .stat-item { display: flex; flex-direction: column; justify-content: center; }
-        .detail-tag-list {
-            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px;
-            max-height: 200px; overflow-y: auto; padding-right: 5px;
-        }
-        .detail-tag-list::-webkit-scrollbar { width: 4px; }
-        .detail-tag-list::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 2px; }
+        .detail-tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; max-height: 200px; overflow-y: auto; }
     `;
     container.appendChild(style);
 
-    detailPanel.innerHTML = `
-        <div class="detail-card literary-card" id="parallel-chart-tagDetailCard">
-          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; min-height:250px; color:#94a3b8; text-align:center;">
-            <div style="font-size:40px; opacity:0.2; margin-bottom:20px;">❦</div>
-            <div>点击气泡查看详情</div>
-          </div>
-        </div>
-    `;
+    const detailPanel = document.createElement("div");
+    detailPanel.className = "parallel-chart-tag-detail-panel";
+    detailPanel.innerHTML = `<div class="detail-card literary-card" id="parallel-chart-tagDetailCard"></div>`;
     container.appendChild(detailPanel);
 
     _svg = d3.select(container).append("svg")
         .attr("width", _width).attr("height", _height)
-        .attr("class", "parallel-chart-shared-viz-svg")
-        .style("position", "absolute").style("top", 0).style("left", 0).style("z-index", 1);
+        .attr("class", "parallel-chart-shared-viz-svg");
 
     _groups.drawing = _svg.append("g").attr("transform", `translate(${centerX},${centerY})`);
     _groups.ornament = _svg.append("g").attr("transform", `translate(${centerX},${centerY})`);
     _groups.text = _svg.append("g").attr("transform", `translate(${centerX},${centerY})`).style("pointer-events", "none");
     _groups.link = _svg.append("g").attr("class", "link-group").style("pointer-events", "none");
+
 
     // --- 数据处理 ---
     let processedChildren = [];
@@ -318,96 +266,54 @@ function initChart(tagData, containerId) {
                 return textBaseDelay + dist * 2.5; 
             }).style("opacity", 1);
     }
-
-    // ============================================================
-    // 1. 核心交互：activateCategory
-    // ============================================================
-    function activateCategory(d, targetElement) {
-        const parentData = d.parent.data;
-        const color = getCategoryColor(parentData.name);
-        
-        const panel = document.querySelector(".parallel-chart-tag-detail-panel");
-        if (panel) {
-            panel.classList.remove("active");
-        }
-
-        const card = document.getElementById("parallel-chart-tagDetailCard");
-        if(card) {
-            const oldSvg = card.querySelector(".card-decoration-svg");
-            if (oldSvg) oldSvg.remove();
-            card.style.borderLeftColor = "#cbd5e1";
-        }
-        _groups.link.selectAll("*").interrupt().remove();
-
-        // 颜色重置与高亮
-        _elements.cells.selectAll("path").interrupt()
-            .style("fill", "white").style("fill-opacity", 0.1) 
-            .style("stroke", n => getCategoryColor(n.parent.data.name)).style("stroke-width", 1)
-            // 【关键修复】确保交互过程中 pointer-events 始终开启
-            .style("pointer-events", "all");
-
-        _elements.cells.selectAll("path").filter(node => node.parent === d.parent)
-            .transition().duration(200)
-            .style("fill", color).style("fill-opacity", 0.2).style("stroke", color);
-        
-        if (targetElement) {
-            d3.select(targetElement).raise().transition().duration(300)
-                .style("fill", color).style("fill-opacity", 0.8).style("stroke", color).style("stroke-width", 2); 
-        } else {
-             const targetDom = _elements.cells.selectAll("path").filter(node => node === d);
-             targetDom.raise().transition().duration(300)
-                .style("fill", color).style("fill-opacity", 0.8).style("stroke", color).style("stroke-width", 2);
-        }
-
-        const vineDuration = 1000; 
-        drawPreciseZoneVine(d, color, vineDuration);
-        
-        setTimeout(() => {
-            updateDetailPanel(parentData, color);
-        }, vineDuration * 0.6); 
-    }
-
-    // ============================================================
-    // 2. 简单重置 (点击空白处 / 自由模式)
-    // ============================================================
     function simpleReset() {
-        // 1. 立即清理藤蔓和隐藏面板
-        _groups.link.selectAll("*").interrupt().remove();
-        
+        // 1. 隐藏详情面板
         const panel = document.querySelector(".parallel-chart-tag-detail-panel");
         if(panel) panel.classList.remove("active");
         
-        const card = document.getElementById("parallel-chart-tagDetailCard");
-        if(card) {
-            const svg = card.querySelector(".card-decoration-svg");
-            if(svg) svg.remove();
-            card.style.borderLeftColor = "#cbd5e1";
-        }
-
-        // 2. 恢复气泡状态
-        // 【核心修复】这里强制设置 pointer-events: all
-        // 即使 bloom 动画被 interrupt，这行代码也会确保气泡可点
+        // 2. 移除装饰线条
+        _groups.link.selectAll("*").interrupt().transition().duration(300).style("opacity", 0).remove();
+        
+        // 3. 恢复气泡样式
         _elements.cells.selectAll("path")
             .interrupt()
-            .transition().duration(300)
+            .transition().duration(400)
             .style("fill", "white")
             .style("fill-opacity", 1) 
-            .style("stroke", d => getCategoryColor(d.parent.data.name))
             .style("stroke-width", 1)
-            .style("opacity", 1) // 确保可见
-            .style("pointer-events", "all"); // 确保可点！
+            .style("pointer-events", "all");
     }
-
-    // 绑定交互
+    
+    /**
+     * 激活特定品类
+     */
+    function activateCategory(d, targetElement) {
+        simpleReset(); // 激活新类别前先清理
+    
+        const parentData = d.parent.data;
+        const color = getCategoryColor(parentData.name);
+    
+        _elements.cells.selectAll("path").style("fill-opacity", 0.1);
+        _elements.cells.selectAll("path").filter(node => node.parent === d.parent)
+            .transition().duration(200).style("fill", color).style("fill-opacity", 0.2);
+        
+        d3.select(targetElement).raise().transition().duration(300)
+            .style("fill", color).style("fill-opacity", 0.8).style("stroke-width", 2);
+    
+        // 绘制连接藤蔓逻辑...
+        drawPreciseZoneVine(d, color, 1000);
+        
+        // 更新面板数据
+        updateDetailPanel(parentData, color);
+    }
+    
     _elements.cells.selectAll("path").on("click", function(event, d) {
         event.stopPropagation();
         activateCategory(d, this);
     });
-
-    _svg.on("click", () => {
-        simpleReset();
-    });
-
+    
+    _svg.on("click", simpleReset);
+    
     TagBubble._internalActivate = (categoryName) => {
         const targetNode = root.leaves().find(d => d.parent.data.name === categoryName);
         if (targetNode) {
@@ -686,41 +592,35 @@ function initChart(tagData, containerId) {
     }
 }
 
-// ============================================================
-// 3. 场景渲染 (用于 Scrollytelling)
-// ============================================================
+/**
+* 场景切换渲染器
+*/
 function renderScene(stepIndex) {
-    if (!_svg) return;
-    
-    // Step 0 & Init: 确保圆环生长动画播放
-    if (!_isBloomPlayed) {
-        if (_funcs.playBloom) {
-            _funcs.playBloom();
-            _isBloomPlayed = true;
-        }
-    }
+if (!_svg) return;
 
-    if (stepIndex === 0) {
-        // Step 0: 仅生长，不选中任何东西
-        if (TagBubble._internalReset) TagBubble._internalReset();
-    } 
-    else if (stepIndex === 1) {
-        // Step 1: 角色扮演
-        if (TagBubble._internalActivate) TagBubble._internalActivate("角色扮演");
-    } 
-    else if (stepIndex === 2) {
-        // Step 2: 剧情叙事
-        if (TagBubble._internalActivate) TagBubble._internalActivate("剧情叙事");
-    } 
-    else if (stepIndex === 3) {
-        // Step 3: 恐怖悬疑
-        if (TagBubble._internalActivate) TagBubble._internalActivate("恐怖悬疑");
-    } 
-    else if (stepIndex === 4) {
-        // Step 4: 自由探索 (重置)
-        // 【注意】这里调用 reset 会强制开启点击权限
-        if (TagBubble._internalReset) TagBubble._internalReset();
-    }
+if (!_isBloomPlayed && _funcs.playBloom) {
+    _funcs.playBloom();
+    _isBloomPlayed = true;
+}
+
+// 逻辑映射
+switch(stepIndex) {
+    case 0: // 初始重置
+        TagBubble._internalReset();
+        break;
+    case 1: // 角色扮演剧情
+        TagBubble._internalActivate("角色扮演");
+        break;
+    case 2: // 剧情叙事剧情
+        TagBubble._internalActivate("剧情叙事");
+        break;
+    case 3: // 恐怖悬疑剧情
+        TagBubble._internalActivate("恐怖悬疑");
+        break;
+    case 4: // 自由模式 - 执行完全重置，面板消失
+        TagBubble._internalReset();
+        break;
+}
 }
 
 export { TagBubble };

@@ -1,26 +1,20 @@
-// main_index.js
+// src/main_index.js
 
 import { createRevenueChart } from './revenue.js';
 import { createDistributionChart } from './user_dist.js';
 import { initParallelCharts } from './parallelChartMain.js';
-import { initScatterCharts } from './scatterChartMain.js'; 
+import { initScatterCharts } from './scatterChartMain.js';
 import { initTagCharts } from './tagChartMain.js';
+// 修改导入：引入 Video 版本的模块
+import { TreeVideoScrolly } from './modules/treeVideoScrolly.js';
 
-// 将 initParallelCharts 挂载到 window，以防 HTML 中有内联调用，虽然我们现在不推荐那样做
 window.initParallelCharts = initParallelCharts;
 
-/**
- * 首页核心驱动：数据解析、微缩图表渲染与动态交互
- */
 async function initHomePage() {
     try {
         console.log("Main: 初始化首页...");
-        
-        // 1. 初始化滚动交互 (背景切换等)
         initScrollInteractions();
 
-        // 2. 加载核心数据 
-        // 这里的路径使用的是 ./，因为 index.html 和数据文件都在 src 目录下
         console.log("Main: 加载数据中...");
         const [games, revenueData, rawdistData] = await Promise.all([
             d3.json("./games.json").catch(err => { console.warn("Games load failed:", err); return []; }),
@@ -41,22 +35,30 @@ async function initHomePage() {
             others: +d.others || 0
         }));
 
-        // 3. 统计看板初始化
         renderQuickStats(games, revenueData);
 
-        // 4. 渲染板块一：宏观趋势图表
-        createRevenueChart(revenueData);
+        // --- 核心逻辑修改区域 ---
 
-        // 5. 渲染板块二：用户分布
+        const revenueChartController = createRevenueChart(revenueData);
+        const revenueStorySteps = buildRevenueStorySteps(revenueData);
+
+        if (revenueChartController) {
+            console.log("初始化视频 Scrolly...");
+            new TreeVideoScrolly({
+                videoSelector: '#tree-video',
+                containerSelector: '#revenue-section',
+                chartController: revenueChartController,
+                data: revenueData,
+                storySteps: revenueStorySteps
+            });
+        }
+        // -----------------------
+
         const distChartController = createDistributionChart(distData);
         setupDistChartAnimation(distChartController);
 
-        // 6. 设置平行坐标系的滚动触发器
         setupParallelChartScrollTrigger();
-
-        // 7. 设置散点图的滚动触发器
         setupScatterChartScrollTrigger();
-        // 8. 设置标签图的滚动触发器
         setupTagChartScrollTrigger();
 
     } catch (err) {
@@ -64,26 +66,25 @@ async function initHomePage() {
     }
 }
 
+// ... (setupParallelChartScrollTrigger, setupDistChartAnimation 等后续辅助函数保持不变) ...
 /**
  * 核心修复：平行坐标图滚动触发器
  */
 function setupParallelChartScrollTrigger() {
     const section = document.querySelector("#parallel-chart-section");
     if (!section) {
-        console.error("找不到 #parallel-chart-section 元素！");
+        // console.error("找不到 #parallel-chart-section 元素！");
         return;
     }
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            // 【关键修改】阈值改为 0.1，只要有一点点进入视口就开始初始化
-            // 之前是 0.3，如果容器很高，可能很难触发
             if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
                 console.log("平行坐标图进入视口，触发初始化...");
                 initParallelCharts().catch(err => {
                     console.error("平行坐标系图表初始化失败:", err);
                 });
-                observer.unobserve(section); // 只触发一次
+                observer.unobserve(section);
             }
         });
     }, {
@@ -92,6 +93,7 @@ function setupParallelChartScrollTrigger() {
 
     observer.observe(section);
 }
+
 function setupScatterChartScrollTrigger() {
     const section = document.querySelector("#scatter-chart-section");
     if (!section) return;
@@ -100,7 +102,7 @@ function setupScatterChartScrollTrigger() {
         entries.forEach(entry => {
             if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
                 console.log("散点图进入视口，触发初始化...");
-                initScatterCharts(); // 调用 scatterChartMain.js 的初始化
+                initScatterCharts();
                 observer.unobserve(section);
             }
         });
@@ -108,6 +110,7 @@ function setupScatterChartScrollTrigger() {
 
     observer.observe(section);
 }
+
 function setupTagChartScrollTrigger() {
     const section = document.querySelector("#tag-chart-section");
     if (!section) return;
@@ -116,7 +119,7 @@ function setupTagChartScrollTrigger() {
         entries.forEach(entry => {
             if (entry.isIntersecting && entry.intersectionRatio > 0.05) {
                 console.log("Tag图进入视口，触发初始化...");
-                initTagCharts(); 
+                initTagCharts();
                 observer.unobserve(section);
             }
         });
@@ -124,23 +127,27 @@ function setupTagChartScrollTrigger() {
 
     observer.observe(section);
 }
-/**
- * 专门用于控制第三屏图表排序动画的 Observer
- */
+
 function setupDistChartAnimation(controller) {
     if (!controller) return;
 
     const section = document.querySelector("#distribution-section");
+    // 核心修改：将事件监听器绑定到图表容器上
+    const chartContainer = document.querySelector("#distribution-section .chart-container");
+
     let currentMode = 'fixed';
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            // 滚动超过 70% 自动切换为排序模式
             if (entry.intersectionRatio > 0.7) {
                 if (currentMode !== 'ranked') {
                     currentMode = 'ranked';
                     controller.updateLayout('ranked');
                 }
-            } else if (entry.intersectionRatio < 0.2) {
+            }
+            // 滚出视口（低于 20%）重置为固定模式
+            else if (entry.intersectionRatio < 0.2) {
                 if (currentMode !== 'fixed') {
                     currentMode = 'fixed';
                     controller.updateLayout('fixed');
@@ -148,34 +155,40 @@ function setupDistChartAnimation(controller) {
             }
         });
     }, {
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        threshold: [0, 0.2, 0.7, 1.0]
     });
 
     if (section) {
         observer.observe(section);
-        section.style.cursor = 'pointer';
-        section.setAttribute('title', '点击切换排序视图');
-        section.addEventListener('click', (e) => {
+    }
+
+    // 核心修改：点击图表容器手动切换模式
+    if (chartContainer) {
+        chartContainer.style.cursor = "pointer"; // 添加手型光标提示可点击
+        chartContainer.addEventListener('click', (e) => {
             e.stopPropagation();
             const nextMode = (currentMode === 'fixed') ? 'ranked' : 'fixed';
             controller.updateLayout(nextMode);
             currentMode = nextMode;
+            console.log(`手动切换模式至: ${currentMode}`);
         });
     }
 }
 
-/**
- * 初始化滚动交互：背景切换与内容揭示
- */
 function initScrollInteractions() {
+    window.isPageInitialLoading = true;
+    setTimeout(() => { window.isPageInitialLoading = false; }, 1500);
     const sections = document.querySelectorAll('section');
     const reveals = document.querySelectorAll('.reveal');
 
     const bgObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            if (entry.isIntersecting && !window.isPageInitialLoading) {
                 const targetBgId = entry.target.getAttribute('data-bg');
-                if (targetBgId) switchBackground(targetBgId);
+                if (targetBgId) {
+                    const allLayers = document.querySelectorAll('.bg-layer');
+                    allLayers.forEach(l => l.classList.toggle('active', l.id === targetBgId));
+                }
             }
         });
     }, { threshold: 0.5 });
@@ -187,23 +200,24 @@ function initScrollInteractions() {
                 revealObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+    }, { threshold: 0.15 });
 
     sections.forEach(section => bgObserver.observe(section));
     reveals.forEach(reveal => revealObserver.observe(reveal));
 
-    function switchBackground(targetId) {
+    const switchBackground = (targetId) => {
+        // 同样加入保护
+        if (globalInitialLoad) return;
+
         const allLayers = document.querySelectorAll('.bg-layer');
         allLayers.forEach(layer => {
-            if (layer.id === targetId) layer.classList.add('active');
-            else layer.classList.remove('active');
+            layer.classList.toggle('active', layer.id === targetId);
         });
-    }
+    };
 }
 
 function renderQuickStats(games, revenue) {
     if (!games || !revenue || revenue.length === 0) return;
-
     const totalGames = games.length;
     const latestRevenue = +revenue[revenue.length - 1].actual_revenue;
     const avgRating = d3.mean(games, d => d.favorableRate).toFixed(1);
@@ -240,6 +254,76 @@ function renderQuickStats(games, revenue) {
 
     const growth = revenue[revenue.length - 1].growth_rate;
     d3.select("#macro-dynamic-text").html(`<b>实时洞察：</b>最新数据显示，年增长率已达 <b>${growth}%</b>，国产独立游戏正处于黄金成长期。`);
+}
+
+function buildRevenueStorySteps(revenueData) {
+    const findRow = (year) => revenueData.find(d => +d.year === year);
+    const macro = (year) => {
+        const row = findRow(year);
+        if (!row) return null;
+        const revenue = (+row.actual_revenue).toFixed(1);
+        const growth = (+row.growth_rate).toFixed(1);
+        return `<b>实时洞察：</b>${year} 年收入约 <b>${revenue} 亿</b>，同比 <b>${growth}%</b>。`;
+    };
+
+    return [
+        {
+            videoIdx: 0,
+            year: 2017,
+            titleOverride: '2017 · 破土',
+            description: '第一批国产独立制作人闯入全球舞台，114% 的年增幅来自他们的试水与坚持。',
+            macroText: macro(2017)
+        },
+        {
+            videoIdx: 1,
+            year: 2018,
+            titleOverride: '2018 · 萌芽',
+            description: '塔防、肉鸽、剧情等品类百花齐放，团队开始探索更成熟的商业化路径。',
+            macroText: macro(2018)
+        },
+        {
+            videoIdx: 2,
+            year: 2019,
+            titleOverride: '2019· 扩张',
+            description: '疫情红利叠加直播传播，玩家数与收入齐飞，27.9 亿的峰值诞生。',
+            macroText: macro(2019)
+        },
+        {
+            videoIdx: 3,
+            year: 2020,
+            titleOverride: '2020 · 爆发前夜',
+            description: '大盘增速放缓，团队回归内容打磨，寻找更健康的生命周期。',
+            macroText: macro(2020)
+        },
+        {
+            videoIdx: 4,
+            year: 2021,
+            titleOverride: '2021 · 科幻与修仙',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
+            macroText: macro(2021)
+        },
+        {
+            videoIdx: 5,
+            year: 2022,
+            titleOverride: '2022 · 叙事的温度',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
+            macroText: macro(2022)
+        },
+        {
+            videoIdx: 6,
+            year: 2023,
+            titleOverride: '2023 · 创意涌现',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
+            macroText: macro(2023)
+        },
+        {
+            videoIdx: 7,
+            year: 2024,
+            titleOverride: '2024 · 得偿所愿',
+            description: 'AI 工具与跨平台发行带来爆发，国产独立开始大规模走向全球。',
+            macroText: macro(2024)
+        }
+    ];
 }
 
 document.addEventListener('DOMContentLoaded', initHomePage);
