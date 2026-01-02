@@ -131,18 +131,20 @@ section {
     font-weight: bold;
 }
 
-#intro-flower-section {
+/* #intro-flower-section {
     min-height: 40vh;
     padding: 60px 20px;
-    /* 适当调整上下内边距 */
-}
+     适当调整上下内边距 */
+*/
 
 #intro-flower-section .section-title {
-    font-size: 3rem;
+    font-size: clamp(3.2rem, 4.2vw, 4rem);
     margin-bottom: 1.5rem;
     /* 五彩缤纷但低饱和度的渐变色 */
     background: linear-gradient(120deg, #ff0821, #f1a651, #f9f93e, #baffc9, #bae1ff, #ba3ef9);
+    background-clip: text;
     -webkit-background-clip: text;
+    color: transparent;
     -webkit-text-fill-color: transparent;
 }
 
