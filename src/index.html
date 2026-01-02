@@ -50,7 +50,13 @@
         <div class="bg-layer" id="bg-rev-2024"
             style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2024.png');">
         </div>
-        <div class="bg-layer" id="bg-revenue" style="background-image: url('./background/bg-revenue.svg')"></div>
+        <!-- 新增：花瓣图引入屏背景 -->
+        <div class="bg-layer" id="bg-intro-flower"
+            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/FLZG.png');">
+        </div>
+        <div class="bg-layer" id="bg-flower"
+            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei.png');">
+        </div>
     </div>
 
     <main>
@@ -171,6 +177,21 @@
                 </div>
             </div>
         </section>
+
+        <!-- 新增：花瓣图引入屏 -->
+        <section class="intro-flower-section" id="intro-flower-section" data-bg="bg-intro-flower">
+            <div class="content-wrapper reveal">
+                <div class="text-content">
+                    <h2 class="section-title">百花齐放的创意生态</h2>
+                    <p class="description">
+                        从热门标签到小众题材，国产独立游戏正在探索无限可能。<br>
+                        每一朵花都代表一款游戏，它们相互交织，共同构成了丰富多彩的国产独立游戏世界。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+
 
         <section class="parallel-chart-section" id="parallel-chart-section" data-bg="bg-hero">
             <div id="parallel-chart-dashboard" class="scrolly-mode controls-hidden">
@@ -338,6 +359,26 @@
         </div>
     </section>
 
+    <!-- 第四屏：花瓣图 -->
+    <section class="flower-section" id="flower-section" data-bg="bg-flower">
+        <div class="content-wrapper reveal">
+            <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html" title="花瓣图"></iframe>
+        </div>
+    </section>
+
+    <!-- 新增：花瓣图引入屏 -->
+    <section class="intro-flower-section" id="intro-flower-section" data-bg="bg-intro-flower">
+        <div class="content-wrapper reveal">
+            <div class="text-content">
+                <h2 class="section-title">百花齐放的创意生态</h2>
+                <p class="description">
+                    从热门标签到小众题材，国产独立游戏正在探索无限可能。<br>
+                    每一朵花都代表一款游戏，它们相互交织，共同构成了丰富多彩的国产独立游戏世界。
+                </p>
+            </div>
+        </div>
+    </section>
+
     <div id="parallel-chart-shared-tooltip" class="parallel-chart-tooltip"></div>
 
     <script src="./modules/dataManager.js"></script>
@@ -346,6 +387,27 @@
     <script type="module" src="./main_index.js"></script>
 
 
+
+    <script>
+        // 花瓣图 iframe：最终态后把滚动交还给父页面 + 按内容调整高度
+        window.addEventListener('message', (event) => {
+            // http(s) 下要求同源；file:// 下 origin 为 'null'
+            if (event.origin !== window.location.origin && event.origin !== 'null') return;
+            const data = event.data;
+            if (!data || typeof data !== 'object') return;
+
+            const iframe = document.getElementById('flowerchart-iframe');
+            if (!iframe) return;
+
+            if (data.type === 'flowerchart-resize') {
+                const height = Number(data.height);
+                if (!Number.isFinite(height) || height <= 0) return;
+                const nextHeight = Math.max(window.innerHeight, height);
+                iframe.style.height = `${nextHeight}px`;
+                return;
+            }
+        });
+    </script>
 </body>
 
 </html>
