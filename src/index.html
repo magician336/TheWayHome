@@ -18,6 +18,7 @@
 </head>
 
 <body>
+    <div class="fixed-watermark">三百六十五里路队</div>
     <div id="bg-container">
         <div class="bg-layer active" id="bg-hero"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/bg-hero.png');">
@@ -50,19 +51,27 @@
         <div class="bg-layer" id="bg-rev-2024"
             style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-2024.png');">
         </div>
-        <!-- 新增：花瓣图引入屏背景 -->
+        <div class="bg-layer" id="bg-rev-chart"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-revenue-chart.svg');">
+        </div>
+        <div class="bg-layer" id="bg-distribution"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-distribution.svg');">
+        </div>
         <div class="bg-layer" id="bg-intro-flower"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/FLZG.png');">
         </div>
         <div class="bg-layer" id="bg-flower"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei.png');">
         </div>
+        <div class="bg-layer" id="bg-end"
+            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/bg-end.png');">
+        </div>
     </div>
 
     <main>
         <section class="hero-section" id="hero-section" data-bg="bg-hero">
             <div class="content-wrapper reveal">
-                <h1 class="main-title">拾级而上</h1>
+                <h1 class="main-title">三百六十五里路队</h1>
                 <p class="subtitle">记录国产独立游戏从萌芽到质变的十年征程</p>
                 <div id="quick-stats" class="stats-grid"></div>
                 <div class="scroll-indicator"><span>向下滚动探索</span>
@@ -160,7 +169,7 @@
                 </div>
             </div>
         </section>
-        <section class="revenue-chart-extension" id="revenue-chart-extension" data-bg="bg-revenue">
+        <section class="revenue-chart-extension" id="revenue-chart-extension" data-bg="bg-rev-chart">
             <div class="revenue-chart-container">
                 <div class="chart-wrapper" id="revenue-chart"></div>
                 <p id="macro-dynamic-text" class="dynamic-analysis"></p>
@@ -177,20 +186,6 @@
                 </div>
             </div>
         </section>
-
-        <!-- 新增：花瓣图引入屏 -->
-        <section class="intro-flower-section" id="intro-flower-section" data-bg="bg-intro-flower">
-            <div class="content-wrapper reveal">
-                <div class="text-content">
-                    <h2 class="section-title">百花齐放的创意生态</h2>
-                    <p class="description">
-                        从热门标签到小众题材，国产独立游戏正在探索无限可能。<br>
-                        每一朵花都代表一款游戏，它们相互交织，共同构成了丰富多彩的国产独立游戏世界。
-                    </p>
-                </div>
-            </div>
-        </section>
-
 
 
         <section class="parallel-chart-section" id="parallel-chart-section" data-bg="bg-hero">
@@ -359,13 +354,6 @@
         </div>
     </section>
 
-    <!-- 第四屏：花瓣图 -->
-    <section class="flower-section" id="flower-section" data-bg="bg-flower">
-        <div class="content-wrapper reveal">
-            <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html" title="花瓣图"></iframe>
-        </div>
-    </section>
-
     <!-- 新增：花瓣图引入屏 -->
     <section class="intro-flower-section" id="intro-flower-section" data-bg="bg-intro-flower">
         <div class="content-wrapper reveal">
@@ -376,6 +364,20 @@
                     每一朵花都代表一款游戏，它们相互交织，共同构成了丰富多彩的国产独立游戏世界。
                 </p>
             </div>
+        </div>
+    </section>
+
+    <!-- 第四屏：花瓣图 -->
+    <section class="flower-section" id="flower-section" data-bg="bg-flower">
+        <div class="content-wrapper reveal">
+            <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html" title="花瓣图"></iframe>
+        </div>
+    </section>
+
+    <section class="footer-section" id="footer-section" data-bg="bg-end">
+        <div class="content-wrapper reveal">
+            <h1 class="main-title team-name">制作团队：三百六十五里路队</h1>
+            <p class="subtitle">国产独立游戏的征程，才刚刚开始</p>
         </div>
     </section>
 

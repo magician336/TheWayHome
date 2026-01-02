@@ -37,7 +37,9 @@ d3.json("chosen_game_update.json")
       // 保持一行 7 朵但不挤：扩大画布可用宽度
       .style("max-width", "1600px")
       .style("margin-left", "auto")
-      .style("margin-right", "auto");
+      .style("margin-right", "auto")
+      .style("transform-origin", "top center")
+      .style("transition", "transform 0.1s ease-out"); // 添加微弱过渡让滚动更平滑
 
     const { sizeScale, commentValues } = createSizeScale(games);
     const { numPetalScale, rateValues } = createNumPetalScale(games);
@@ -143,15 +145,38 @@ d3.json("chosen_game_update.json")
         // 当进入最终状态时，通知父页面调整 iframe 高度
         if (state === 8) { // STATE.FINAL = 8
           // 获取 body 的实际渲染高度 (考虑 zoom)
-          const actualHeight = document.body.getBoundingClientRect().height;
-          // 发送消息给父窗口
-          window.parent.postMessage({ type: 'flowerchart-resize', height: actualHeight + 100 }, '*');
+          const actualHeight = document.body.scrollHeight; // 获取子页面完整内容高度
+          window.parent.postMessage({
+            type: 'flowerchart-resize',
+            height: actualHeight
+          }, '*');
         }
       }
     });
 
     await storyboard.init();
+    window.parent.postMessage({ type: 'flower-ready' }, '*');
   })
   .catch(function (error) {
     console.error("Error loading the data: " + error);
   });
+
+window.addEventListener('message', (event) => {
+  // 验证来源安全性（可选）
+  if (event.origin !== window.location.origin && event.origin !== 'null') return;
+
+  const data = event.data;
+  if (!data || typeof data !== 'object') return;
+
+  // 逻辑 A：处理同步滚动位移
+  if (data.type === 'flower-sync-scroll') {
+    const offset = data.offset;
+    const container = d3.select("#canvas");
+
+    // 当主页面向下滚动时，子页面内容向上平移 (负值)
+    // 从而实现在 sticky 状态下“滚动”查看完整长图的效果
+    container.style("transform", `translateY(${-offset}px)`);
+  }
+
+
+});

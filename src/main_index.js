@@ -9,12 +9,15 @@ import { initTagCharts } from './tagChartMain.js';
 import { TreeVideoScrolly } from './modules/treeVideoScrolly.js';
 
 window.initParallelCharts = initParallelCharts;
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual'; // 禁用浏览器自动恢复滚动位置
+}
 
 async function initHomePage() {
     try {
         console.log("Main: 初始化首页...");
         initScrollInteractions();
-
+        setupFlowerScrollTrigger();
         console.log("Main: 加载数据中...");
         const [games, revenueData, rawdistData] = await Promise.all([
             d3.json("./games.json").catch(err => { console.warn("Games load failed:", err); return []; }),
@@ -216,15 +219,43 @@ function initScrollInteractions() {
     };
 }
 
+function setupFlowerScrollTrigger() {
+    const section = document.querySelector("#flower-section");
+    const iframe = document.getElementById("flowerchart-iframe");
+    if (!section || !iframe) return;
+
+    const handleScroll = () => {
+        const rect = section.getBoundingClientRect();
+
+        // 关键逻辑：当顶部触及屏幕顶部 (rect.top <= 0)
+        if (rect.top <= 0 && rect.bottom > 0) {
+            // 计算用户从“平齐瞬间”开始，向下滚动的像素距离
+            const scrollOffset = Math.abs(rect.top);
+
+            iframe.contentWindow.postMessage({
+                type: 'flower-sync-scroll',
+                offset: scrollOffset
+            }, '*');
+        }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+}
+
+// 确保刷新后也能正常工作
+window.addEventListener('load', () => {
+    setupFlowerScrollTrigger();
+});
+
 function renderQuickStats(games, revenue) {
     if (!games || !revenue || revenue.length === 0) return;
     const totalGames = games.length;
-    const latestRevenue = +revenue[revenue.length - 1].actual_revenue;
+    const latestRevenue = d3.sum(revenue, d => d.actual_revenue);
     const avgRating = d3.mean(games, d => d.favorableRate).toFixed(1);
 
     const stats = [
-        { label: "收录作品", value: totalGames, suffix: "+" },
-        { label: "年度营收", value: latestRevenue, suffix: " 亿" },
+        { label: "收录作品", value: totalGames, suffix: "款" },
+        { label: "2017-2024年中国客户端游戏市场年度营收", value: latestRevenue, suffix: " 亿" },
         { label: "平均好评", value: avgRating, suffix: "%" }
     ];
 
@@ -325,5 +356,32 @@ function buildRevenueStorySteps(revenueData) {
         }
     ];
 }
+
+// 修改 index.html 中的 <script> 块或 main_index.js
+window.addEventListener('message', (event) => {
+    if (event.origin !== window.location.origin && event.origin !== 'null') return;
+    const data = event.data;
+    if (!data || typeof data !== 'object') return;
+
+    // 1. 处理之前已有的高度自适应逻辑
+    if (data.type === 'flowerchart-resize') {
+        const iframe = document.getElementById('flowerchart-iframe');
+        if (iframe) {
+            const height = Number(data.height);
+            const nextHeight = Math.max(window.innerHeight, height);
+            iframe.style.height = `${nextHeight}px`;
+        }
+        return;
+    }
+
+    // 2. 核心修复：处理滚动分发逻辑
+    if (data.type === 'flowerchart-scroll') {
+        // window.scrollBy 让主页面按照子页面传回的偏移量进行滚动
+        window.scrollBy({
+            top: data.deltaY,
+            behavior: 'auto' // 使用 auto 保证滚动实时同步，不卡顿
+        });
+    }
+});
 
 document.addEventListener('DOMContentLoaded', initHomePage);

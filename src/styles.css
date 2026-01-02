@@ -59,26 +59,6 @@ section {
     padding: 40px 20px;
 }
 
-/* 第四屏嵌入页：铺满整个视口 */
-#flower-section {
-    padding: 0;
-    align-items: stretch;
-    justify-content: stretch;
-}
-
-#flower-section .content-wrapper {
-    max-width: none;
-    width: 100vw;
-    min-height: 100vh;
-    padding: 0;
-}
-
-#flower-section .fullscreen-iframe {
-    display: block;
-    width: 100vw;
-    height: 100vh;
-    border: 0;
-}
 
 .content-wrapper {
     max-width: 1200px;
@@ -104,9 +84,11 @@ section {
     transform: translateY(60px) scale(0.9);
 
     /* 告诉浏览器提前准备渲染，防止滚动卡顿 */
+
     will-change: opacity, transform;
 
     /* 使用弹性贝塞尔曲线：让动画带有"冲过头再弹回来"的感觉 */
+
     transition:
         opacity 0.6s ease-out,
         transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -148,6 +130,14 @@ section {
     margin-bottom: 1rem;
     font-weight: bold;
 }
+
+#intro-flower-section {
+    min-height: 40vh;
+    /* 或者使用像素值，如 300px */
+    padding: 60px 20px;
+    /* 适当调整上下内边距 */
+}
+
 #intro-flower-section .section-title {
     font-size: 3rem;
     margin-bottom: 1.5rem;
@@ -164,3 +154,59 @@ section {
     color: #ffffff;
 }
 
+.fixed-watermark {
+    position: fixed;
+    /* 固定定位，不随滚动条移动 */
+    top: 20px;
+    /* 距离顶部距离 */
+    right: 20px;
+    /* 距离右侧距离 */
+    z-index: 9999;
+    /* 确保在所有层级之上 */
+
+    /* 样式美化 */
+    color: rgba(255, 255, 255, 0.991);
+    /* 白色半透明，不遮挡视线 */
+    font-family: "Microsoft YaHei", sans-serif;
+    font-size: 25px;
+    letter-spacing: 1px;
+    pointer-events: none;
+    /* 穿透点击，不影响页面交互 */
+
+    padding: 5px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    overflow: hidden;
+}
+
+#flower-section {
+    /* 设置为 400vh：
+       100vh 用于滚动切入并触顶
+       200vh 用于在平齐状态下“原地”滚完花瓣图长网页内容
+       100vh 用于滚出 */
+    height: 300vh;
+    padding: 0;
+    margin: 0;
+    display: block;
+    position: relative;
+}
+
+#flower-section .content-wrapper {
+    position: sticky;
+    top: 0;
+    /* 确保顶部平齐 */
+    width: 100vw;
+    height: 100vh;
+    /* 视图窗口保持 1 屏高 */
+    max-width: none;
+    z-index: 20;
+    overflow: hidden;
+    /* 隐藏 iframe 的自然滚动，改为逻辑控制 */
+}
+
+#flower-section .fullscreen-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+}
