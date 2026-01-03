@@ -5,6 +5,19 @@
         {
             "source": "/",
             "destination": "/src/index.html"
+        },
+        {
+            "source": "/index.html",
+            "destination": "/src/index.html"
+        }
+    ],
+    "routes": [
+        {
+            "handle": "filesystem"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/src/$1"
         }
     ]
 }
