@@ -108,15 +108,18 @@
 
         <section class="revenue-scrolly-container" id="revenue-section">
             <div id="revenue-dashboard" class="scrolly-mode">
-                <div class="sticky-stage">
-                    <div class="tree-video-wrapper">
-                        <video id="tree-video-1" class="tree-video active" muted playsinline preload="auto"></video>
-                        <video id="tree-video-2" class="tree-video" muted playsinline preload="auto"></video>
-                    </div>
-
-                    <div class="tree-text-content">
-                        <h2 id="tree-year-title"></h2>
-                        <p id="tree-year-desc"></p>
+                <div class="sticky-stage revenue-stage">
+                    <div class="tree-visual-container">
+                        <div class="tree-video-frame">
+                            <video id="tree-video" muted autoplay playsinline preload="auto"
+                                style="pointer-events: none;">
+                                <source src="./tree/tree_17.webm" type="video/webm">
+                            </video>
+                        </div>
+                        <div class="text-overlay">
+                            <h2 id="tree-year-title" class="year-big-text">2017</h2>
+                            <p id="tree-year-desc" class="year-dynamic-desc">正在加载数据...</p>
+                        </div>
                     </div>
                 </div>
 
