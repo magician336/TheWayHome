@@ -60,6 +60,7 @@ function initChart(data, nameMap, containerId) {
         .attr("text-anchor", "middle").style("font-size", "12px").style("fill", "#666").style("font-weight", "bold")
         .attr("transform", "rotate(-90)");
 
+    // 1:1 复刻初始化逻辑：粒子从中心点出发
     _particles = data.map(d => ({
         data: d,
         x: _width/2, y: _height/2, 
@@ -101,9 +102,14 @@ function renderScene(config) {
     if (!_canvas) return;
 
     const container = _canvas.parentElement;
-    if (container && (container.clientWidth !== _width || container.clientHeight !== _height)) {
-        resizeChart();
-    }
+    
+    const d3Container = d3.select(container);
+    const isFreeMode = config.stepIndex === 4 || config.isFreeMode; 
+    
+    d3Container.classed("free-mode-height", isFreeMode);
+    
+    let resizeTimer = setInterval(() => resizeChart(), 16); 
+    setTimeout(() => clearInterval(resizeTimer), 600); 
 
     const { xKey, yKey, mode, colorBy, xTitle, yTitle } = config;
     _currentMode = mode || 'scatter';
@@ -150,6 +156,9 @@ function renderScene(config) {
 
     updateMatrixBackground(_currentMode, iW, iH, _xScale, _yScale);
 
+    // 【新增功能】绘制线性回归直线 (当 X 轴为 'year' 时)
+    drawRegressionLine(_currentMode, xKey, yKey, xTransform, yTransform);
+
     const cScale = getCustomColorScale(colorBy); 
 
     _particles.forEach(p => {
@@ -165,6 +174,69 @@ function renderScene(config) {
     });
     
     renderLegend(colorBy, colorTitle);
+}
+
+// 【新增】绘制回归直线函数
+function drawRegressionLine(mode, xKey, yKey, xTransform, yTransform) {
+    // 1. 清理旧线
+    _bgGroup.selectAll(".regression-line-group").transition().duration(500).style("opacity", 0).remove();
+
+    // 仅在非矩阵模式且 X 轴为年份时绘制
+    if (mode === 'matrix' || xKey !== 'year') return;
+
+    // 2. 准备回归数据 (应用 Transform 确保对数轴等逻辑正确)
+    const points = _data.map(d => ({
+        x: xTransform(d[xKey]),
+        y: yTransform(d[yKey])
+    })).filter(p => !isNaN(p.x) && !isNaN(p.y));
+
+    if (points.length < 2) return;
+
+    // 3. 计算线性回归 (最小二乘法)
+    const xMean = d3.mean(points, p => p.x);
+    const yMean = d3.mean(points, p => p.y);
+    const num = d3.sum(points, p => (p.x - xMean) * (p.y - yMean));
+    const den = d3.sum(points, p => (p.x - xMean) ** 2);
+
+    if (den === 0) return;
+
+    const slope = num / den;
+    const intercept = yMean - slope * xMean;
+
+    // 4. 计算线条端点 (基于 X 轴 Domain)
+    const xDomain = _xScale.domain();
+    const x1 = xDomain[0];
+    const y1 = slope * x1 + intercept;
+    const x2 = xDomain[1];
+    const y2 = slope * x2 + intercept;
+
+    // 5. 绘制线条
+    const group = _bgGroup.append("g").attr("class", "regression-line-group");
+    
+    group.append("line")
+        .attr("x1", _xScale(x1))
+        .attr("y1", _yScale(y1))
+        .attr("x2", _xScale(x2))
+        .attr("y2", _yScale(y2))
+        .style("stroke", "var(--accent-color)") // 使用统一的强调色
+        .style("stroke-width", 2)
+        .style("stroke-dasharray", "8, 4") // 虚线风格
+        .style("stroke-opacity", 0.6)      // 半透明，不抢戏
+        .style("opacity", 0)
+        .transition().delay(500).duration(1000)
+        .style("opacity", 1);
+        
+    // (可选) 添加文字说明趋势
+     const trendText = slope > 0 ? "↗ 上升趋势" : "↘ 下降趋势";
+     group.append("text")
+         .attr("x", _xScale(x2) - 10)
+         .attr("y", _yScale(y2) - 10)
+         .attr("text-anchor", "end")
+         .style("fill", "var(--accent-color)")
+        .style("font-size", "10px")
+         .style("opacity", 0)
+        .text(trendText)
+        .transition().delay(1000).duration(500).style("opacity", 0.8);
 }
 
 function renderLoop() {
@@ -203,15 +275,18 @@ function renderLoop() {
 }
 
 function updateMatrixBackground(mode, w, h, x, y) {
-    _bgGroup.selectAll("*").transition().duration(500).style("opacity", 0).remove();
+    _bgGroup.selectAll(".matrix-element").transition().duration(500).style("opacity", 0).remove();
     
     if (mode === 'matrix') {
         const t = _svg.transition().duration(1000);
         const midFreq = 3.0; const midRate = 0.25;
         
-        _bgGroup.append("line").attr("x1", x(midFreq)).attr("y1", 0).attr("x2", x(midFreq)).attr("y2", h)
+        _bgGroup.append("line").attr("class", "matrix-element")
+            .attr("x1", x(midFreq)).attr("y1", 0).attr("x2", x(midFreq)).attr("y2", h)
             .style("stroke", "#cbd5e1").style("stroke-dasharray", "4,4").style("opacity", 0).transition(t).style("opacity", 1);
-        _bgGroup.append("line").attr("x1", 0).attr("y1", y(midRate)).attr("x2", w).attr("y2", y(midRate))
+        
+        _bgGroup.append("line").attr("class", "matrix-element")
+            .attr("x1", 0).attr("y1", y(midRate)).attr("x2", w).attr("y2", y(midRate))
             .style("stroke", "#cbd5e1").style("stroke-dasharray", "4,4").style("opacity", 0).transition(t).style("opacity", 1);
 
         const labels = [
@@ -223,7 +298,7 @@ function updateMatrixBackground(mode, w, h, x, y) {
         
         _bgGroup.selectAll(".matrix-label")
             .data(labels).enter().append("text")
-            .attr("class", "matrix-label")
+            .attr("class", "matrix-label matrix-element")
             .attr("x", d => d.x).attr("y", d => d.y).attr("text-anchor", d => d.anchor)
             .style("font-size", "14px").style("font-weight", "bold").style("fill", "#94a3b8")
             .text(d => d.txt)

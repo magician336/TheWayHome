@@ -1,0 +1,93 @@
+/* =========================================
+   chart-scatter.css (完整版 - 反向布局)
+   ========================================= */
+
+/* 1. 背景图 (3.jpg) & 布局反转 */
+#scatter-chart-dashboard { 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    
+    flex-direction: row-reverse; /* 文字左，图右 */
+}
+
+/* 2. 大标题渐变 (红黄) */
+#scatter-chart-section .grand-section-title {
+    background-image: linear-gradient(135deg, #ff4d4d 0%, #f9cb28 60%, #fff 100%);
+}
+
+/* 3. 容器与绘图区 */
+#scatter-chart-wrapper { 
+    height: 60vh; width: 75%; 
+    margin-right: 20px; margin-left: 0; z-index: 5; 
+}
+#scatter-chart-wrapper.free-mode-height { height: calc(60vh + 60px) !important; }
+
+#scatter-viz-container { flex: 1; position: relative; width: 100%; height: 100%; overflow: hidden; }
+.scatter-chart-svg { width: 100%; height: 100%; display: block; }
+
+/* 4. UI 组件 */
+.scatter-chart-header { 
+    display: flex; justify-content: space-between; align-items: center; 
+    min-height: 50px; padding: 10px 20px; flex-shrink: 0; 
+    background: rgba(255, 255, 255, 0.03); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+    transition: all 0.5s ease; 
+}
+.scatter-chart-title { 
+    font-size: 15px; color: #fff; font-weight: 600; 
+    border-left: 4px solid var(--accent-color); padding-left: 10px; 
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.scatter-chart-input-group { 
+    display: flex; align-items: center; gap: 8px; flex-wrap: nowrap; 
+    height: 50px; padding: 0 30px 0 15px; overflow: hidden; 
+    background: rgba(0, 0, 0, 0.2); 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.scatter-chart-input-group span { 
+    font-size: 13px; color: #cbd5e1; font-weight: 500; margin-right: 4px; 
+}
+
+.scatter-chart-select { 
+    background: rgba(255, 255, 255, 0.1); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    color: #fff; padding: 0 10px; border-radius: 6px; outline: none; 
+    font-size: 13px; height: 32px; line-height: 32px; cursor: pointer; 
+}
+.scatter-chart-select option { background: #1a1a1a; color: white; }
+
+.scatter-chart-button { 
+    background: rgba(255, 255, 255, 0.08); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    color: #e2e8f0; 
+    padding: 0 15px; border-radius: 6px; height: 32px; cursor: pointer; 
+    font-size: 13px; font-weight: 500; transition: all 0.2s ease; 
+    display: inline-flex !important; align-items: center !important; justify-content: center !important;
+}
+.scatter-chart-button:hover { 
+    border-color: var(--accent-color); color: var(--accent-color); 
+    background: rgba(255, 255, 255, 0.15); 
+}
+.scatter-chart-button.active { 
+    background: var(--accent-color); border-color: var(--accent-color); 
+    color: #000; font-weight: bold; 
+}
+
+#scatter-legend-container { 
+    margin-left: auto; display: flex; align-items: center; 
+    height: 100%; padding-top: 4px; max-width: 320px; color: #fff;
+}
+
+/* 5. 坐标轴样式 (强制白) */
+.scatter-chart-svg .x-axis path, .scatter-chart-svg .x-axis line, 
+.scatter-chart-svg .y-axis path, .scatter-chart-svg .y-axis line {
+    stroke: rgba(255, 255, 255, 0.3); shape-rendering: crispEdges;
+}
+.scatter-chart-svg .x-axis text, .scatter-chart-svg .y-axis text {
+    fill: #94a3b8 !important; font-size: 11px;
+}
+.scatter-chart-svg .x-label, .scatter-chart-svg .y-label {
+    fill: #ffffff !important; font-weight: bold; font-size: 12px;
+}
