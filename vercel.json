@@ -1,9 +1,13 @@
 {
     "version": 2,
-    "routes": [
+    "rewrites": [
         {
-            "src": "/",
-            "dest": "/src/index.html"
+            "source": "/",
+            "destination": "/src/index.html"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/src/$1"
         }
     ]
 }
