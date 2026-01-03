@@ -205,8 +205,14 @@ export class TreeVideoScrolly {
     }
 
     updateDescription(desc) {
-        if (this.yearDescEl && typeof desc === 'string') {
-            this.yearDescEl.innerText = desc;
+        if (this.yearDescEl) {
+            if (desc && typeof desc === 'string') {
+                this.yearDescEl.style.display = 'block';
+                this.yearDescEl.innerText = desc;
+            } else {
+                // 如果删除了内容，则隐藏该 DOM 元素，防止留白
+                this.yearDescEl.style.display = 'none';
+            }
         }
     }
 

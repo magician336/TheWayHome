@@ -5,12 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>归途 - 国产独立游戏发展历程</title>
+
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="revenue_style.css">
     <link rel="stylesheet" href="hero_style.css">
     <link rel="stylesheet" href="user_dist_styles.css">
+
     <link rel="stylesheet" href="chart-theme.css">
-    <link rel="stylesheet" href="chart-styles.css">
+    <link rel="stylesheet" href="chart-common.css">
+    <link rel="stylesheet" href="chart-parallel.css">
+    <link rel="stylesheet" href="chart-scatter.css">
+    <link rel="stylesheet" href="chart-tag.css">
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="https://unpkg.com/d3-weighted-voronoi"></script>
     <script src="https://unpkg.com/d3-voronoi-map"></script>
@@ -18,6 +24,13 @@
 </head>
 
 <body>
+    <div id="loading-overlay">
+        <div class="loader-content">
+            <div class="spinner"></div>
+            <p class="loader-text">正在初始化，请稍候...</p>
+        </div>
+    </div>
+
     <div class="fixed-watermark">三百六十五里路队</div>
     <div id="bg-container">
         <div class="bg-layer active" id="bg-hero"
@@ -57,8 +70,17 @@
         <div class="bg-layer" id="bg-distribution"
             style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/bg-distribution.svg');">
         </div>
+        <div class="bg-layer" id="bg-tag-roleplay"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/RolePlay.png');">
+        </div>
+        <div class="bg-layer" id="bg-tag-plot"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/Plot.png');">
+        </div>
+        <div class="bg-layer" id="bg-tag-horror"
+            style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/Horror.png');">
+        </div>
         <div class="bg-layer" id="bg-intro-flower"
-            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/FLZG.png');">
+            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei (2).png');">
         </div>
         <div class="bg-layer" id="bg-flower"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei.png');">
@@ -71,7 +93,7 @@
     <main>
         <section class="hero-section" id="hero-section" data-bg="bg-hero">
             <div class="content-wrapper reveal">
-                <h1 class="main-title">三百六十五里路队</h1>
+                <h1 class="main-title">归途</h1>
                 <p class="subtitle">记录国产独立游戏从萌芽到质变的十年征程</p>
                 <div id="quick-stats" class="stats-grid"></div>
                 <div class="scroll-indicator"><span>向下滚动探索</span>
@@ -169,12 +191,14 @@
                 </div>
             </div>
         </section>
+
         <section class="revenue-chart-extension" id="revenue-chart-extension" data-bg="bg-rev-chart">
             <div class="revenue-chart-container">
                 <div class="chart-wrapper" id="revenue-chart"></div>
                 <p id="macro-dynamic-text" class="dynamic-analysis"></p>
             </div>
         </section>
+
         <section class="distribution-section" id="distribution-section" data-bg="bg-distribution">
             <div class="content-wrapper reveal">
                 <div class="text-content">
@@ -187,7 +211,6 @@
             </div>
         </section>
 
-
         <section class="parallel-chart-section" id="parallel-chart-section" data-bg="bg-hero">
             <div id="parallel-chart-dashboard" class="scrolly-mode controls-hidden">
 
@@ -195,221 +218,287 @@
                     <div class="parallel-chart-header">
                         <span class="parallel-chart-title">平行坐标系</span>
                         <div style="display: flex; gap: 10px; align-items: center;">
+                            <select id="parallel-chart-selectYear" class="parallel-chart-select"
+                                style="display:none;"></select>
+                            <input id="parallel-chart-searchName" class="parallel-chart-select" placeholder="搜索..."
+                                style="display:none; width: 100px;">
                             <select id="parallel-chart-colorSelect" class="parallel-chart-select">
                                 <option value="year" selected>年份</option>
                                 <option value="original_price">售价</option>
-                                <option value="discount_strength">折扣力度</option>
-                                <option value="favorable_rate">好评率</option>
+                                <option value="discount_strength">折扣</option>
+                                <option value="favorable_rate">好评</option>
                             </select>
-                            <button id="parallel-chart-exitFocusBtn" onclick="parallelChart_exitFocusMode()"
-                                style="display: none;">退出</button>
+                            <button id="parallel-chart-exitFocusBtn" class="parallel-chart-button">
+                                进入观察者模式
+                            </button>
                         </div>
                     </div>
 
-                    <div id="parallel-chart-main-container" class="parallel-chart-viz-box"></div>
+                    <div id="parallel-chart-main-container"></div>
                     <div id="parallel-chart-correlation-bar" style="height: 60px; display: none;"></div>
                 </div>
 
                 <div class="scrolly-story-container">
+                    <div class="side-header-block reveal">
+                        <h2 class="grand-section-title">数据的<br>混沌与秩序</h2>
+                        <p class="subtitle" style="color:rgba(255,255,255,0.7); margin-top:10px;">透过纷繁的线条，洞察底层逻辑</p>
+                    </div>
+
                     <div class="story-step" data-step="0">
                         <div class="story-card">
                             <h3>多维数据的混沌与秩序</h3>
                             <p>欢迎来到平行坐标系。每一条线代表一款游戏，贯穿了它的生命周期数据。</p>
-                            <p>起初，它们看起来杂乱无章。但随着视角的调整，隐藏的规律将浮出水面。</p>
+                            <p>起初，它们看起来杂乱无章，如同无数个孤立的命运。</p>
+                            <p>但随着视角的调整，你会发现，在这些看似随机的线条背后，隐藏着中国独立游戏发展的 <b
+                                    style="color: var(--accent-color); font-size: 1.1em;">底层逻辑</b>。</p>
                         </div>
                     </div>
 
                     <div class="story-step" data-step="1">
                         <div class="story-card">
-                            <h3>高价 = 高口碑？</h3>
-                            <p>我们将【售价】与【好评率】的坐标轴并排。</p>
-                            <p>你会发现，高售价（红色线条）的游戏，其线条大多汇聚在好评率的顶端。这说明国产精品化策略已见成效，玩家愿意为高质量买单。</p>
+                            <h3>定价的艺术：越贵越好玩？</h3>
+                            <p>我们将目光聚焦于【售价】与【好评率】。</p>
+                            <p><b>现象：</b>你会发现，大部分国产独立游戏定价集中在 <b style="color: #ffd700;">30-100元</b>
+                                的黄金区间。更有趣的是，随着价格的上升，代表好评率的线条并没有下坠，反而更多地汇聚在 <b style="color: var(--accent-color);">85%
+                                    以上</b> 的高分区。</p>
+                            <p><b>洞察：</b>这打破了“便宜才有人夸”的刻板印象。数据证明，<b
+                                    style="color: var(--accent-color);">国产游戏的精品化策略已见成效</b>。玩家不再仅仅因为“国产情怀”而宽容，而是真正愿意为高质量、高定价的优质内容买单。
+                            </p>
                         </div>
                     </div>
 
                     <div class="story-step" data-step="2">
                         <div class="story-card">
-                            <h3>打折能否换来留存？</h3>
-                            <p>现在，让我们聚焦【折扣力度】与【热度留存】。</p>
-                            <p>线条变得错综复杂。大幅打折（左侧高位）并没有直接带来长留存（右侧高位）。相反，许多低折扣游戏反而拥有更长的生命周期。</p>
+                            <h3>打折的陷阱：低价换不来忠诚</h3>
+                            <p>现在观察【折扣力度】与【留存天数】。数据呈现出微妙的 <b style="color: #ff4d4d;">负相关 (r ≈ -0.13)</b>。</p>
+                            <p><b>现象：</b>那些折扣力度极大（左侧高位）的线条，往往在留存轴上表现平平（集中在 10-200 天）。反而是那些克制打折的游戏，拥有更长的生命周期。</p>
+                            <p><b>深度归因：</b>这揭示了单机游戏的残酷真相——<b
+                                    style="color: #ffd700;">留存取决于首发品质，而非后期促销。</b>国产单机多为叙事或流程体验向，可重玩性有限。一旦首发流量过去，“骨折”促销更多是榨取剩余价值，而非通过运营延续生命的手段。
+                            </p>
                         </div>
                     </div>
 
                     <div class="story-step" data-step="3">
                         <div class="story-card">
                             <h3>口碑的马太效应</h3>
-                            <p>我们将线条颜色切换为【好评率】。</p>
-                            <p>看！蓝色的低分游戏在“在线人数”轴上断崖式下跌，而红色的高分游戏则依然坚挺。口碑是独立游戏唯一的护城河。</p>
+                            <p>我们将线条颜色映射为 <b>【好评率】</b>（<span style="color: var(--accent-color);">蓝绿色</span>代表高分，<span
+                                    style="color: #ff4d4d;">红色</span>代表低分）。</p>
+                            <p><b>极端分化：</b>数据的跨度令人咋舌——从高达 <b style="color: var(--accent-color);">97.2%</b> 的《山河旅探》到 <b
+                                    style="color: #ff4d4d;">31.7%</b> 的《杯杯倒满》，品质的鸿沟清晰可见。</p>
+                            <p><b>行业洞察：</b>样本平均好评率约为 <b>80%</b>，略低于 Steam 全球均值 (83%)。但这恰恰揭示了市场的残酷：<b
+                                    style="color: #ff4d4d;">平庸没有生存空间</b>。在红色线条（低分作）迅速沉底的同时，唯有那些代表极致体验的 <b
+                                    style="color: var(--accent-color);">青蓝色线条</b>，才能穿越周期，赢得玩家的长期驻足。</p>
                         </div>
                     </div>
 
                     <div class="story-step" data-step="4">
                         <div class="story-card">
                             <h3>自由探索</h3>
-                            <p>叙事结束。现在，控制权交还给你。</p>
-                            <p>你可以自由拖动轴、搜索游戏、切换年份，探索属于你的数据洞察。</p>
+                            <p>数据叙事至此暂告一段落。</p>
+                            <p>现在，控制权交还给你。你可以自由拖动坐标轴、筛选特定年份、搜索你感兴趣的游戏。</p>
+                            <p>在这些纷繁的线条中，或许还藏着属于你的 <b
+                                    style="color: #fff; text-shadow: 0 0 5px rgba(255,255,255,0.5);">独家洞察</b>。</p>
                         </div>
                     </div>
 
+                    <div style="height: 40vh;"></div>
+                </div>
+            </div>
+            </div>
+        </section>
+
+        <section class="parallel-chart-section" id="scatter-chart-section" data-bg="bg-distribution">
+            <div id="scatter-chart-dashboard" class="scrolly-mode">
+
+                <div id="scatter-chart-wrapper" class="sticky-stage">
+                    <div class="scatter-chart-header">
+                        <span class="scatter-chart-title">市场策略洞察</span>
+                    </div>
+                    <div id="scatter-viz-container"></div>
+                </div>
+
+                <div class="scrolly-story-container">
+                    <div class="side-header-block reveal">
+                        <h2 class="grand-section-title">策略与<br>口碑象限</h2>
+                        <p class="subtitle" style="color:rgba(255,255,255,0.7); margin-top:10px;">定价、折扣与热度的博弈</p>
+                    </div>
+
+                    <div class="story-step" data-step="0">
+                        <div class="story-card">
+                            <h3>01. 时代的浪潮</h3>
+                            <p>每一个点代表一款游戏。尽管我们的样本在各年份间分布较为均匀，但纵轴（在线热度）的 <b
+                                    style="color: var(--accent-color);">天花板正在被不断突破</b>。</p>
+                            <p><b>现象：</b>早年间的圆点多集中在底部，而近年来的作品（右侧）越来越多地冲向了图表顶端。</p>
+                            <p><b>结论：</b>这标志着国产独立游戏已具备承载百万级玩家的工业能力。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="1">
+                        <div class="story-card">
+                            <h3>02. 价格劝退了玩家？</h3>
+                            <p>切换至 <b>【原价】</b> 与 <b>【在线峰值】</b>。</p>
+                            <p><b>现象：</b>你可能会认为低价（左侧）更容易换来高热度，但数据展现了惊人的反直觉——图表中最顶端的那颗星（《黑神话》），恰恰位于 <b
+                                    style="color: #ffd700;">高价区（最右侧）</b>。</p>
+                            <p><b>洞察：</b>价格从来不是热度的枷锁。只要品质足够硬，玩家愿意支付 <b style="color: var(--accent-color);">与之匹配的溢价</b>。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="2">
+                        <div class="story-card">
+                            <h3>03. 促销的边际效应</h3>
+                            <p>观察 <b>【打折频率】</b> 与 <b>【好评率】</b> 的关系。</p>
+                            <p><b>现象：</b>这几乎是一张毫无规律的散点图。勤奋打折（右侧）并没有让游戏获得更高的评价，反倒是左上角聚集了一批 <b
+                                    style="color: var(--accent-color);">“高冷但高分”</b> 的佳作。</p>
+                            <p><b>结论：</b>频繁的促销或许能带来短期的销量，但无法收买玩家的口碑。<b>好评率，终究是由游戏内容的质量决定的。</b></p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="3">
+                        <div class="story-card">
+                            <h3>04. 四大策略象限</h3>
+                            <p>我们将所有游戏根据【折扣频率】与【折扣力度】划分为四个象限：</p>
+                            <p>🔴 <b>清仓甩卖型</b>：频繁且大幅打折，急于变现。</p>
+                            <p>🟢 <b>价值坚守型</b>：克制且低折扣，对品质有绝对自信。</p>
+                            <p>你的每一笔消费，都是在为某种策略投票。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="4">
+                        <div class="story-card">
+                            <h3>自由探索实验室</h3>
+                            <p>这里没有预设的剧本。请随意切换坐标轴和颜色，探索数据背后未被发现的规律。</p>
+                        </div>
+                    </div>
+                    <div style="height: 40vh;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="parallel-chart-section" id="tag-chart-section" data-bg="bg-distribution">
+            <div id="tag-chart-dashboard" class="scrolly-mode">
+
+                <div id="tag-chart-wrapper" class="sticky-stage">
+                    <div class="parallel-chart-header">
+                        <span class="parallel-chart-title">创意生态网络</span>
+                    </div>
+                    <div id="tag-viz-container"></div>
+                </div>
+
+                <div class="scrolly-story-container">
+                    <div class="side-header-block reveal">
+                        <h2 class="grand-section-title">创意<br>生态网络</h2>
+                        <p class="subtitle" style="color:rgba(255,255,255,0.7); margin-top:10px;">标签交织出的基因图谱</p>
+                    </div>
+
+                    <div class="story-step" data-step="0">
+                        <div class="story-card">
+                            <h3>01. 创意的土壤</h3>
+                            <p>这里汇聚了定义国产独立游戏的 <b>数百个标签</b>。每一个气泡的大小，代表了该类型在市场上的 <b style="color: #ffd700;">热门程度</b>。</p>
+                            <p>最初，它们看似杂乱无章。但随着视角的拉近，你会看到某些领域已经长成了参天大树，而某些新兴题材正在边缘野蛮生长。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="1" data-bg="bg-tag-roleplay">
+                        <div class="story-card">
+                            <h3>02. 永远的王道：RPG</h3>
+                            <p><b>现象：</b>角色扮演（RPG）及其衍生品类（如仙侠、武侠、ARPG）占据了版图的 <b
+                                    style="color: var(--accent-color);">绝对核心</b>。</p>
+                            <p><b>深度解析：</b>这是国产游戏最深厚的基因。从"御剑飞行"的仙侠梦，到"仗剑天涯"的武侠情，<b>"成长"与"代入感"</b> 始终是中国玩家最买账的底层逻辑。超过 <b
+                                    style="color: #ffd700;">40%</b> 的爆款独立游戏，都流淌着 RPG 的血液。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="2" data-bg="bg-tag-plot">
+                        <div class="story-card">
+                            <h3>03. 叙事的力量</h3>
+                            <p><b>现象：</b>剧情、视觉小说、互动影游类标签虽然分散，但聚合起来能量惊人。</p>
+                            <p><b>洞察：</b>这是中小团队突围的最佳路径。在美术和程序资源有限的情况下，一个 <b
+                                    style="color: var(--accent-color);">打动人心的好剧本</b>（如《隐形守护者》、《三色绘恋》）足以掩盖玩法的简陋。对于国产游戏，<b>"讲故事"</b>
+                                的能力往往比"好玩"更易引发破圈传播。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="3" data-bg="bg-tag-horror">
+                        <div class="story-card">
+                            <h3>04. 中式恐怖的崛起</h3>
+                            <p><b>现象：</b>左下角的暗色区域，是近年来异军突起的 <b style="color: #ff4d4d;">恐怖悬疑</b> 板块。</p>
+                            <p><b>文化输出：</b>这不仅仅是感官刺激，更是民俗文化的复兴。纸人、绣花鞋、阴阳五行……开发者们巧妙地将 <b style="color: #ff4d4d;">传统民俗</b>
+                                与 <b>解谜玩法</b> 结合，创造了独属于东方的"含蓄惊悚"。这一品类，也是国产游戏出海的重要名片。</p>
+                        </div>
+                    </div>
+
+                    <div class="story-step" data-step="4">
+                        <div class="story-card">
+                            <h3>自由探索</h3>
+                            <p>生态系统的奥秘远不止于此。现在，请亲自触摸这些数据的脉搏。</p>
+                            <p><b>交互指南：</b>
+                                <br>• <b style="color: var(--accent-color);">点击</b> 任意彩色气泡，右侧将浮现该分类的详细数据面板，查看平均售价与热度指数。
+                                <br>• 观察气泡间的 <b style="color: var(--accent-color);">连线</b>，那是不同游戏类型融合的证据。
+                            </p>
+                            <p>试着找找看，那些标注着 <b style="color: #ffd700;">“肉鸽”</b>、<b style="color: #ffd700;">“种田”</b> 或者 <b
+                                    style="color: #ffd700;">“赛博朋克”</b> 的角落，或许藏着你的下一款年度最佳。</p>
+                        </div>
+                    </div>
                     <div style="height: 50vh;"></div>
                 </div>
             </div>
         </section>
-    </main>
-    <section class="parallel-chart-section" id="scatter-chart-section" data-bg="bg-distribution">
-        <div id="scatter-chart-dashboard" class="scrolly-mode">
 
-            <div id="scatter-chart-wrapper" class="sticky-stage">
-                <div class="parallel-chart-header">
-                    <span class="parallel-chart-title">市场策略洞察</span>
+        <section class="intro-flower-section" id="intro-flower-section" data-bg="bg-intro-flower">
+            <div class="content-wrapper reveal">
+                <div class="text-content">
+                    <h2 class="section-title"
+                        style="display: inline-block; font-size: clamp(3.2rem, 4.2vw, 4rem); margin-bottom: 1.5rem; background: linear-gradient(120deg, #ff0821, #f1a651, #f9f93e, #baffc9, #bae1ff, #ba3ef9); background-clip: text; -webkit-background-clip: text; color: transparent; -webkit-text-fill-color: transparent;">
+                        百花齐放的创意生态</h2>
+                    <p class="description">
+                        从热门标签到小众题材，国产独立游戏正在探索无限可能。<br>
+                        每一朵花都代表一款游戏，它们相互交织，共同构成了丰富多彩的国产独立游戏世界。
+                    </p>
                 </div>
-                <div id="scatter-viz-container" class="parallel-chart-viz-box"></div>
             </div>
+        </section>
 
-            <div class="scrolly-story-container">
-                <div class="story-step" data-step="0">
-                    <div class="story-card">
-                        <h3>时代的浪潮</h3>
-                        <p>每一个点代表一款游戏。横轴是时间，纵轴是热度（在线人数）。</p>
-                        <p>可以看到，随着年份推移，虽然游戏数量激增，但能突破“热度天花板”的头部作品依然稀缺。</p>
-                    </div>
-                </div>
-
-                <div class="story-step" data-step="1">
-                    <div class="story-card">
-                        <h3>定价的艺术</h3>
-                        <p>我们将视角切换到【价格 vs 口碑】。</p>
-                        <p>令人欣慰的是，高价区（右侧）几乎没有烂作。这证明了国产游戏“一分钱一分货”的良性市场规律。</p>
-                    </div>
-                </div>
-
-                <div class="story-step" data-step="2">
-                    <div class="story-card">
-                        <h3>长尾效应</h3>
-                        <p>通过【折扣力度 vs 留存天数】，我们寻找长寿游戏的秘诀。</p>
-                        <p>并非打折越狠活得越久。真正的常青树往往依靠适度的促销和持续的内容更新。</p>
-                    </div>
-                </div>
-
-                <div class="story-step" data-step="3">
-                    <div class="story-card">
-                        <h3>终局：四大营销策略</h3>
-                        <p>最后，我们将所有游戏映射到【打折频率矩阵】中。</p>
-                        <p>🔴 <b>清仓甩卖型</b>：频繁打骨折，试图以量取胜。</p>
-                        <p>🟢 <b>价值坚守型</b>：极少打折，依靠硬品质说话。</p>
-                        <p>你属于哪一类？</p>
-                    </div>
-                </div>
-
-                <div style="height: 50vh;"></div>
+        <section class="flower-section" id="flower-section" data-bg="bg-flower">
+            <div class="content-wrapper reveal">
+                <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html"
+                    title="花瓣图"></iframe>
             </div>
-        </div>
-    </section>
-    <section class="parallel-chart-section" id="tag-chart-section" data-bg="bg-distribution">
-        <div id="tag-chart-dashboard" class="scrolly-mode">
+        </section>
 
-            <div id="tag-chart-wrapper" class="sticky-stage">
-                <div class="parallel-chart-header">
-                    <span class="parallel-chart-title">创意生态网络</span>
-                </div>
-                <div id="tag-viz-container" class="parallel-chart-viz-box" style="height: 800px;"></div>
+        <section class="footer-section" id="footer-section" data-bg="bg-end">
+            <div class="content-wrapper reveal">
+                <h1 class="main-title team-name">制作团队：三百六十五里路队</h1>
+                <p class="subtitle">国产独立游戏的征程，才刚刚开始</p>
             </div>
+        </section>
 
-            <div class="scrolly-story-container">
+        <div id="parallel-chart-shared-tooltip" class="shared-tooltip"></div>
 
-                <div class="story-step" data-step="0">
-                    <div class="story-card">
-                        <h3>创意的土壤</h3>
-                        <p>成千上万个标签构成了国产独立游戏的底层土壤。</p>
-                        <p>最初，它们只是混乱的数据碎片，等待被赋予意义。</p>
-                    </div>
-                </div>
+        <script src="./modules/dataManager.js"></script>
+        <script src="./modules/utils.js"></script>
+        <script type="module" src="./main_index.js"></script>
 
-                <div class="story-step" data-step="1">
-                    <div class="story-card">
-                        <h3>百花齐放</h3>
-                        <p>随着开发者的耕耘，这些标签汇聚成了具体的品类。</p>
-                        <p><b>动作</b>、<b>RPG</b>、<b>模拟</b>... 每一朵“花”的大小代表了该品类下的游戏数量与热度。</p>
-                    </div>
-                </div>
+        <script>
+            // 花瓣图 iframe：最终态后把滚动交还给父页面 + 按内容调整高度
+            window.addEventListener('message', (event) => {
+                // http(s) 下要求同源；file:// 下 origin 为 'null'
+                if (event.origin !== window.location.origin && event.origin !== 'null') return;
+                const data = event.data;
+                if (!data || typeof data !== 'object') return;
 
-                <div class="story-step" data-step="2">
-                    <div class="story-card">
-                        <h3>隐秘的根系</h3>
-                        <p>品类之间并非孤立存在。</p>
-                        <p>看看这些隐秘的连接线——“肉鸽”常与“卡牌”共生，“叙事”则是所有类型的灵魂伴侣。</p>
-                    </div>
-                </div>
+                const iframe = document.getElementById('flowerchart-iframe');
+                if (!iframe) return;
 
-                <div class="story-step" data-step="3">
-                    <div class="story-card">
-                        <h3>自由探索</h3>
-                        <p>现在，你可以点击任意一个气泡。</p>
-                        <p>查看该品类的详细数据、代表作以及它与其他标签的关联。</p>
-                    </div>
-                </div>
-
-                <div style="height: 60vh;"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 新增：花瓣图引入屏 -->
-    <section class="intro-flower-section" id="intro-flower-section" data-bg="bg-intro-flower">
-        <div class="content-wrapper reveal">
-            <div class="text-content">
-                <h2 class="section-title">百花齐放的创意生态</h2>
-                <p class="description">
-                    从热门标签到小众题材，国产独立游戏正在探索无限可能。<br>
-                    每一朵花都代表一款游戏，它们相互交织，共同构成了丰富多彩的国产独立游戏世界。
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 第四屏：花瓣图 -->
-    <section class="flower-section" id="flower-section" data-bg="bg-flower">
-        <div class="content-wrapper reveal">
-            <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html" title="花瓣图"></iframe>
-        </div>
-    </section>
-
-    <section class="footer-section" id="footer-section" data-bg="bg-end">
-        <div class="content-wrapper reveal">
-            <h1 class="main-title team-name">制作团队：三百六十五里路队</h1>
-            <p class="subtitle">国产独立游戏的征程，才刚刚开始</p>
-        </div>
-    </section>
-
-    <div id="parallel-chart-shared-tooltip" class="parallel-chart-tooltip"></div>
-
-    <script src="./modules/dataManager.js"></script>
-    <script src="./modules/utils.js"></script>
-
-    <script type="module" src="./main_index.js"></script>
-
-
-
-    <script>
-        // 花瓣图 iframe：最终态后把滚动交还给父页面 + 按内容调整高度
-        window.addEventListener('message', (event) => {
-            // http(s) 下要求同源；file:// 下 origin 为 'null'
-            if (event.origin !== window.location.origin && event.origin !== 'null') return;
-            const data = event.data;
-            if (!data || typeof data !== 'object') return;
-
-            const iframe = document.getElementById('flowerchart-iframe');
-            if (!iframe) return;
-
-            if (data.type === 'flowerchart-resize') {
-                const height = Number(data.height);
-                if (!Number.isFinite(height) || height <= 0) return;
-                const nextHeight = Math.max(window.innerHeight, height);
-                iframe.style.height = `${nextHeight}px`;
-                return;
-            }
-        });
-    </script>
+                if (data.type === 'flowerchart-resize') {
+                    const height = Number(data.height);
+                    if (!Number.isFinite(height) || height <= 0) return;
+                    const nextHeight = Math.max(window.innerHeight, height);
+                    iframe.style.height = `${nextHeight}px`;
+                    return;
+                }
+            });
+        </script>
 </body>
 
 </html>

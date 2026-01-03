@@ -131,18 +131,20 @@ section {
     font-weight: bold;
 }
 
-#intro-flower-section {
+/* #intro-flower-section {
     min-height: 40vh;
     padding: 60px 20px;
-    /* 适当调整上下内边距 */
-}
+     适当调整上下内边距 */
+
 
 #intro-flower-section .section-title {
-    font-size: 3rem;
+    font-size: clamp(3.2rem, 4.2vw, 4rem);
     margin-bottom: 1.5rem;
     /* 五彩缤纷但低饱和度的渐变色 */
     background: linear-gradient(120deg, #ff0821, #f1a651, #f9f93e, #baffc9, #bae1ff, #ba3ef9);
+    background-clip: text;
     -webkit-background-clip: text;
+    color: transparent;
     -webkit-text-fill-color: transparent;
 }
 
@@ -176,6 +178,58 @@ section {
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: transparent;
     overflow: hidden;
+}
+
+/* 锁定整个页面的滚动 */
+body.loading-locked {
+    overflow: hidden !important;
+    height: 100vh;
+}
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0b0e14;
+    /* 深色背景符合游戏主题 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
+    /* 必须高于水印的 9999 */
+    transition: opacity 0.8s ease;
+    pointer-events: all;
+    /* 拦截所有点击 */
+}
+
+/* 简单的加载动画 */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.1);
+    border-top: 5px solid #00d4ff;
+    /* 对应你的 --accent-color */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loader-text {
+    color: #fff;
+    font-family: "PingFang SC", sans-serif;
+    letter-spacing: 2px;
 }
 
 #flower-section {

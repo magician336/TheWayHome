@@ -26,7 +26,9 @@ let _isBloomPlayed = false;
 
 const TagBubble = {
     init: initChart,
-    renderScene: renderScene
+    renderScene: renderScene,
+    _internalActivate: null,
+    _internalReset: null
 };
 
 function initChart(tagData, containerId) {
@@ -66,28 +68,24 @@ function initChart(tagData, containerId) {
     const detailPanel = document.createElement("div");
     detailPanel.className = "parallel-chart-tag-detail-panel";
     
+    // 注入必要的样式 (配合 chart-tag.css)
     const style = document.createElement("style");
     style.innerHTML = `
+        /* 默认状态：透明度为 0 (隐藏) */
         .parallel-chart-tag-detail-panel {
             position: absolute; left: ${panelX}px; top: ${panelY}px;  
-            width: ${panelWidth}px; height: 60%; z-index: 10;
-            pointer-events: none; transition: left 0.3s ease;
+            width: ${panelWidth}px; height: 60%; z-index: 30;
+            pointer-events: none; 
+            opacity: 0; /* 默认隐藏 */
+            transition: opacity 0.4s ease;
         }
-        .parallel-chart-tag-detail-panel.active { pointer-events: auto; }
-        .literary-card {
-            background: rgba(255, 255, 255, 0.98);
-            border-left: 4px double #cbd5e1; 
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            padding: 24px;
-            border-radius: 2px 8px 8px 2px;
-            min-height: 450px; height: auto; 
-            box-sizing: border-box; transition: all 0.4s ease;
-            opacity: 1; display: flex; flex-direction: column; position: relative;
+        
+        /* 激活状态：透明度为 1 (显示) */
+        .parallel-chart-tag-detail-panel.active { 
+            pointer-events: auto; 
+            opacity: 1 !important; /* 加 !important 防止外部样式干扰 */
         }
-        .card-decoration-svg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 0; overflow: visible;
-        }
+        
         .detail-content-container {
             position: relative; z-index: 1; opacity: 0; 
             animation: contentFadeIn 0.8s ease-out forwards; 
@@ -96,13 +94,6 @@ function initChart(tagData, containerId) {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .placeholder-content {
-            flex: 1; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            color: #94a3b8; font-family: serif; text-align: center;
-            height: 100%; min-height: 250px; position: relative; z-index: 1;
-        }
-        .placeholder-icon { font-size: 40px; opacity: 0.2; margin-bottom: 20px; }
         .detail-stats-grid {
             display: grid; grid-template-columns: 1fr 1fr; 
             gap: 15px 10px; margin-bottom: 20px; margin-top: 10px;
@@ -119,9 +110,9 @@ function initChart(tagData, containerId) {
 
     detailPanel.innerHTML = `
         <div class="detail-card literary-card" id="parallel-chart-tagDetailCard">
-          <div class="placeholder-content">
-            <div class="placeholder-icon">❦</div>
-            <div>Click a bubble to sprout details</div>
+          <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; min-height:250px; color:#94a3b8; text-align:center;">
+            <div style="font-size:40px; opacity:0.2; margin-bottom:20px;">❦</div>
+            <div>点击气泡查看详情</div>
           </div>
         </div>
     `;
@@ -207,7 +198,7 @@ function initChart(tagData, containerId) {
         .style("fill", "white") 
         .style("stroke", d => getCategoryColor(d.parent.data.name)) 
         .style("stroke-width", 1) 
-        .style("pointer-events", "none") 
+        .style("pointer-events", "none") // 初始不可点，动画后开启
         .style("cursor", "pointer")
         .style("opacity", 0); 
 
@@ -240,6 +231,7 @@ function initChart(tagData, containerId) {
         .attr("class", "floral-wreath")
         .attr("transform", "scale(0) rotate(-90)");
 
+    // ... (generateEntwinedWreath 代码省略，与原逻辑保持一致) ...
     function generateEntwinedWreath(container) {
         const ringRadius = radius + 12; 
         const segmentCount = 180; 
@@ -327,51 +319,106 @@ function initChart(tagData, containerId) {
             }).style("opacity", 1);
     }
 
-    _elements.cells.selectAll("path").on("click", function(event, d) {
-        event.stopPropagation();
+    // ============================================================
+    // 1. 核心交互：activateCategory
+    // ============================================================
+    function activateCategory(d, targetElement) {
         const parentData = d.parent.data;
         const color = getCategoryColor(parentData.name);
         
+        const panel = document.querySelector(".parallel-chart-tag-detail-panel");
+        if (panel) {
+            panel.classList.remove("active");
+        }
+
         const card = document.getElementById("parallel-chart-tagDetailCard");
         if(card) {
             const oldSvg = card.querySelector(".card-decoration-svg");
             if (oldSvg) oldSvg.remove();
-            card.innerHTML = ''; 
             card.style.borderLeftColor = "#cbd5e1";
         }
+        _groups.link.selectAll("*").interrupt().remove();
 
-        _elements.cells.selectAll("path").transition().duration(200)
+        // 颜色重置与高亮
+        _elements.cells.selectAll("path").interrupt()
             .style("fill", "white").style("fill-opacity", 0.1) 
-            .style("stroke", n => getCategoryColor(n.parent.data.name)).style("stroke-width", 1);
+            .style("stroke", n => getCategoryColor(n.parent.data.name)).style("stroke-width", 1)
+            // 【关键修复】确保交互过程中 pointer-events 始终开启
+            .style("pointer-events", "all");
 
         _elements.cells.selectAll("path").filter(node => node.parent === d.parent)
             .transition().duration(200)
             .style("fill", color).style("fill-opacity", 0.2).style("stroke", color);
         
-        d3.select(this).raise().transition().duration(300)
-            .style("fill", color).style("fill-opacity", 0.8).style("stroke", color).style("stroke-width", 2); 
+        if (targetElement) {
+            d3.select(targetElement).raise().transition().duration(300)
+                .style("fill", color).style("fill-opacity", 0.8).style("stroke", color).style("stroke-width", 2); 
+        } else {
+             const targetDom = _elements.cells.selectAll("path").filter(node => node === d);
+             targetDom.raise().transition().duration(300)
+                .style("fill", color).style("fill-opacity", 0.8).style("stroke", color).style("stroke-width", 2);
+        }
 
-        const vineDuration = 1200; 
+        const vineDuration = 1000; 
         drawPreciseZoneVine(d, color, vineDuration);
-        setTimeout(() => updateDetailPanel(parentData, color), vineDuration);
-    });
+        
+        setTimeout(() => {
+            updateDetailPanel(parentData, color);
+        }, vineDuration * 0.6); 
+    }
 
-    _svg.on("click", () => {
-        _groups.link.selectAll("*").transition().style("opacity", 0).remove();
-        _elements.cells.selectAll("path").transition().duration(400)
-            .style("fill", "white").style("fill-opacity", 1) 
-            .style("stroke", d => getCategoryColor(d.parent.data.name)).style("stroke-width", 1);
+    // ============================================================
+    // 2. 简单重置 (点击空白处 / 自由模式)
+    // ============================================================
+    function simpleReset() {
+        // 1. 立即清理藤蔓和隐藏面板
+        _groups.link.selectAll("*").interrupt().remove();
+        
+        const panel = document.querySelector(".parallel-chart-tag-detail-panel");
+        if(panel) panel.classList.remove("active");
         
         const card = document.getElementById("parallel-chart-tagDetailCard");
         if(card) {
+            const svg = card.querySelector(".card-decoration-svg");
+            if(svg) svg.remove();
             card.style.borderLeftColor = "#cbd5e1";
-            const decor = card.querySelector(".card-decoration-svg");
-            if (decor) decor.remove();
-            card.innerHTML = `<div class="placeholder-content"><div class="placeholder-icon">❦</div><div>Click a bubble to sprout details</div></div>`;
         }
+
+        // 2. 恢复气泡状态
+        // 【核心修复】这里强制设置 pointer-events: all
+        // 即使 bloom 动画被 interrupt，这行代码也会确保气泡可点
+        _elements.cells.selectAll("path")
+            .interrupt()
+            .transition().duration(300)
+            .style("fill", "white")
+            .style("fill-opacity", 1) 
+            .style("stroke", d => getCategoryColor(d.parent.data.name))
+            .style("stroke-width", 1)
+            .style("opacity", 1) // 确保可见
+            .style("pointer-events", "all"); // 确保可点！
+    }
+
+    // 绑定交互
+    _elements.cells.selectAll("path").on("click", function(event, d) {
+        event.stopPropagation();
+        activateCategory(d, this);
     });
 
-    // --- 核心修复 1: 还原原始藤蔓绘制逻辑 ---
+    _svg.on("click", () => {
+        simpleReset();
+    });
+
+    TagBubble._internalActivate = (categoryName) => {
+        const targetNode = root.leaves().find(d => d.parent.data.name === categoryName);
+        if (targetNode) {
+            const domNode = _elements.cells.selectAll("path").nodes().find(el => el.__data__ === targetNode);
+            activateCategory(targetNode, domNode);
+        }
+    };
+    
+    TagBubble._internalReset = simpleReset;
+
+
     function drawPreciseZoneVine(d, color, duration = 1200) {
         _groups.link.selectAll("*").remove(); 
 
@@ -394,12 +441,10 @@ function initChart(tagData, containerId) {
         let pathData = "";
 
         if (isInsideRightZone) {
-            // 右侧区域：直接贝塞尔曲线连接
             const cpX = (startX + targetX) / 2 + 30;
             const cpY = (startY + targetY) / 2 + 20;
             pathData = `M ${startX},${startY} Q ${cpX},${cpY} ${targetX},${targetY}`;
         } else {
-            // 其他区域：绕行逻辑（原版逻辑）
             const goTop = (angle < 0);
             const launchAngle = goTop ? -launchLimit : launchLimit;
             const angleOffset = (gap / vineInnerR) * (goTop ? 1 : -1);
@@ -419,11 +464,7 @@ function initChart(tagData, containerId) {
             pathData += `A ${vineOuterR},${vineOuterR} 0 ${largeArc},${sweep2} ${launchX},${launchY} `;
             
             let tx, ty;
-            if (goTop) {
-                tx = 0.7; ty = 0.7;
-            } else {
-                tx = 0.7; ty = -0.7;
-            }
+            if (goTop) { tx = 0.7; ty = 0.7; } else { tx = 0.7; ty = -0.7; }
             
             const force = 100;
             const cp1X = launchX + tx * force;
@@ -453,10 +494,8 @@ function initChart(tagData, containerId) {
           .ease(d3.easeLinear) 
           .attr("stroke-dashoffset", 0);
 
-        // 绘制叶子
         drawLeavesOnPath(path.node(), color, duration);
 
-        // 起点圆点
         _groups.link.append("circle")
             .attr("cx", startX).attr("cy", startY).attr("r", 4)
             .style("fill", color)
@@ -465,11 +504,9 @@ function initChart(tagData, containerId) {
             .style("opacity", 0)
             .transition().duration(300).style("opacity", 1);
 
-        // 终点装饰
         drawOrnateEnd(targetX, targetY, color, duration);
     }
 
-    // 辅助：沿路径绘制叶子
     function drawLeavesOnPath(pathNode, color, totalDuration) {
         const totalLen = pathNode.getTotalLength();
         const step = 45; 
@@ -500,7 +537,6 @@ function initChart(tagData, containerId) {
         }
     }
 
-    // 辅助：终点花饰
     function drawOrnateEnd(x, y, color, delay) {
         const g = _groups.link.append("g")
             .attr("transform", `translate(${x}, ${y}) scale(0)`);
@@ -523,10 +559,15 @@ function initChart(tagData, containerId) {
     function drawCardBorder(card, color) {
         const oldSvg = card.querySelector(".card-decoration-svg");
         if (oldSvg) oldSvg.remove();
-        const rect = card.getBoundingClientRect();
-        const w = rect.width, h = rect.height;
+        
+        // 核心修复：确保在绘制前卡片已经有内容和大致尺寸
+        const w = card.clientWidth || 280; 
+        const h = card.clientHeight || 450; 
+
         const svg = d3.select(card).append("svg").attr("class", "card-decoration-svg")
-            .attr("width", "100%").attr("height", "100%").style("position","absolute").style("top",0).style("left",0).style("pointer-events","none");
+            .attr("viewBox", `0 0 ${w} ${h}`)
+            .attr("preserveAspectRatio", "none") 
+            .style("position","absolute").style("top",0).style("left",0).style("pointer-events","none");
         
         function createWavyPath(points) { return d3.line().curve(d3.curveBasis).x(d=>d[0]).y(d=>d[1])(points); }
         function generateWiggleLine(x1, y1, x2, y2, steps = 10, amp = 3) {
@@ -538,53 +579,78 @@ function initChart(tagData, containerId) {
             return pts;
         }
 
-        const vineA = svg.append("path").attr("d", createWavyPath([...generateWiggleLine(0,0,w,0,15,4), ...generateWiggleLine(w,0,w,h,10,4)]))
-            .attr("fill","none").attr("stroke",color).attr("stroke-width",1.5).attr("opacity",0.6);
-        const lenA = vineA.node().getTotalLength();
-        vineA.attr("stroke-dasharray",lenA).attr("stroke-dashoffset",lenA).transition().duration(1200).ease(d3.easeLinear).attr("stroke-dashoffset",0);
+        const startY = 150; 
         
-        const vineB = svg.append("path").attr("d", createWavyPath([...generateWiggleLine(0,0,0,h,10,4), ...generateWiggleLine(0,h,w,h,15,4)]))
-            .attr("fill","none").attr("stroke",color).attr("stroke-width",1.5).attr("opacity",0.6);
-        const lenB = vineB.node().getTotalLength();
-        vineB.attr("stroke-dasharray",lenB).attr("stroke-dashoffset",lenB).transition().duration(1200).ease(d3.easeLinear).attr("stroke-dashoffset",0);
+        const pathTopPoints = [
+            ...generateWiggleLine(0, startY, 0, 0, 8, 2),
+            ...generateWiggleLine(0, 0, w, 0, 15, 4),
+            ...generateWiggleLine(w, 0, w, startY, 8, 2)
+        ];
 
-        const leafCount = 12; 
-        const leafPathStr = "M0,0 Q4,-6 8,0 T0,0"; 
-        for(let i=0; i<leafCount; i++) {
-            const t = Math.random();
-            const chosenPath = Math.random() > 0.5 ? vineA.node() : vineB.node();
-            const len = chosenPath.getTotalLength();
-            const pt = chosenPath.getPointAtLength(t * len);
-            const angle = Math.random() * 360;
-            const scale = 0.5 + Math.random() * 0.5;
-            svg.append("path").attr("d", leafPathStr).attr("fill", color)
-               .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${angle}) scale(0)`)
-               .style("opacity", 0.8)
-               .transition().delay(t * 1200).duration(400)
-               .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${angle}) scale(${scale})`);
-        }
-        
-        const bloomCount = 8; 
-        const bloomPathStr = "M0,-4 Q0.5,-0.5 4,0 Q0.5,0.5 0,4 Q-0.5,0.5 -4,0 Q-0.5,-0.5 0,-4";
-        for(let i=0; i<bloomCount; i++) {
-            const t = Math.random();
-            const chosenPath = Math.random() > 0.5 ? vineA.node() : vineB.node();
-            const len = chosenPath.getTotalLength();
-            const pt = chosenPath.getPointAtLength(t * len);
-            const scale = 0.6 + Math.random() * 0.4;
-            const rotation = Math.random() * 360; 
-            svg.append("path").attr("d", bloomPathStr).attr("fill", "white").attr("stroke", color).attr("stroke-width", 1)
-               .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(0)`) 
-               .transition().delay(t * 1200 + 300).duration(500).ease(d3.easeBackOut) 
-               .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(${scale})`);
-        }
+        const pathBottomPoints = [
+            ...generateWiggleLine(0, startY, 0, h, 8, 2),
+            ...generateWiggleLine(0, h, w, h, 15, 4),
+            ...generateWiggleLine(w, h, w, startY, 8, 2)
+        ];
+
+        [pathTopPoints, pathBottomPoints].forEach((pts, i) => {
+            const vine = svg.append("path")
+                .attr("d", createWavyPath(pts))
+                .attr("fill", "none")
+                .attr("stroke", color)
+                .attr("stroke-width", 1.5)
+                .attr("opacity", 0.6);
+            
+            const len = vine.node().getTotalLength();
+            vine.attr("stroke-dasharray", len)
+                .attr("stroke-dashoffset", len) 
+                .transition().duration(1200).ease(d3.easeLinear)
+                .attr("stroke-dashoffset", 0); 
+            
+            const leafCount = 8; 
+            const leafPathStr = "M0,0 Q4,-6 8,0 T0,0"; 
+            for(let k=0; k<leafCount; k++) {
+                const t = Math.random(); 
+                const pt = vine.node().getPointAtLength(t * len);
+                const angle = Math.random() * 360; 
+                const scale = 0.5 + Math.random() * 0.5;
+                
+                svg.append("path")
+                   .attr("d", leafPathStr).attr("fill", color)
+                   .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${angle}) scale(0)`)
+                   .style("opacity", 0.8)
+                   .transition().delay(t * 1200).duration(400)
+                   .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${angle}) scale(${scale})`);
+            }
+
+            const bloomCount = 4;
+            const bloomPathStr = "M0,-4 Q0.5,-0.5 4,0 Q0.5,0.5 0,4 Q-0.5,0.5 -4,0 Q-0.5,-0.5 0,-4";
+            
+            for(let k=0; k<bloomCount; k++) {
+                const t = Math.random();
+                const pt = vine.node().getPointAtLength(t * len);
+                const scale = 0.6 + Math.random() * 0.4; 
+                const rotation = Math.random() * 360; 
+                
+                svg.append("path")
+                   .attr("d", bloomPathStr).attr("fill", "white").attr("stroke", color).attr("stroke-width", 1)
+                   .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(0)`) 
+                   .transition().delay(t * 1200 + 300).duration(500).ease(d3.easeBackOut) 
+                   .attr("transform", `translate(${pt.x}, ${pt.y}) rotate(${rotation}) scale(${scale})`);
+            }
+        });
     }
 
     function updateDetailPanel(data, color) {
         const card = document.getElementById("parallel-chart-tagDetailCard");
-        if(!card) return;
+        const panel = document.querySelector(".parallel-chart-tag-detail-panel");
+        
+        if(!card || !panel) return;
+        
+        // 1. 设置边框颜色
         card.style.borderLeftColor = color; 
-        document.querySelector(".parallel-chart-tag-detail-panel").classList.add("active");
+
+        // 2. 填充新内容
         const heatIndex = Math.round(data.originalValue);
         const gameCount = data.game_count || 0;
         const avgPrice = Math.round(Math.random() * 40 + 20); 
@@ -609,17 +675,55 @@ function initChart(tagData, containerId) {
                <div class="detail-tag-list">${tagsHtml}</div>
             </div>
         </div>`;
-        drawCardBorder(card, color);
+        
+        // 3. 画卡片边框并显示面板 (Fade In)
+        // 使用 setTimeout 确保 DOM 渲染后再计算尺寸
+        setTimeout(() => {
+            drawCardBorder(card, color);
+            void panel.offsetWidth; 
+            panel.classList.add("active");
+        }, 10);
     }
 }
 
+// ============================================================
+// 3. 场景渲染 (用于 Scrollytelling)
+// ============================================================
 function renderScene(stepIndex) {
     if (!_svg) return;
-    if (stepIndex >= 1 && !_isBloomPlayed) {
+    
+    // Step 0 & Init: 确保圆环生长动画播放
+    if (!_isBloomPlayed) {
         if (_funcs.playBloom) {
             _funcs.playBloom();
             _isBloomPlayed = true;
         }
+    }
+
+    if (stepIndex === 0) {
+        // Step 0: 仅生长，不选中任何东西
+        if (TagBubble._internalReset) TagBubble._internalReset();
+    } 
+    else if (stepIndex === 1) {
+        // Step 1: 角色扮演
+        if (TagBubble._internalActivate) TagBubble._internalActivate("角色扮演");
+    } 
+    else if (stepIndex === 2) {
+        // Step 2: 剧情叙事
+        if (TagBubble._internalActivate) TagBubble._internalActivate("剧情叙事");
+    } 
+    else if (stepIndex === 3) {
+        // Step 3: 恐怖悬疑
+        if (TagBubble._internalActivate) TagBubble._internalActivate("恐怖悬疑");
+    } 
+    else if (stepIndex === 4) {
+        // Step 4: 自由探索 (重置)
+        // 【注意】这里调用 reset 会强制开启点击权限
+        if (TagBubble._internalReset) TagBubble._internalReset();
+    }
+    else if (stepIndex === 5) {
+        // Step 5: 生态延续场景
+        if (TagBubble._internalReset) TagBubble._internalReset();
     }
 }
 
