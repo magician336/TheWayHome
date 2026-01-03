@@ -420,6 +420,7 @@
                 const iframe = document.getElementById('flowerchart-iframe');
                 const prevBtn = document.getElementById('flower-prev-btn');
                 const nextBtn = document.getElementById('flower-next-btn');
+                const controls = document.querySelector('.flower-controls');
 
                 if (iframe && prevBtn && nextBtn) {
                     prevBtn.addEventListener('click', () => {
@@ -430,6 +431,19 @@
                         iframe.contentWindow.postMessage({ type: 'step-forward' }, '*');
                     });
                 }
+
+                // 监听来自 iframe 的消息
+                window.addEventListener('message', (event) => {
+                    if (event.data.type === 'flowerchart-state-change') {
+                        if (controls) {
+                            if (event.data.isFinal) {
+                                controls.style.display = 'none';
+                            } else {
+                                controls.style.display = 'flex';
+                            }
+                        }
+                    }
+                });
             });
         </script>
     </body>

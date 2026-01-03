@@ -142,15 +142,11 @@ d3.json("chosen_game_update.json")
       shapeScale,
       BASE_SCALE: 0.7,
       onStateChange: (state) => {
-        // 当进入最终状态时，通知父页面调整 iframe 高度
-        if (state === 8) { // STATE.FINAL = 8
-          // 获取 body 的实际渲染高度 (考虑 zoom)
-          const actualHeight = document.body.scrollHeight; // 获取子页面完整内容高度
-          window.parent.postMessage({
-            type: 'flowerchart-resize',
-            height: actualHeight
-          }, '*');
-        }
+        // 通知父页面当前状态
+        window.parent.postMessage({
+            type: 'flowerchart-state-change',
+            isFinal: (state === 8) // STATE.FINAL = 8
+        }, '*');
       }
     });
 

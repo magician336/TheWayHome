@@ -173,6 +173,7 @@ export const createStoryboard = ({
         // 回到“颜色已绘制”（只显示颜色图例）
         await legend.setLegendDisplay({ mode: "single", group: legend.legendGroup2 }, true);
         currentState = STATE.COLOR_DRAWN;
+        if (onStateChange) onStateChange(STATE.COLOR_DRAWN);
         break;
       }
       case STATE.COLOR_DRAWN: {
