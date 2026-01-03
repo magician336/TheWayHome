@@ -220,26 +220,7 @@ function initScrollInteractions() {
 }
 
 function setupFlowerScrollTrigger() {
-    const section = document.querySelector("#flower-section");
-    const iframe = document.getElementById("flowerchart-iframe");
-    if (!section || !iframe) return;
-
-    const handleScroll = () => {
-        const rect = section.getBoundingClientRect();
-
-        // 关键逻辑：当顶部触及屏幕顶部 (rect.top <= 0)
-        if (rect.top <= 0 && rect.bottom > 0) {
-            // 计算用户从“平齐瞬间”开始，向下滚动的像素距离
-            const scrollOffset = Math.abs(rect.top);
-
-            iframe.contentWindow.postMessage({
-                type: 'flower-sync-scroll',
-                offset: scrollOffset
-            }, '*');
-        }
-    };
-
-    window.addEventListener("scroll", handleScroll);
+    // 已废弃：花瓣图改为按钮控制，不再需要滚动监听
 }
 
 // 确保刷新后也能正常工作

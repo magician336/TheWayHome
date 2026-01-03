@@ -42,7 +42,7 @@
         <div class="bg-layer" id="bg-tag-roleplay" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/RolePlay.png');"></div>
         <div class="bg-layer" id="bg-tag-plot" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/Plot.png');"></div>
         <div class="bg-layer" id="bg-tag-horror" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/Horror.png');"></div>
-        <div class="bg-layer" id="bg-intro-flower" style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei (2).png');"></div>
+        <div class="bg-layer" id="bg-intro-flower" style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/FLZG.png');"></div>
         <div class="bg-layer" id="bg-flower" style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei.png');"></div>
         <div class="bg-layer" id="bg-end" style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/bg-end.png');"></div>
     </div>
@@ -390,6 +390,14 @@
         <section class="flower-section" id="flower-section" data-bg="bg-flower">
             <div class="content-wrapper reveal">
                 <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html" title="花瓣图"></iframe>
+                <div class="flower-controls">
+                    <button id="flower-prev-btn" class="control-btn" title="上一步">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button id="flower-next-btn" class="control-btn" title="下一步">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
             </div>
         </section>
     
@@ -407,22 +415,20 @@
         <script type="module" src="./main_index.js"></script>
 
         <script>
-            // 花瓣图 iframe：最终态后把滚动交还给父页面 + 按内容调整高度
-            window.addEventListener('message', (event) => {
-                // http(s) 下要求同源；file:// 下 origin 为 'null'
-                if (event.origin !== window.location.origin && event.origin !== 'null') return;
-                const data = event.data;
-                if (!data || typeof data !== 'object') return;
-    
+            // 按钮控制逻辑
+            document.addEventListener('DOMContentLoaded', () => {
                 const iframe = document.getElementById('flowerchart-iframe');
-                if (!iframe) return;
-    
-                if (data.type === 'flowerchart-resize') {
-                    const height = Number(data.height);
-                    if (!Number.isFinite(height) || height <= 0) return;
-                    const nextHeight = Math.max(window.innerHeight, height);
-                    iframe.style.height = `${nextHeight}px`;
-                    return;
+                const prevBtn = document.getElementById('flower-prev-btn');
+                const nextBtn = document.getElementById('flower-next-btn');
+
+                if (iframe && prevBtn && nextBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        iframe.contentWindow.postMessage({ type: 'step-backward' }, '*');
+                    });
+
+                    nextBtn.addEventListener('click', () => {
+                        iframe.contentWindow.postMessage({ type: 'step-forward' }, '*');
+                    });
                 }
             });
         </script>

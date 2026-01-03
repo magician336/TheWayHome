@@ -421,7 +421,8 @@ export const createLegendFrameController = ({ container, legend, mainSvg, mainHe
   const setCompactFrameInstant = () => {
     legend.applyLegendLayout(legend.LEGEND_LAYOUT.COMPACT);
     mainSvg.style("top", `${getCompactTop()}px`);
-    container.style("height", `${getCompactTop() + mainHeight}px`);
+    // 强制使用 Final 高度，避免后续跳动
+    container.style("height", `${getFinalTop() + mainHeight}px`);
     document.body.style.overflow = "hidden";
     legend.legendSvg.style("z-index", "10").raise();
   };

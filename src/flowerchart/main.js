@@ -155,6 +155,16 @@ d3.json("chosen_game_update.json")
     });
 
     await storyboard.init();
+    
+    // 不再需要发送高度，因为高度由父页面的 sticky 容器决定
+    /*
+    const actualHeight = document.body.scrollHeight;
+    window.parent.postMessage({
+        type: 'flowerchart-resize',
+        height: actualHeight
+    }, '*');
+    */
+
     window.parent.postMessage({ type: 'flower-ready' }, '*');
   })
   .catch(function (error) {
