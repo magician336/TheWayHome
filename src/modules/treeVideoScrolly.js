@@ -2,6 +2,14 @@
 
 export class TreeVideoScrolly {
     constructor(config) {
+        // 获取两个视频节点
+        this.videoNodes = [
+            document.querySelector('#tree-video-1'),
+            document.querySelector('#tree-video-2')
+        ];
+        this.activeNodeIdx = 0; // 当前正在显示的节点索引
+        // 兼容原代码引用
+        this.video = this.videoNodes[this.activeNodeIdx];
         this.video = document.querySelector(config.videoSelector);
         this.canSwitchBackground = false;
         setTimeout(() => {
@@ -300,22 +308,38 @@ export class TreeVideoScrolly {
     }
 
     switchVideo(src) {
-        console.log(`切换视频源: ${src}`);
-        this.video.pause();
-        this.video.src = src;
-        this.video.load();
+        console.log(`准备切换视频源: ${src}`);
 
-        // 只有在当前容器可见时，换源后才自动播放
-        if (this.isViewable) {
-            const playPromise = this.video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    if (error.name !== 'AbortError') {
-                        console.warn("视频播放被拦截:", error);
-                    }
-                });
-            }
-        }
+        // 1. 确定谁是当前的，谁是下一个（后台）
+        const currentNode = this.videoNodes[this.activeNodeIdx];
+        const nextNodeIdx = (this.activeNodeIdx + 1) % 2;
+        const nextNode = this.videoNodes[nextNodeIdx];
+
+        // 2. 在后台节点加载新视频
+        nextNode.src = src;
+        nextNode.load();
+
+        // 3. 监听新视频：只有当新视频准备好播放时才切换
+        nextNode.oncanplay = () => {
+            // 重要：停止监听，防止重复触发
+            nextNode.oncanplay = null;
+
+            // 4. 开始播放新视频
+            nextNode.play().then(() => {
+                // 5. 关键操作：旧视频暂停在当前帧，不删除 src
+                currentNode.pause();
+
+                // 6. 切换 CSS 类名，实现平滑淡入淡出（或瞬间覆盖）
+                currentNode.classList.remove('active');
+                nextNode.classList.add('active');
+
+                // 7. 更新当前激活节点索引
+                this.activeNodeIdx = nextNodeIdx;
+                this.video = nextNode; // 保持与其他逻辑兼容
+
+                console.log("切换完成：新视频已覆盖旧视频最后一帧");
+            }).catch(err => console.warn("新视频播放失败:", err));
+        };
     }
 
     syncUI(progress) {
