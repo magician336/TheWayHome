@@ -1,14 +1,10 @@
 {
     "version": 2,
     "cleanUrls": true,
-    "rewrites": [
+    "routes": [
         {
-            "source": "/",
-            "destination": "/src/index.html"
-        },
-        {
-            "source": "/(.*)",
-            "destination": "/src/$1"
+            "src": "/",
+            "dest": "/src/index.html"
         }
     ]
 }
