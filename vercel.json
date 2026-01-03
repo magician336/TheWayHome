@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "cleanUrls": true,
+    "rewrites": [
+        {
+            "source": "/",
+            "destination": "/src/index.html"
+        }
+    ]
+}
