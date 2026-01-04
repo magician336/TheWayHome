@@ -193,6 +193,17 @@ body.loading-locked {
     height: 100vh;
 }
 
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    /* 纵向排列子元素 */
+    align-items: center;
+    /* 水平居中 */
+    justify-content: center;
+    /* 垂直居中 */
+    text-align: center;
+}
+
 #loading-overlay {
     position: fixed;
     top: 0;
@@ -217,7 +228,6 @@ body.loading-locked {
     height: 50px;
     border: 5px solid rgba(255, 255, 255, 0.1);
     border-top: 5px solid #00d4ff;
-    /* 对应你的 --accent-color */
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 20px;
