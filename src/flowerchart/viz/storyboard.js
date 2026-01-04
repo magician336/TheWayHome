@@ -156,6 +156,7 @@ export const createStoryboard = ({
         await legend.setLegendDisplay({ mode: "none" }, true);
         await transitionToFinal();
         currentState = STATE.FINAL;
+        if (onStateChange) onStateChange(STATE.FINAL);
         break;
       }
       case STATE.FINAL:
@@ -172,6 +173,7 @@ export const createStoryboard = ({
         // 回到“颜色已绘制”（只显示颜色图例）
         await legend.setLegendDisplay({ mode: "single", group: legend.legendGroup2 }, true);
         currentState = STATE.COLOR_DRAWN;
+        if (onStateChange) onStateChange(STATE.COLOR_DRAWN);
         break;
       }
       case STATE.COLOR_DRAWN: {
@@ -243,45 +245,27 @@ export const createStoryboard = ({
     }
   };
 
-  const init = async () => {
-    frame.setCompactFrameInstant();
-    
-    if (currentState === STATE.TITLE) {
-      await legend.setLegendDisplay({ mode: "none" }, false);
-      d3.select("#main-title").classed("initial", true);
-    } else {
-      await showLegendForState(STATE.INTRO_LEGEND, false);
-    }
 
+
+  const init = async () => {
+    // 初始化状态：标题放大，图例隐藏，花朵隐藏
+    frame.setCompactFrameInstant();
+    await legend.setLegendDisplay({ mode: "none" }, false);
+    d3.select("#main-title").classed("initial", true);
     hideFlowers({ flowers, labelLayer });
 
-    window.addEventListener(
-      "wheel",
-      (evt) => {
-        // 最终态：直接返回，允许浏览器默认滚动行为（Scroll Chaining）
-        // 此时 iframe 高度已调整，无内部滚动条，滚动会自动传导给父页面
-        if (currentState === STATE.FINAL) return;
+    // 监听父页面消息
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+      if (!data || typeof data !== 'object') return;
 
-        evt.preventDefault();
-        if (isAnimating) return;
-
-        isAnimating = true;
-        const run = evt.deltaY > 0 ? goForward : evt.deltaY < 0 ? goBackward : null;
-        if (!run) {
-          isAnimating = false;
-          return;
-        }
-
-        Promise.resolve()
-          .then(run)
-          .finally(() => {
-            window.setTimeout(() => {
-              isAnimating = false;
-            }, WHEEL_COOLDOWN_MS);
-          });
-      },
-      { passive: false }
-    );
+      if (data.type === 'step-forward') {
+        if (!isAnimating) goForward();
+      }
+      if (data.type === 'step-backward') {
+        if (!isAnimating) goBackward();
+      }
+    });
   };
 
   return { init, getState: () => currentState };

@@ -80,7 +80,7 @@
             style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./background/Horror.png');">
         </div>
         <div class="bg-layer" id="bg-intro-flower"
-            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei (2).png');">
+            style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/FLZG.png');">
         </div>
         <div class="bg-layer" id="bg-flower"
             style="background-image: linear-gradient(rgba(0.2,0.2,0.2,0.2), rgba(0.2,0.2,0.2,0.2)), url('./background/layered-waves-haikei.png');">
@@ -91,6 +91,7 @@
     </div>
 
     <main>
+
         <section class="hero-section" id="hero-section" data-bg="bg-hero">
             <div class="content-wrapper reveal">
                 <h1 class="main-title">归途</h1>
@@ -428,7 +429,7 @@
                         </div>
                     </div>
 
-                    <div class="story-step" data-step="4">
+                    <div class="story-step" data-step="4" data-bg="bg-distribution">
                         <div class="story-card">
                             <h3>自由探索</h3>
                             <p>生态系统的奥秘远不止于此。现在，请亲自触摸这些数据的脉搏。</p>
@@ -463,6 +464,20 @@
             <div class="content-wrapper reveal">
                 <iframe id="flowerchart-iframe" class="fullscreen-iframe" src="flowerchart/index.html"
                     title="花瓣图"></iframe>
+                <div class="flower-controls">
+                    <button id="flower-prev-btn" class="control-btn" title="上一步">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <button id="flower-next-btn" class="control-btn" title="下一步">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -482,23 +497,34 @@
         <script type="module" src="./main_index.js"></script>
 
         <script>
-            // 花瓣图 iframe：最终态后把滚动交还给父页面 + 按内容调整高度
-            window.addEventListener('message', (event) => {
-                // http(s) 下要求同源；file:// 下 origin 为 'null'
-                if (event.origin !== window.location.origin && event.origin !== 'null') return;
-                const data = event.data;
-                if (!data || typeof data !== 'object') return;
-
+            document.addEventListener('DOMContentLoaded', () => {
                 const iframe = document.getElementById('flowerchart-iframe');
-                if (!iframe) return;
+                const prevBtn = document.getElementById('flower-prev-btn');
+                const nextBtn = document.getElementById('flower-next-btn');
+                const controls = document.querySelector('.flower-controls');
 
-                if (data.type === 'flowerchart-resize') {
-                    const height = Number(data.height);
-                    if (!Number.isFinite(height) || height <= 0) return;
-                    const nextHeight = Math.max(window.innerHeight, height);
-                    iframe.style.height = `${nextHeight}px`;
-                    return;
+                if (iframe && prevBtn && nextBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        iframe.contentWindow.postMessage({ type: 'step-backward' }, '*');
+                    });
+
+                    nextBtn.addEventListener('click', () => {
+                        iframe.contentWindow.postMessage({ type: 'step-forward' }, '*');
+                    });
                 }
+
+                // 监听来自 iframe 的消息
+                window.addEventListener('message', (event) => {
+                    if (event.data.type === 'flowerchart-state-change') {
+                        if (controls) {
+                            if (event.data.isFinal) {
+                                controls.style.display = 'none';
+                            } else {
+                                controls.style.display = 'flex';
+                            }
+                        }
+                    }
+                });
             });
         </script>
 </body>
