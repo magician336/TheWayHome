@@ -146,7 +146,9 @@ export const createRevenueChart = (data) => {
             `);
         })
         .on("mousemove", (event) => {
-            tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 20) + "px");
+            tooltip
+                .style("left", (event.pageX + 20) + "px") // 向右偏移 20px
+                .style("top", (event.pageY - 20) + "px"); // 向上偏移 20px
         })
         .on("mouseout", () => tooltip.classed("visible", false));
 
@@ -173,7 +175,9 @@ export const createRevenueChart = (data) => {
             `);
         })
         .on("mousemove", (event) => {
-            tooltip.style("left", (event.pageX + 15) + "px").style("top", (event.pageY - 20) + "px");
+            tooltip
+                .style("left", (event.pageX + 20) + "px") // 向右偏移 20px
+                .style("top", (event.pageY - 20) + "px"); // 向上偏移 20px
         })
         .on("mouseout", function () {
             d3.select(this).transition().duration(200).attr("r", 5);

@@ -333,11 +333,11 @@
    5. Tooltip 样式
    ========================================= */
 .revenue-dedicated-tooltip {
-    position: fixed;
+    position: absolute;
+    /* 改为 absolute，以便配合 pageX/Y */
     opacity: 0;
     visibility: hidden;
 
-    /* 更加深邃的背景与更高的对比度 */
     background-color: rgba(10, 10, 15, 0.95);
     color: #f0f0f0;
     padding: 15px 20px;
@@ -349,24 +349,22 @@
     pointer-events: none;
     z-index: 9999;
 
-    /* 极致毛玻璃效果 */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-
-    /* 细微的边框，模拟高亮边缘 */
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
 
-    /* 动画：微小的缩放与位移 */
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translate(-50%, 10px) scale(0.95);
+    /* 优化过渡动画：移除会导致位置偏离的 translate(-50%) */
+    transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.2s ease;
+    transform: scale(0.95);
 }
 
 /* 悬浮时的可见状态 */
 .revenue-dedicated-tooltip.visible {
     opacity: 1;
     visibility: visible;
-    transform: translate(-50%, -10px) scale(1);
+    transform: scale(1);
+    /* 仅做缩放，位置由 JS 控制 */
 }
 
 /* 头部年份样式 */
