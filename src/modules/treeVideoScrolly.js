@@ -109,6 +109,49 @@ export class TreeVideoScrolly {
         }
     }
 
+    /**
+     * 异步预加载所有视频到内存
+     * @returns {Promise<void>}
+     */
+    async preloadAllVideos() {
+        console.log("TreeVideoScrolly: 开始预加载视频...");
+
+        // 1. 创建所有 fetch 请求的 Promise 数组
+        const fetchPromises = this.videoSources.map((src, index) => {
+            return fetch(src)
+                .then(response => {
+                    if (!response.ok) throw new Error(`Failed to load ${src}`);
+                    return response.blob();
+                })
+                .then(blob => {
+                    // 2. 将 Blob 转换为内存 URL
+                    const objectUrl = URL.createObjectURL(blob);
+                    return { index, url: objectUrl };
+                });
+        });
+
+        try {
+            // 3. 并行等待所有视频下载完成
+            const results = await Promise.all(fetchPromises);
+
+            // 4. 按顺序替换 this.videoSources 中的路径为 Blob URL
+            results.forEach(item => {
+                this.videoSources[item.index] = item.url;
+            });
+
+            console.log("TreeVideoScrolly: 所有视频预加载完成 (Blob Mode)");
+
+            if (this.video && this.videoSources[0]) {
+                this.video.src = this.videoSources[0];
+                this.video.load();
+            }
+
+        } catch (error) {
+            console.error("TreeVideoScrolly: 视频预加载失败，将回退到普通流式播放", error);
+            // 出错时不替换 source，代码会自动使用构造函数里生成的原始路径
+        }
+    }
+
     initStoryMode() {
         this.currentStepIndex = -1;
 

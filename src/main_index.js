@@ -53,14 +53,23 @@ async function initHomePage() {
         const revenueChartController = createRevenueChart(revenueData);
         const revenueStorySteps = buildRevenueStorySteps(revenueData);
 
+        let scrollyInstance = null;
+
         if (revenueChartController) {
-            new TreeVideoScrolly({
+            scrollyInstance = new TreeVideoScrolly({
                 videoSelector: '#tree-video',
                 containerSelector: '#revenue-section',
                 chartController: revenueChartController,
                 data: revenueData,
                 storySteps: revenueStorySteps
+
             });
+        }
+
+        if (scrollyInstance) {
+            console.log("Main: 等待视频预载...");
+            // 它是并行的，所以取决于最大的那个视频文件的下载时间。
+            await scrollyInstance.preloadAllVideos();
         }
 
         // 初始化用户分布图
