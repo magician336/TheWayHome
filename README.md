@@ -1,72 +1,109 @@
-### 分支管理
-- 我们的main分支就是最后提交的作业
-- 每个人均创建一个或多个属于自己的分支，提交自己做好的内容(重点是别污染main分支)
-- feature/DataCollection中是我做的方便数据采集的脚本
+# 归途 🏠
+
+一个数据可视化项目，旨在通过直观的图表和交互式界面展示和分析国产独立游戏的发展历程。
+
+制作团队：三百六十五里路队，欢迎打分！
+
+## 🌐 在线访问
+
+我们已将项目部署到公网，欢迎访问体验：
+
+**[https://365-miles.vercel.app/](https://365-miles.vercel.app/)**
+
+项目使用 Vercel 进行部署，保证快速稳定的访问体验。
+
+## 📊 项目简介
+
+TheWayHome 是一个综合性的数据可视化应用，通过现代化的 Web 技术栈实现数据的收集、处理和可视化展示。项目采用前后端分离的架构，提供流畅的用户交互体验。
+
+### 技术栈
+
+- **前端**: JavaScript (73.9%), CSS (15.4%), HTML (9.7%)
+- **后端**: Python (1%)
+- **部署**: Vercel
+
+## ✨ 主要特性
+
+- 📈 交互式数据可视化图表
+- 🎨 现代化的用户界面设计
+- 📱 响应式布局
+- ⚡ 高性能的数据处理和渲染
+- 🔄 实时数据更新
+
+## 🚀 快速开始
+
+### 环境要求
+
+- Node.js (推荐 v14 或更高版本)
+- Python 3.x
+- 现代浏览器（Chrome、Firefox、Safari 或 Edge）
+
+### 安装步骤
+
+1. 克隆项目到本地
+```bash
+git clone https://github.com/magician336/TheWayHome.git
+cd TheWayHome
+```
+
+2. 安装依赖
+```bash
+npm install
+```
+
+3. 启动开发服务器
+```bash
+npm start
+```
+
+4. 在浏览器中访问 `http://localhost:3000` (或项目指定的端口)
+
+## 📁 项目结构
+
+```
+TheWayHome/
+├── src/              # 源代码目录
+├── public/           # 静态资源
+├── styles/           # 样式文件
+├── scripts/          # JavaScript 脚本
+└── README.md         # 项目说明文档
+```
+
+## 🎯 使用说明
+
+1. 访问在线地址或本地启动项目
+2. 浏览不同的数据可视化模块
+3. 通过交互式界面探索数据
+4. 根据需要筛选和分析数据
+
+## 👥 制作团队
+
+**三百六十五里路队** (365-Miles Team)
+
+### 团队成员
+
+- 👨‍💻 **王子楸**
+- 👨‍💻 **李培涛**
+- 👨‍💻 **甘文杰**
+
+## 📄 开源协议
+
+本项目仅供学习交流使用。
+
+## 🙏 致谢
+
+感谢所有为本项目做出贡献的团队成员，以及提供技术支持的开源社区。
+
+## 📮 联系我们
+
+如有问题或建议，欢迎通过以下方式联系我们：
+
+- GitHub Issues: [提交问题](https://github.com/magician336/TheWayHome/issues)
+- 项目主页: [magician336/TheWayHome](https://github.com/magician336/TheWayHome)
 
 ---
 
-下面是AI总结的多人协作指南：
-### 团队协作指南（Git/GitHub + VS Code，简明版）
-
-#### 协作模型
-- 主干受保护：main 只通过 Pull Request 合并，禁止直接推送。
-- 开发在分支：每个需求/缺陷独立分支，按约定命名，提交小步快跑。
-- 线性历史：优先 rebase 更新分支；合并采用 Squash 合并，保持干净历史。
-
-#### 提交流程（本地到 PR）
-1) 同步主干
-````powershell
-git switch main
-git pull --rebase --autostash origin main
-````
-2) 切分支开发
-````powershell
-git switch -c feature/<topic>
-# 开发与小步提交
-git add -A
-git commit -m "feat: <简述为什么> (#issue)"
-````
-3) 与主干保持同步
-````powershell
-git fetch origin
-git rebase origin/main
-# 冲突->解决->git add <文件> -> git rebase --continue
-````
-4) 推送并创建 PR(也可以确认无误后，自己本地合并main分支再推送)
-````powershell
-git push -u origin feature/<topic>
-# 在 GitHub 打开 PR -> 选择目标分支 main -> 填写模板 -> 请求评审
-````
-5) 评审通过后合并
-- 合并策略：Squash and merge
-- 删除分支：合并后删除远程与本地分支
-
-#### 冲突处理
-````powershell
-git fetch origin
-git rebase origin/main
-# 解决 <<<<<<< ======= >>>>>> 标记
-git add <冲突文件>
-git rebase --continue
-# 放弃本次 rebase（必要时）
-git rebase --abort
-````
-VS Code：源代码管理面板可逐块解决冲突，保存后继续 rebase。
-#### 常用命令（Windows）
-````powershell
-# 设置签名（当前仓库）
-git config user.name "Your Name"
-git config user.email "you@example.com"
-
-# 设置上游并推送
-git push -u origin feature/<topic>
-
-# 更新分支并保持线性历史
-git fetch origin
-git rebase origin/main
-
-# 用远程强制覆盖本地（谨慎）
-git reset --hard origin/main
-
-# 用本地覆盖远程（极其谨慎）
-git push --force-with-lease
+<div align="center">
+  <p>Made with ❤️ by 三百六十五里路队</p>
+  <p>© 2026 TheWayHome - 数据可视化大作业</p>
+</div>
