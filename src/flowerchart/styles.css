@@ -1,8 +1,8 @@
-/* style.css */
+﻿/* style.css */
 
 body {
     /* 全局缩放：让浏览器 100% 显示为 50% 的视觉大小（Chromium/Edge 支持最好） */
-    zoom: 0.70;
+    zoom: 0.55;
     background-color: transparent;
     /* 稍微灰一点的背景，让multiply效果更好 */
     font-family: 'Helvetica Neue', Arial, sans-serif;
